@@ -9,4 +9,4 @@ export async function getUserList() {
     return console.log(userList);
 }
 
-/* routes.get("/user", getUserList) */
+
