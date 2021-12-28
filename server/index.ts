@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from "cors";
+import routes from './routes/routes';
 
 import { config } from './config';
 
@@ -12,10 +13,16 @@ app.use(cors({ // Required for cookies to client.
     credentials: true,
 }));
 
+app.use(express.json())
+
 app.get('/', (req, res) => {
     res.send('Well done!');
 })
 
+app.use("/", routes)
+
 app.listen(port, () => {
-    console.log('The application is listening on port 3001!', config);
+    console.log('The application is listening on port 3001!');
 })
+
+
