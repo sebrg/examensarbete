@@ -6,10 +6,13 @@ import React, { CSSProperties } from 'react';
 export default function Footer() {
 
     return (
-        <footer>
-            <div>
-                Skapad av: Jocke & Sebbe
-            </div>
+        <footer style={footerStyle}>
+            
         </footer>
     );
+}
+
+const footerStyle: CSSProperties = {
+    width: "100%",
+
 }
