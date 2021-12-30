@@ -1,9 +1,7 @@
-import express from "express";
-const routes = express.Router()
-import { getUserList, addUser } from "./controllers/userController";
+import express from "express"
+const routes = express.Router();
+import { checkOut } from './controllers/stripeController'
 
-
-routes.get("/user", getUserList)
-routes.post("/test", addUser)
+routes.post('/checkout', checkOut)
 
 export default routes
