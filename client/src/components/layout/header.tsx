@@ -1,6 +1,7 @@
 import React, { CSSProperties } from 'react';
 import Login from "../functions/login"
 import Logout from '../functions/logout';
+import Button from './button';
 
 type Props = {
   setLoginToggle: any
@@ -10,8 +11,9 @@ export default function Header(props: Props) {
 
     return (
         <header style={headerStyle}>
-          Header
-          <Login setLoginToggle={props.setLoginToggle}/>
+          <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
+          
+        {/*   <Login setLoginToggle={props.setLoginToggle}/> */}
           <Logout />
         </header>
     );
