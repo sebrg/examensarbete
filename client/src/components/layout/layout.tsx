@@ -5,17 +5,23 @@ import LoginPopup from './loginPopup';
 import Main from './main';
 
 export default function Layout() {
-
+    
     const [loginToggle, setLoginToggle] = useState(false)
-   
+    
 
     return(
+        
         <div id="frame" style={frameStyle}>
             <div id="layoutWrap" style={layoutStyle}>
                 <Header setLoginToggle={setLoginToggle}/>
                 <Main />
             </div>
-            {loginToggle? <LoginPopup setLoginToggle={setLoginToggle} /> : null } 
+            {
+                loginToggle? //NOTE: Maybe move this condition into the LoginPopup component instead
+                    <LoginPopup setLoginToggle={setLoginToggle} /> 
+                    : 
+                    null 
+            } 
         
         </div>
         
