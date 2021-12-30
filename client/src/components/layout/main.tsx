@@ -26,7 +26,7 @@ export default function Main() {
     return (
         <main style={mainStyle}>
           main
-          <RegisterWithEmail />
+       
         </main>
     );
 }
