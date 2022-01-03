@@ -1,10 +1,9 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import { Routes, Route } from 'react-router-dom';
+import { useStripe } from '@stripe/react-stripe-js';
 import Start from './start';
 import MyPages from './myPages';
-
-import { useStripe } from '@stripe/react-stripe-js';
 
 
 
