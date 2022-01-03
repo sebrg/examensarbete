@@ -1,14 +1,13 @@
 import React, { CSSProperties, useState } from 'react';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
-import LoginPopup from '../layout/loginPopup';
+//import LoginPopup from '../layout/loginPopup';
 
 type Props = {
     setLoginToggle: any
-}
+  }
 
 export default function Login(props: Props) {
     
-    //onst [loginToggle, setLoginToggle] = useState(false)
     
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
@@ -55,7 +54,7 @@ export default function Login(props: Props) {
         
     return (
   
-        <button onClick={() => props.setLoginToggle}>
+        <button onClick={() => props.setLoginToggle(true)}>
             Login
         </button>
                
