@@ -1,7 +1,5 @@
 import React, { CSSProperties, useContext } from 'react';
-import Button from './button';
-import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
-import { Link, useNavigate } from 'react-router-dom';
+import MainNav from './mainNav';
 
 type Props = {
   setLoginToggle: any
@@ -10,22 +8,11 @@ type Props = {
 
 export default function Header(props: Props) {
 
-  const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-  const navigate = useNavigate();
- 
 
     return (
-        <header style={headerStyle}>
-          {
-            props.isLoggedIn?
-              <Button onClick={() => fbFuncs.logOut()} buttonText='Logout'/>
-              :
-              <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
-          }
-          
-          <Button onClick={() =>  navigate("/myPages")} buttonText='Mina sidor' />
-          <Button onClick={() =>  navigate("/")} buttonText='Start' />
-       
+		<header style={headerStyle}>
+			<MainNav isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} />
+
         </header>
     );
 }
@@ -38,5 +25,5 @@ const headerStyle: CSSProperties = {
   borderTopLeftRadius: "15px",
   borderTopRightRadius: "15px",
   padding: "10px",
-
 }
+
