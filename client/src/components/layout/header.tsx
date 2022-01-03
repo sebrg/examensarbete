@@ -1,20 +1,31 @@
-import React, { CSSProperties } from 'react';
-import Login from "../functions/login"
-import Logout from '../functions/logout';
+import React, { CSSProperties, useContext } from 'react';
 import Button from './button';
+import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 type Props = {
   setLoginToggle: any
+  isLoggedIn: boolean
 }
 
 export default function Header(props: Props) {
 
+  const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+  const navigate = useNavigate();
+ 
+
     return (
         <header style={headerStyle}>
-          <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
+          {
+            props.isLoggedIn?
+              <Button onClick={() => fbFuncs.logOut()} buttonText='Logout'/>
+              :
+              <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
+          }
           
-        {/*   <Login setLoginToggle={props.setLoginToggle}/> */}
-          <Logout />
+          <Button onClick={() =>  navigate("/myPages")} buttonText='Mina sidor' />
+          <Button onClick={() =>  navigate("/")} buttonText='Start' />
+       
         </header>
     );
 }
