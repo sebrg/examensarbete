@@ -10,21 +10,22 @@ import MyPages from './myPages';
 export default function Main() {
 
 
-  const stripe = useStripe()
+	const stripe = useStripe()
 
-  async function toCheckOut() {
-      if(stripe) {
-      const response = await fetch("http://localhost:3001/checkout", {
-          method: "POST",
-          headers: {"content-type": "application/json"},
-          credentials: 'include',
-      })
-        const { id } = await response.json()
-          console.log(id)
-          console.log(stripe)
-          stripe.redirectToCheckout({sessionId: id})
-      }  
-  }
+	async function toCheckOut() {
+		if(stripe) {
+      		const response = await fetch("http://localhost:3001/checkout", {
+          		method: "POST",
+          		headers: {"content-type": "application/json"},
+          		credentials: 'include',
+      		})
+
+			const { id } = await response.json()
+			console.log(id)
+			console.log(stripe)
+			stripe.redirectToCheckout({sessionId: id})
+		}  
+	}
   
 
    
