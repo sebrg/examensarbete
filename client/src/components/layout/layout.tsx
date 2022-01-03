@@ -15,24 +15,8 @@ export default function Layout() {
 
     useEffect(() => {
         fbFuncs.userAuth(setIsLoggedIn)
-/*         const auth = getAuth();
-    
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
-                const uid = user.uid;
-                console.log("signed in= ", user)
-                setIsLoggedIn(true)
-                // ...
-            } else {
-                // User is signed out
-                // ...
-                console.log("user signdout")
-                setIsLoggedIn(false)
-            }
-        }); */
     }, [])
+    
     useEffect(() => {
         console.log(isLoggedIn)
     }, [isLoggedIn])
@@ -42,7 +26,7 @@ export default function Layout() {
         <div id="frame" style={frameStyle}>
             <div id="layoutWrap" style={layoutStyle}>
                 <Header setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
-                <Main />
+                <Main/>
             </div>
             {
                 loginToggle? //NOTE: Maybe move this condition into the LoginPopup component instead
@@ -61,7 +45,7 @@ const layoutStyle: CSSProperties = {
     flexDirection: "column",
     width: "95%",
     height: "95%",
-    backgroundColor: "orange",
+    backgroundColor: "rgb(49 52 68)",
     borderRadius: "15px"
 }
 
