@@ -1,6 +1,5 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
-import RegisterWithEmail from '../functions/registerWithEmail';
 import "../../animations.css"
 type Props = {
     buttonText?: string
