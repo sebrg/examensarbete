@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import Button from './button';
@@ -8,6 +9,8 @@ type Props = {
 export default function LoginPopup(props: Props) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const auth = getAuth();
+
 
     const [toggleInputs, setToggleInputs] = useState(false)
     const [password, setPassword] = useState(undefined)
@@ -19,6 +22,13 @@ export default function LoginPopup(props: Props) {
     
     const updateEmail = (event: any) =>{
         event? setEmail(event.target.value) : setEmail(undefined)
+    }
+
+    const closePopupOnSuccess = () => {
+        console.log("running test b4 closing")
+        if(auth.currentUser) {
+            props.setLoginToggle(false)
+        }
     }
     
     
@@ -36,7 +46,7 @@ export default function LoginPopup(props: Props) {
                                 <div id="loginWithCredBtnWrap" style={loginWithCredBtnWrapStyle}>
                                    
                                     <Button 
-                                        onClick={() => fbFuncs.signInWithEmail(email, password)} 
+                                        onClick={() => fbFuncs.signInWithEmail(email, password, closePopupOnSuccess)} 
                                         buttonText='Login' 
                                         bgColor='white' 
                                     />
@@ -55,11 +65,7 @@ export default function LoginPopup(props: Props) {
                             <div id="loginOptions" style={loginOptionsStyle}>
                                 <div 
                                     id="googleLoginBtn"
-                                    onClick={() => {
-                                        fbFuncs.signInWithGooglePopup()
-                                        //Create if sucess => close popup
-                                        props.setLoginToggle(false)
-                                    }}
+                                    onClick={async () => fbFuncs.signInWithGooglePopup(closePopupOnSuccess)}
                                 >
                                     Google
                                 </div>

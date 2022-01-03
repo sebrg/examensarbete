@@ -3,8 +3,8 @@ import { createContext } from 'react'
 export interface FirebaseOptions {
     addUser: () => void
     getUsers: (setState: any) => void
-    signInWithGooglePopup: () => void
-    signInWithEmail: (email: string | undefined, password: string | undefined) => void
+    signInWithGooglePopup: (callBack?: () => void) => void
+    signInWithEmail: (email: string | undefined, password: string | undefined, callBack?: () => void) => void
     createUserWithEmail: (email: string | undefined, password: string | undefined) => void
     logOut: () => void
     userAuth: (state?: (bool: boolean) => void) => void
@@ -22,8 +22,8 @@ export interface FirebaseOptions {
 export const FirebaseContext = createContext({
     addUser: () => {},
     getUsers: (setState: any) => {},
-    signInWithGooglePopup: () => {},
-    signInWithEmail: (email: string | undefined, password: string | undefined) => {},
+    signInWithGooglePopup: (callBack?: () => void) => {},
+    signInWithEmail: (email: string | undefined, password: string | undefined, callBack?: () => void) => {},
     createUserWithEmail: (email: string | undefined, password: string | undefined) => {},
     logOut: () => {},
     userAuth: (state?: (bool: boolean) => void) => {}

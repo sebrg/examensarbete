@@ -34,7 +34,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
 
 
     //Login, Logout & Signup functions
-    signInWithGooglePopup() { //TODO: Add redirect login for mobile size
+    signInWithGooglePopup(callBack?: () => void) { //TODO: Add redirect login for mobile size
         const provider = new GoogleAuthProvider();
         const auth = getAuth();
         
@@ -45,8 +45,11 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
             const token = credential? credential.accessToken : null
             // The signed-in user info.
             const user = result.user;
-            console.log(user)
-            console.log("token= ", token)
+            //console.log(user)
+            //console.log("token= ", token)
+            if(callBack) {
+                callBack()
+            }
             // ...
         }).catch((error) => {
             // Handle Errors here.
@@ -61,7 +64,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         });
     }
 
-    signInWithEmail(email: string | undefined, password: string | undefined ) {
+    signInWithEmail(email: string | undefined, password: string | undefined, callBack?: () => void ) {
         if(password == undefined || email == undefined) {
             return
         }
@@ -73,7 +76,9 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
             // Signed in 
             const user = userCredential.user;
             //console.log(user)
-            // ...
+            if(callBack) {
+                callBack()
+            }
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -118,14 +123,15 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
     }
 
     userAuth(state?: (bool: boolean) => void) {
+        
         const auth = getAuth();
     
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
-                const uid = user.uid;
-                console.log("signed in= ", user)
+                //const uid = user.uid;
+                //console.log("signed in= ", user)
                 if(state) {
                     state(true)
                 }
