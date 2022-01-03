@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../firebase";
@@ -16,7 +16,8 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         signInWithGooglePopup: this.signInWithGooglePopup.bind(this),
         signInWithEmail: this.signInWithEmail.bind(this),
         createUserWithEmail: this.createUserWithEmail.bind(this),
-        logOut: this.logOut.bind(this)
+        logOut: this.logOut.bind(this),
+        userAuth: this.userAuth.bind(this)
     }
 
     //User functions
@@ -71,7 +72,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
+            //console.log(user)
             // ...
         })
         .catch((error) => {
@@ -113,6 +114,30 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
             console.log(auth.currentUser)
         }).catch((error) => {
             console.log(error)
+        });
+    }
+
+    userAuth(state?: (bool: boolean) => void) {
+        const auth = getAuth();
+    
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                console.log("signed in= ", user)
+                if(state) {
+                    state(true)
+                }
+                // ...
+            } else {
+                // User is signed out
+                // ...
+                console.log("user signdout")
+                if(state) {
+                    state(false)
+                }
+            }
         });
     }
 

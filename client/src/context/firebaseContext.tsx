@@ -7,6 +7,7 @@ export interface FirebaseOptions {
     signInWithEmail: (email: string | undefined, password: string | undefined) => void
     createUserWithEmail: (email: string | undefined, password: string | undefined) => void
     logOut: () => void
+    userAuth: (state?: (bool: boolean) => void) => void
 
    // users?: User[]
 }
@@ -25,6 +26,7 @@ export const FirebaseContext = createContext({
     signInWithEmail: (email: string | undefined, password: string | undefined) => {},
     createUserWithEmail: (email: string | undefined, password: string | undefined) => {},
     logOut: () => {},
+    userAuth: (state?: (bool: boolean) => void) => {}
     /* users: undefined */
         
 } as FirebaseOptions)
