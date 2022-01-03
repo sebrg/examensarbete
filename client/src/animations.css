@@ -1,3 +1,15 @@
+.dashLink:hover {
+    background-position: left !important;
+
+/*     -moz-box-shadow: 5px 10px 2.5px #000000;
+    -webkit-box-shadow: 5px 10px 2.5px #000000;
+    box-shadow: 5px 10px 2.5px #000000;
+    z-index: 99 !important; */
+}
+
+/* .dashLink:first-child {
+    border-top-left-radius: 10px;
+} */
 
 
 .customBtn:hover {
