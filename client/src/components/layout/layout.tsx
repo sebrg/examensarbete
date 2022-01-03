@@ -1,19 +1,47 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import Footer from './footer';
 import Header from './header';
 import LoginPopup from './loginPopup';
 import Main from './main';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 
 export default function Layout() {
+
+    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     
     const [loginToggle, setLoginToggle] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(false) //NOTE: Maybe not needed
+
+    useEffect(() => {
+        fbFuncs.userAuth(setIsLoggedIn)
+/*         const auth = getAuth();
     
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                console.log("signed in= ", user)
+                setIsLoggedIn(true)
+                // ...
+            } else {
+                // User is signed out
+                // ...
+                console.log("user signdout")
+                setIsLoggedIn(false)
+            }
+        }); */
+    }, [])
+    useEffect(() => {
+        console.log(isLoggedIn)
+    }, [isLoggedIn])
 
     return(
         
         <div id="frame" style={frameStyle}>
             <div id="layoutWrap" style={layoutStyle}>
-                <Header setLoginToggle={setLoginToggle}/>
+                <Header setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
                 <Main />
             </div>
             {
