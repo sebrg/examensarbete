@@ -1,17 +1,24 @@
+import env from 'dotenv'
 import express from 'express';
-import cors from "cors";
-import routes from './routes';
+import cors from 'cors'
+import Stripe from "stripe"
+import routes from './routes'
 
-import { config } from './config';
+env.config()
+const key = process.env.STRIPE_SECRET_KEY
+export const stripe = new Stripe(key, null)
 
 const app = express();
 const port = 3001
 
 app.use(cors({ // Required for cookies to client. 
-    origin: 'http://localhost:3001',
+    origin: 'http://localhost:3000',
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
 }));
+
+app.use('/', routes)
+
 
 app.use(express.json())
 
@@ -19,10 +26,6 @@ app.get('/', (req, res) => {
     res.send('Well done!');
 })
 
-app.use("/", routes)
-
 app.listen(port, () => {
     console.log('The application is listening on port 3001!');
 })
-
-
