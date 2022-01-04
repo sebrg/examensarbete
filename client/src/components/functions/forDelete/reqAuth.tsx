@@ -7,7 +7,7 @@ type Props = {
 
 }
 
-export default function ReqAuth(props: Props) {
+/* export default function ReqAuth(props: Props) {
     
     const auth = getAuth();
     let location = useLocation();
@@ -22,7 +22,7 @@ export default function ReqAuth(props: Props) {
 
     return props.children
     
-}
+} */
 
 
 

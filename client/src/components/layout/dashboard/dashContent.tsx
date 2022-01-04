@@ -1,6 +1,6 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import ReqAuth from '../../functions/forDelete/reqAuth';
+/* import ReqAuth from '../../functions/forDelete/reqAuth'; */
 import DashForCompany from './dashForCompany';
 import DashOldOrders from './dashOldOrders';
 import DashUserInfo from './dashUserInfo';
@@ -16,14 +16,7 @@ export default function DashContent() {
         <div id="userDashFrame" style={userDashFrameStyle}>
             <div id="userDashContent" style={userDashContentStyle}>
                 <Routes>
-                        <Route 
-                            index 
-                            element={
-                                <ReqAuth>
-                                    <DashUserInfo/>
-                                </ReqAuth>
-                            } 
-                        />
+                        <Route index element={<DashUserInfo/>} />
                         <Route path="/oldOrders" element={<DashOldOrders/>} />
                         <Route path="/dashForCompany" element={<DashForCompany/>} />
                 </Routes>

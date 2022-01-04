@@ -7,7 +7,11 @@ import MyPages from './myPages';
 import UserNotFound from './userNotFound';
 
 
-export default function Main() {
+type Props = {
+  isLoggedIn: boolean
+}
+
+export default function Main(props: Props) {
 
 	const stripe = useStripe()
 
@@ -32,7 +36,7 @@ export default function Main() {
 		<main style={mainStyle}>
 			<Routes>
 				<Route path='/' element={<Start/>} />
-				<Route path='/myPages/:id/*' element={<MyPages /* isLoggedIn={props.isLoggedIn} *//>} />
+				<Route path='/myPages/:id/*' element={<MyPages isLoggedIn={props.isLoggedIn}/>} />
 				<Route path='/userNotFound' element={<UserNotFound/>} />
 			</Routes>
 		</main>
