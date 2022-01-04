@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { browserSessionPersistence, createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../firebase";
@@ -37,7 +37,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
     signInWithGooglePopup(callBack?: () => void) { //TODO: Add redirect login for mobile size
         const provider = new GoogleAuthProvider();
         const auth = getAuth();
-        
+        setPersistence(auth, browserSessionPersistence)
         signInWithPopup(auth, provider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -70,7 +70,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         }
 
         const auth = getAuth();
-
+        setPersistence(auth, browserSessionPersistence) 
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
