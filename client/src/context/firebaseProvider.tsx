@@ -2,7 +2,6 @@ import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStat
 import { collection, getDocs } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../firebase";
-//import { findRenderedDOMComponentWithTag } from "react-dom/test-utils"
 import { FirebaseContext, FirebaseOptions, } from "./firebaseContext"
 
 
