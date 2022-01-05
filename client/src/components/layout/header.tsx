@@ -25,5 +25,11 @@ const headerStyle: CSSProperties = {
   borderTopLeftRadius: "15px",
   borderTopRightRadius: "15px",
   padding: "10px",
+  background: "#eea47fff",
+  borderBottom: "2px solid black",
+  boxShadow: "0 10px 10px -10px black",
+  WebkitBoxShadow: "0 10px 10px -10px black",
+  zIndex: 10,
+  
 }
 
