@@ -36,10 +36,10 @@ export default function MainNav(props: Props) {
     );
 }
 
-const userDashMenuStyle: CSSProperties = {
+/* const userDashMenuStyle: CSSProperties = {
     width: "30%",
     height: "100%",
-}
+} */
 
 const mainNavStyle: CSSProperties = {
 	display: "flex"

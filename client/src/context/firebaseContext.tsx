@@ -1,4 +1,6 @@
 import { createContext } from 'react'
+import { Company, Product } from "../models"
+
 
 export interface FirebaseOptions {
     addUser: () => void
@@ -9,15 +11,12 @@ export interface FirebaseOptions {
     logOut: () => void
     userAuth: (state?: (bool: boolean) => void) => void
 
+    addCompany: (company: Company) => void
+    addProduct: (product: Product) => void
+    getCurrentUserCompany: () => void
    // users?: User[]
 }
 
-/* export interface User {
-    firstName: string,
-    lastName: string,
-    userName: string,
-	id: string
-} */
 
 export const FirebaseContext = createContext({
     addUser: () => {},
@@ -26,7 +25,10 @@ export const FirebaseContext = createContext({
     signInWithEmail: (email: string | undefined, password: string | undefined, callBack?: () => void) => {},
     createUserWithEmail: (email: string | undefined, password: string | undefined) => {},
     logOut: () => {},
-    userAuth: (state?: (bool: boolean) => void) => {}
+    userAuth: (state?: (bool: boolean) => void) => {},
+    addCompany: (company: Company) => {},
+    addProduct: (product: Product) => {},
+    getCurrentUserCompany: () => {}
     /* users: undefined */
         
 } as FirebaseOptions)

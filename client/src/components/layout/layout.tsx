@@ -3,7 +3,6 @@ import Footer from './footer';
 import Header from './header';
 import LoginPopup from './loginPopup';
 import Main from './main';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 
 export default function Layout() {

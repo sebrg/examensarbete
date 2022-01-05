@@ -1,11 +1,9 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../firebase";
-//import { findRenderedDOMComponentWithTag } from "react-dom/test-utils"
 import { FirebaseContext, FirebaseOptions, } from "./firebaseContext"
-
-
+import { Company, Product } from "../models"
 interface Props{}
 
 export default class FirebaseProvider extends Component<Props, FirebaseOptions>   {
@@ -17,7 +15,10 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         signInWithEmail: this.signInWithEmail.bind(this),
         createUserWithEmail: this.createUserWithEmail.bind(this),
         logOut: this.logOut.bind(this),
-        userAuth: this.userAuth.bind(this)
+        userAuth: this.userAuth.bind(this),
+        addCompany: this.addCompany.bind(this),
+        addProduct: this.addProduct.bind(this),
+        getCurrentUserCompany: this.getCurrentUserCompany.bind(this)
     }
 
     //User functions
@@ -139,11 +140,51 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
             } else {
                 // User is signed out
                 // ...
-                console.log("user signdout")
+                //console.log("user signdout")
                 if(state) {
                     state(false)
                 }
             }
+        });
+    }
+
+    
+    //ADD/GET/REMOVE FROM DB
+    async addCompany(company: Company) {
+        //TODO: Fix better failsafe
+        /* if(company.category == "" || company.name == "" || company.region == "" || company.school == "") {
+            console.log("Fill all inputs")
+        } */
+
+        const auth = getAuth();
+
+        if(auth.currentUser) {
+            await addDoc(collection(firebaseCollection.db, "companies"), {
+                ...company, creator: auth.currentUser.uid
+            });
+        }
+        else {
+            console.log("couldnt verify user")
+        }
+    }
+
+    async addProduct(product: Product) {
+        
+        await addDoc(collection(firebaseCollection.db, "products"), {
+            ...product
+        });
+    }
+
+    async getCurrentUserCompany() {
+        const auth = getAuth();
+
+        const q = query(collection(firebaseCollection.db, "companies"), where("creator", "==", auth.currentUser?.uid));
+
+        const querySnapshot = await getDocs(q);
+        
+        querySnapshot.forEach((doc) => {
+             // doc.data() is never undefined for query doc snapshots   
+             console.log({id: doc.id, data: doc.data()});
         });
     }
 

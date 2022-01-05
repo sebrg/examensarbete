@@ -9,6 +9,10 @@ type Props = {
     height?: string
     onClick?: any
     linkTo?: any
+    color?: string
+    margin?: string
+    id?: string
+    backgroundPosition?: string
 }
 
 
@@ -18,14 +22,40 @@ export default function Button(props: Props) {
     return (
         props.linkTo?
             <Link to={props.linkTo} style={LinkStyle}>
-                <div className="customBtn" onClick={props.onClick} style={{...buttonStyle, backgroundColor: props.bgColor, width: props.width, height: props.height}}>
+                <div 
+                    className="customBtn" 
+                    id={props.id} 
+                    onClick={props.onClick} 
+                    style={{
+                        ...buttonStyle, 
+                        background: props.bgColor, 
+                        width: props.width, 
+                        height: props.height, 
+                        color: props.color, 
+                        margin: props.margin,
+                        backgroundPosition: props.backgroundPosition
+                    }}
+                >
                     <p>
                         {props.buttonText}
                     </p>
                 </div>
             </Link>
             :
-            <div className="customBtn" onClick={props.onClick} style={{...buttonStyle, backgroundColor: props.bgColor, width: props.width, height: props.height}}>
+            <div 
+                className="customBtn" 
+                id={props.id} 
+                onClick={props.onClick} 
+                style={{
+                    ...buttonStyle, 
+                    backgroundColor: props.bgColor, 
+                    width: props.width, 
+                    height: props.height, 
+                    color: props.color, 
+                    margin: props.margin,
+                    backgroundPosition: props.backgroundPosition
+                }}
+            >
                 <p>
                     {props.buttonText}
                 </p>
