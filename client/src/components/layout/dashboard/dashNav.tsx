@@ -5,19 +5,21 @@ import "../../../animations.css"
 
 
 
-export default function DashMenu() {
+export default function DashNav() {
 
+    //Create function to check history http and set current page link to "filled"
    
     return (
-        <div id="userDashMenu" style={userDashMenuStyle}>
+        <div id="dashNav" style={dashNavStyle}>
             <Link to="" className='dashLink' style={dashLinkStyle}>Om mig</Link> 
             <Link to="oldOrders" className='dashLink' style={dashLinkStyle}>Gamla ordrar</Link> 
             <Link to="dashForCompany" className='dashLink' style={dashLinkStyle}>UF NAME</Link> 
+            <Link to="registerCompany" className='dashLink' style={dashLinkStyle}>Register UF</Link> 
         </div>
     );
 }
 
-const userDashMenuStyle: CSSProperties = {
+const dashNavStyle: CSSProperties = {
     width: "20%",
     height: "100%",
     backgroundColor: "rgb(131 159 105)",
@@ -25,6 +27,7 @@ const userDashMenuStyle: CSSProperties = {
     borderTopLeftRadius: "10px",
     borderBottomLeftRadius: "10px", 
 */
+    borderBottomRightRadius: "15px", 
     padding: "2em 0 2em 0"
 }
 
@@ -38,7 +41,7 @@ const dashLinkStyle: CSSProperties = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    cursor: "pointer"
+    cursor: "pointer",
 }
 
 
