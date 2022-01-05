@@ -5,6 +5,7 @@ import { useStripe } from '@stripe/react-stripe-js';
 import Start from './start';
 import MyPages from './myPages';
 import UserNotFound from './userNotFound';
+import ReqAuth from '../functions/reqAuth';
 
 
 export default function Main() {
@@ -32,7 +33,14 @@ export default function Main() {
 		<main style={mainStyle}>
 			<Routes>
 				<Route path='/' element={<Start/>} />
-				<Route path='/myPages/:id/*' element={<MyPages /* isLoggedIn={props.isLoggedIn} *//>} />
+				<Route 
+					path='/myPages/:id/*' 
+					element={
+						<ReqAuth>
+							<MyPages />
+						</ReqAuth>
+					} 
+				/>
 				<Route path='/userNotFound' element={<UserNotFound/>} />
 			</Routes>
 		</main>
