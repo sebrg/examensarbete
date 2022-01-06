@@ -15,7 +15,7 @@ type Props = {
 export default function MainNav(props: Props) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const auth = getAuth();
     
 
