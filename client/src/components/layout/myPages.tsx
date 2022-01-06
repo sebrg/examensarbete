@@ -9,18 +9,7 @@ import DashNav from './dashboard/dashNav';
 
 export default function MyPages() {
 
-    //TODO: NEEDS AUTH FUNCTION THAT VERIFYES HTTP PARAMS
 
-
-/*     const navigate = useNavigate();
-    const auth = getAuth();
-    const match = useMatch("myPages/:id");
-
-    const verifyLogin = () => {
-        if(auth.currentUser?.uid !== match?.params.id) {
-            navigate("/userNotFound")
-        }
-    } */
 
     return (
         <div id="myPagesWrapper" style={myPagesWrapperStyle}>
