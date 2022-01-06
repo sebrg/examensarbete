@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, DocumentData, getDocs, query, where } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../firebase";
 import { FirebaseContext, FirebaseOptions, } from "./firebaseContext"
@@ -18,7 +18,8 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         userAuth: this.userAuth.bind(this),
         addCompany: this.addCompany.bind(this),
         addProduct: this.addProduct.bind(this),
-        getCurrentUserCompany: this.getCurrentUserCompany.bind(this)
+        getCurrentUserCompany: this.getCurrentUserCompany.bind(this),
+        getProductsFromCurrentUserCompany: this.getProductsFromCurrentUserCompany.bind(this)
     }
 
     //User functions
@@ -170,22 +171,43 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
 
     async addProduct(product: Product) {
         
+        let currentCompany = await this.getCurrentUserCompany()
+   
         await addDoc(collection(firebaseCollection.db, "products"), {
-            ...product
+            ...product, company: currentCompany[0].id
         });
     }
 
     async getCurrentUserCompany() {
         const auth = getAuth();
-
         const q = query(collection(firebaseCollection.db, "companies"), where("creator", "==", auth.currentUser?.uid));
-
         const querySnapshot = await getDocs(q);
-        
+        const result: DocumentData[] = []
+
         querySnapshot.forEach((doc) => {
-             // doc.data() is never undefined for query doc snapshots   
-             console.log({id: doc.id, data: doc.data()});
+             // doc.data() is never undefined for query doc snapshots  
+             //console.log({id: doc.id, data: doc.data()});
+             result.push({id: doc.id, data: doc.data()})
         });
+
+        return result
+    }
+
+    async getProductsFromCurrentUserCompany() {
+        let currentCompany = await this.getCurrentUserCompany()
+        let currentCompanyId = currentCompany[0].id
+
+        const q = query(collection(firebaseCollection.db, "products"), where("company", "==", currentCompanyId));
+        const querySnapshot = await getDocs(q);
+        const result: DocumentData[] = []
+
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots  
+            //console.log({id: doc.id, data: doc.data()});
+            result.push({id: doc.id, data: doc.data()})
+       });
+
+       return result
     }
 
 
