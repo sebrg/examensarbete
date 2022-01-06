@@ -9,8 +9,8 @@ export default function Layout() {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     
-    const [loginToggle, setLoginToggle] = useState(false)
-    const [isLoggedIn, setIsLoggedIn] = useState(false) //NOTE: Maybe not needed
+    const [loginToggle, setLoginToggle] = useState(false) //NOTE: maybe move this to App.tsx
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>() //NOTE: Maybe not needed
 
     useEffect(() => {
         fbFuncs.userAuth(setIsLoggedIn)
@@ -25,7 +25,7 @@ export default function Layout() {
         <div id="frame" style={frameStyle}>
             <div id="layoutWrap" style={layoutStyle}>
                 <Header setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
-                <Main/>
+                <Main isLoggedIn={isLoggedIn}/>
             </div>
             {
                 loginToggle? //NOTE: Maybe move this condition into the LoginPopup component instead
