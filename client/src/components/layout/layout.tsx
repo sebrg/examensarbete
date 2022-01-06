@@ -4,6 +4,7 @@ import Header from './header';
 import LoginPopup from './loginPopup';
 import Main from './main';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
+import Hero from './hero';
 
 export default function Layout() {
 
@@ -23,7 +24,8 @@ export default function Layout() {
     return(
         
         <div id="frame" style={frameStyle}>
-            <div id="layoutWrap" style={layoutStyle}>
+            <div id="layoutWrap" className='noScrollBar' style={layoutStyle}>
+                <Hero />
                 <Header setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
                 <Main isLoggedIn={isLoggedIn}/>
             </div>
@@ -45,7 +47,9 @@ const layoutStyle: CSSProperties = {
     width: "95%",
     height: "95%",
     backgroundColor: "rgb(49 52 68)",
-    borderRadius: "15px"
+    borderRadius: "15px",
+    overflowX: "hidden",
+    overflowY: "scroll"
 }
 
 const frameStyle: CSSProperties = {
@@ -58,4 +62,4 @@ const frameStyle: CSSProperties = {
     backgroundColor: "#E5E5E5",
     overflow: "auto"
 }
-  
+
