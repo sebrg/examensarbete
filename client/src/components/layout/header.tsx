@@ -3,7 +3,7 @@ import MainNav from './mainNav';
 
 type Props = {
   setLoginToggle: any
-  isLoggedIn: boolean
+  isLoggedIn: boolean | undefined
 }
 
 export default function Header(props: Props) {
