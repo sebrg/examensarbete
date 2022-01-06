@@ -7,7 +7,7 @@ import Button from './button';
 
 
 type Props = {
-    isLoggedIn: boolean
+    isLoggedIn: boolean | undefined
     setLoginToggle: any
 
 }
