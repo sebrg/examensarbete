@@ -50,6 +50,6 @@ export default function Main(props: Props) {
 }
 
 const mainStyle: CSSProperties = {
-  height: "85%"
+  minHeight: "85%"
 }
 
