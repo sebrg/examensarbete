@@ -37,9 +37,9 @@ const dashCompanyNavStyle: CSSProperties = {
     height: "10%",
     backgroundColor: "pink",
     display: "flex",
-    padding: "0.2em",
+    padding: "0.5em",
     borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
-    boxShadow: "0 10px 10px -10px black",
-    WebkitBoxShadow: "0 10px 10px -10px black",
+/*     boxShadow: "0 10px 10px -10px black",
+    WebkitBoxShadow: "0 10px 10px -10px black", */
 }

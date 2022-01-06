@@ -1,3 +1,4 @@
+import { DocumentData } from 'firebase/firestore'
 import { createContext } from 'react'
 import { Company, Product } from "../models"
 
@@ -13,7 +14,8 @@ export interface FirebaseOptions {
 
     addCompany: (company: Company) => void
     addProduct: (product: Product) => void
-    getCurrentUserCompany: () => void
+    getCurrentUserCompany: () => Promise<DocumentData[]>
+    getProductsFromCurrentUserCompany: () => Promise<DocumentData[]>
    // users?: User[]
 }
 

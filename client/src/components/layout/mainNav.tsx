@@ -7,7 +7,7 @@ import Button from './button';
 
 
 type Props = {
-    isLoggedIn: boolean
+    isLoggedIn: boolean | undefined
     setLoginToggle: any
 
 }
@@ -15,7 +15,7 @@ type Props = {
 export default function MainNav(props: Props) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const auth = getAuth();
     
 

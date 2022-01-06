@@ -1,20 +1,72 @@
+import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import "../../../animations.css"
-
-
 
 
 export default function DashNav() {
 
-    //Create function to check history http and set current page link to "filled"
-   
+    const url = useLocation().pathname
+    const currentDashPage = url.split("/")[3]
+    const linksForDashNav = [
+        {
+            name: "Om mig", 
+            to: ""
+        },
+        {
+            name: "Gamla ordrar",
+            to: "oldOrders"
+        },
+        {
+            name: "UF NAMN",
+            to: "dashForCompany"
+        },
+        {
+            name: "registrera UF",
+            to: "registerCompany"
+        }
+    ]
+
+    const renderLinksForDashNav = () => {
+        return linksForDashNav.map((link, index) => {
+            if(currentDashPage === link.to || currentDashPage === undefined && link.to === "" ) {
+                return (
+                    <Link
+                        key={index}
+                        to={link.to}
+                        className='dashLink'
+                        style={{
+                            ...dashLinkStyle,
+                            background: "rgb(49 52 68)",
+                        }}
+                    >
+                        {link.name}
+                    </Link>
+                )
+            } 
+            else {
+                return (
+                    <Link
+                        key={index}
+                        to={link.to}
+                        className='dashLink'
+                        style={{
+                            ...dashLinkStyle,
+                            background: "linear-gradient(to left, rgb(131 159 105) 50%, rgb(49 52 68) 50%) right",
+                            backgroundSize: "200%"
+                        }}
+                    >
+                        {link.name}
+                    </Link>
+                )  
+            }
+
+        })
+    }
+
     return (
         <div id="dashNav" style={dashNavStyle}>
-            <Link to="" className='dashLink' style={dashLinkStyle}>Om mig</Link> 
-            <Link to="oldOrders" className='dashLink' style={dashLinkStyle}>Gamla ordrar</Link> 
-            <Link to="dashForCompany" className='dashLink' style={dashLinkStyle}>UF NAME</Link> 
-            <Link to="registerCompany" className='dashLink' style={dashLinkStyle}>Register UF</Link> 
+            {renderLinksForDashNav()}
         </div>
     );
 }
@@ -33,9 +85,9 @@ const dashNavStyle: CSSProperties = {
 
 const dashLinkStyle: CSSProperties = {
     color: "white",
-    background: "linear-gradient(to left, rgb(131 159 105) 50%, rgb(49 52 68) 50%) right",
-    backgroundSize: "200%",
-    transition: ".25s ease-out",
+    //background: "linear-gradient(to left, rgb(131 159 105) 50%, rgb(49 52 68) 50%) right",
+    //backgroundSize: "200%",
+    transition: "background-position .25s ease-out",
     width: "100%",
     minHeight: "10%",
     display: "flex",

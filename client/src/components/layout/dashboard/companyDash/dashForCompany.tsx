@@ -1,3 +1,4 @@
+import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { FirebaseContext, FirebaseOptions } from '../../../../context/firebaseContext';
@@ -12,12 +13,22 @@ import DashForCompanyStart from './dashForCompanyStart';
 export default function DashForCompany() {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const [testState, setTestState] = useState<DocumentData[]>()
 
+/*     const setArr = async () => {
+        let test = await fbFuncs.getCurrentUserCompany()
+        console.log(test[0].id)
+        setTestState(test)
+    }
 
     useEffect(() => {
-        fbFuncs.getCurrentUserCompany()
-    }, [])
+        setArr()
+    }, []) 
 
+    useEffect(() => {
+        console.log("state = ", testState)
+    }, [testState])
+*/
     return (
         <div id="dashContentForCompany" style={{width: "100%", height: "100%"}}>
             <DashCompanyNav />    

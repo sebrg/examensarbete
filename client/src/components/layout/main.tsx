@@ -7,8 +7,10 @@ import MyPages from './myPages';
 import UserNotFound from './userNotFound';
 import ReqAuth from '../functions/reqAuth';
 
-
-export default function Main() {
+type Props = {
+	isLoggedIn: boolean | undefined
+  }
+export default function Main(props: Props) {
 
 	const stripe = useStripe()
 
@@ -36,7 +38,7 @@ export default function Main() {
 				<Route 
 					path='/myPages/:id/*' 
 					element={
-						<ReqAuth>
+						<ReqAuth isLoggedIn={props.isLoggedIn}>
 							<MyPages />
 						</ReqAuth>
 					} 
@@ -48,6 +50,6 @@ export default function Main() {
 }
 
 const mainStyle: CSSProperties = {
-  height: "85%"
+  minHeight: "85%"
 }
 
