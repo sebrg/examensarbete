@@ -1,33 +1,43 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties, useContext, useEffect, useRef, useState } from 'react';
 import Footer from './footer';
 import Header from './header';
 import LoginPopup from './loginPopup';
 import Main from './main';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import Hero from './hero';
+import { useLocation } from 'react-router-dom';
 
 export default function Layout() {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-    
+    const mainRef = useRef() as React.MutableRefObject<HTMLInputElement>
+    const url = useLocation().pathname
     const [loginToggle, setLoginToggle] = useState(false) //NOTE: maybe move this to App.tsx
     const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>() //NOTE: Maybe not needed
 
+    
+    const scrollContentIntoView = (always: boolean) => { //NOTE: Maybe store a session value? if exists dont scroll
+        if (always === true) {
+            mainRef.current.scrollIntoView({ behavior: "smooth" })
+        } else if (always === false && url !== "/") {
+            mainRef.current.scrollIntoView()
+        }
+    }
+
     useEffect(() => {
         fbFuncs.userAuth(setIsLoggedIn)
+        scrollContentIntoView(false)
     }, [])
     
-    useEffect(() => {
-        console.log(isLoggedIn)
-    }, [isLoggedIn])
+
 
     return(
         
         <div id="frame" style={frameStyle}>
             <div id="layoutWrap" className='noScrollBar' style={layoutStyle}>
                 <Hero />
-                <Header setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
-                <Main isLoggedIn={isLoggedIn}/>
+                <Header scrollContentIntoView={scrollContentIntoView} setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
+                <Main passedRef={mainRef} isLoggedIn={isLoggedIn}/>
             </div>
             {
                 loginToggle? //NOTE: Maybe move this condition into the LoginPopup component instead
@@ -49,7 +59,10 @@ const layoutStyle: CSSProperties = {
     backgroundColor: "rgb(49 52 68)",
     borderRadius: "15px",
     overflowX: "hidden",
-    overflowY: "scroll"
+    overflowY: "scroll",
+    scrollSnapType: "y mandatory",  
+    
+
 }
 
 const frameStyle: CSSProperties = {
