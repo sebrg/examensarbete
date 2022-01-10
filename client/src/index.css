@@ -26,7 +26,6 @@ a, a:visited {
   color: black;
 }
 
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 .noScrollBar::-webkit-scrollbar {
   display: none;
