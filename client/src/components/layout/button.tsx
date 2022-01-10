@@ -12,7 +12,7 @@ type Props = {
     color?: string
     margin?: string
     id?: string
-    backgroundPosition?: string
+    backgroundPosition?: string,
 }
 
 
@@ -33,7 +33,7 @@ export default function Button(props: Props) {
                         height: props.height, 
                         color: props.color, 
                         margin: props.margin,
-                        backgroundPosition: props.backgroundPosition
+                        backgroundPosition: props.backgroundPosition,
                     }}
                 >
                     <p>
