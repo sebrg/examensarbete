@@ -1,14 +1,13 @@
-import { defaultMaxListeners } from 'events';
-import { CollectionReference, DocumentData } from 'firebase/firestore';
+import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
+import ProductCard from './productCard';
 
 
 export default function CompanyPage() {
 
     const [products, setProducts] = useState<DocumentData[]>()
-    /* const [companyId, setCompanyId] = useState<string>() */
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
 
@@ -25,19 +24,26 @@ export default function CompanyPage() {
 
     function renderProducts() {
         return ( 
-            <div>
+            <div style={coPage}>
                 { 
                 products?    
                     products.map((product, i) => {
                         return(
-                            <div> 
-                            <p>{product.data.name}</p>
-                            <p>{product.data.price}</p>
-                            </div>
-                            )
+                            <ProductCard key={i} 
+                                bgColor='#EFE1CE' 
+                                productTitle={product.data.name} 
+                                productPrice={product.data.price}
+                                width='20vw'
+                                height='auto'
+                                linkTo={`/company/${product.id}/${product.data.name}`}
+                                imgWidth='100%'
+                                imgHeight='auto'
+                                productImgUrl={product.data.imgUrl}
+                            />     
+                        )
                     })
                     :
-                    <p>Något fel inträffade.. det finns inga företag att hämta</p>
+                    <p>Hämtar produkter..</p>
                 } 
             </div>
         )
@@ -77,5 +83,14 @@ const companyPageHeader: CSSProperties = {
     borderBottom: "1px solid black",
     borderBottomLeftRadius: "15px",
     borderBottomRightRadius: "15px"
+}
+
+const coPage: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%', 
+    height: '90%',
 }
 
