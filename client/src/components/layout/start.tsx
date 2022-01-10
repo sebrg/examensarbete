@@ -20,7 +20,7 @@ export default function Start() {
             <Slider></Slider>
             </div>
 
-          <CompanyList />
+          <CompanyList/>
         </div>
     );
 }
