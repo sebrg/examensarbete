@@ -1,5 +1,6 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
+import marungTestBackground from "./../../assets/cartLogoDarker.png"
 
 
 
@@ -12,7 +13,10 @@ export default function Hero() {
 
     return (
         <div id="Hero" style={heroStyle}>
-            <h1>UF Market</h1>
+            <img src={marungTestBackground} style={{objectFit: "contain", /* alignSelf: "center", */ height: "80%", borderBottomRightRadius: "15px", borderBottomLeftRadius: "15px"}}></img>
+   {/*          <div style={{backgroundImage: `url("${marungTestBackground}")`, width: "100%", height: "100%", display: "flex", backgroundRepeat: "no-repeat",  backgroundSize: "contain", backgroundPosition: "center", borderRadius: "15px" }}>
+                
+            </div> */}
         </div>
     );
 }
@@ -24,5 +28,7 @@ const heroStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    scrollSnapAlign: "start",
+
 }

@@ -10,7 +10,6 @@ import DashNav from './dashboard/dashNav';
 export default function MyPages() {
 
 
-
     return (
         <div id="myPagesWrapper" style={myPagesWrapperStyle}>
             
