@@ -6,6 +6,7 @@ import Start from './start';
 import MyPages from './myPages';
 import UserNotFound from './userNotFound';
 import ReqAuth from '../functions/reqAuth';
+import CompanyPage from './companyPage';
 
 type Props = {
 	isLoggedIn: boolean | undefined
@@ -44,6 +45,7 @@ export default function Main(props: Props) {
 					} 
 				/>
 				<Route path='/userNotFound' element={<UserNotFound/>} />
+				<Route path='/company/:companyId' element={<CompanyPage/>} />
 			</Routes>
 		</main>
     );
