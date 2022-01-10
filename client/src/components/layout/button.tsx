@@ -34,9 +34,10 @@ export default function Button(props: Props) {
                         color: props.color, 
                         margin: props.margin,
                         backgroundPosition: props.backgroundPosition,
+                        
                     }}
                 >
-                    <p>
+                    <p style={centerText}>
                         {props.buttonText}
                     </p>
                 </div>
@@ -53,10 +54,10 @@ export default function Button(props: Props) {
                     height: props.height, 
                     color: props.color, 
                     margin: props.margin,
-                    backgroundPosition: props.backgroundPosition
+                    backgroundPosition: props.backgroundPosition,
                 }}
             >
-                <p>
+                <p style={centerText}>
                     {props.buttonText}
                 </p>
             </div>
@@ -76,5 +77,10 @@ const buttonStyle: CSSProperties = {
 const LinkStyle: CSSProperties = {
     display: "flex", 
     textDecoration: "none",
+}
+
+const centerText: CSSProperties = {
+    textAlign: 'center', 
+    width: '100%'
 }
 
