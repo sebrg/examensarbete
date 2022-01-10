@@ -12,7 +12,8 @@ export default function SimpleSlider() {
     slidesToScroll: 1,
     className: 'sliderInnerDiv',
     autoplay: true,
-    arrows: false
+    arrows: false,
+    /* lazyLoad: true */
    
   };
   return (
