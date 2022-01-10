@@ -25,7 +25,8 @@ export default function DashForCompanyProducts() {
     }
 
     const getProducts = async () => {
-        const products = await fbFuncs.getProductsFromCurrentUserCompany()
+        const currentUserCompany = await fbFuncs.getCurrentUserCompany()
+        const products = await fbFuncs.getProductsFromCompany(currentUserCompany[0].id)
         setProducts(products)
     }
 

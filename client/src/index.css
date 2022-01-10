@@ -47,7 +47,7 @@ a, a:visited {
 }
 
 .slick-dots {
-  bottom: 5px !important;
+  bottom: 0.5em !important;
 }
 
 .slick-list { 
