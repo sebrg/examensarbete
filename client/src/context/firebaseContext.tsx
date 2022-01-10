@@ -17,6 +17,7 @@ export interface FirebaseOptions {
     getCurrentUserCompany: () => Promise<DocumentData[]>
     getProductsFromCompany: (companyId: string) => Promise<DocumentData[]>
     getAllCompanies: () => Promise<DocumentData[]>
+    getSingleProduct: (docId: string) => Promise<DocumentData[]>
    // users?: User[]
 }
 
@@ -33,7 +34,8 @@ export const FirebaseContext = createContext({
     addProduct: (product: Product) => {},
     getCurrentUserCompany: () => {},
     getProductsFromCompany: (companyId: string) => {},
-    getAllCompanies: () => {}
+    getAllCompanies: () => {},
+    getSingleProduct: (docId: string) => {}
     /* users: undefined */
         
 } as FirebaseOptions)
