@@ -9,6 +9,7 @@ import ReqAuth from '../functions/reqAuth';
 
 type Props = {
 	isLoggedIn: boolean | undefined
+	passedRef?: React.MutableRefObject<HTMLInputElement>
   }
 export default function Main(props: Props) {
 
@@ -32,7 +33,7 @@ export default function Main(props: Props) {
 
     return (
 
-		<main style={mainStyle}>
+		<main ref={props.passedRef} style={mainStyle}>
 			<Routes>
 				<Route path='/' element={<Start/>} />
 				<Route 
