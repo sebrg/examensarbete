@@ -9,7 +9,7 @@ import Button from './button';
 type Props = {
     isLoggedIn: boolean | undefined
     setLoginToggle: any
-
+    scrollContentIntoView?: (always: boolean) => void
 }
 
 export default function MainNav(props: Props) {
@@ -22,13 +22,17 @@ export default function MainNav(props: Props) {
     return (
         props.isLoggedIn?
             <nav id="mainNav" style={mainNavStyle}>
-                <Button linkTo={"/"} buttonText='Start' />
-                <Button linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' />
-                <Button linkTo={"/"} buttonText='Logout' onClick={() => fbFuncs.logOut()} />
+                <Button linkTo={"/"} buttonText='Start' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
+                
+  
+                <Button linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
+                {/* <Button linkTo={"/"} buttonText='Logout' onClick={() => fbFuncs.logOut()} /> */}
+            
+
             </nav>
             :
             <nav id="mainNav" style={mainNavStyle}>
-                <Button linkTo={"/"} buttonText='Start' />
+                <Button linkTo={"/"} buttonText='Start' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
                 {/*TODO: Remove the mypages row beneth. Only here for testing */}
                 {/* <Button onClick={() =>  navigate(`/myPages/${auth.currentUser?.uid}`)} buttonText='Mina sidor' /> */} 
                 <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
@@ -36,11 +40,9 @@ export default function MainNav(props: Props) {
     );
 }
 
-/* const userDashMenuStyle: CSSProperties = {
-    width: "30%",
-    height: "100%",
-} */
 
 const mainNavStyle: CSSProperties = {
-	display: "flex"
+	display: "flex",
+    width: "100%",
+    padding: "10px"
 }
