@@ -19,7 +19,8 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         addCompany: this.addCompany.bind(this),
         addProduct: this.addProduct.bind(this),
         getCurrentUserCompany: this.getCurrentUserCompany.bind(this),
-        getProductsFromCurrentUserCompany: this.getProductsFromCurrentUserCompany.bind(this)
+        getProductsFromCompany: this.getProductsFromCompany.bind(this),
+        getAllCompanies: this.getAllCompanies.bind(this)
     }
 
     //User functions
@@ -193,11 +194,37 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         return result
     }
 
-    async getProductsFromCurrentUserCompany() {
-        let currentCompany = await this.getCurrentUserCompany()
-        let currentCompanyId = currentCompany[0].id
+    async getProductsFromCompany(companyId: string) {
 
-        const q = query(collection(firebaseCollection.db, "products"), where("company", "==", currentCompanyId));
+        const q = query(collection(firebaseCollection.db, "products"), where("company", "==", companyId));
+        const querySnapshot = await getDocs(q);
+        const result: DocumentData[] = []
+
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots  
+            //console.log({id: doc.id, data: doc.data()});
+            result.push({id: doc.id, data: doc.data()})
+       });
+
+       return result
+    }
+
+    async getProductsForCurrentCompanyPage() {
+        const q = query(collection(firebaseCollection.db, "products"), where("company", "==", "url-param"));
+        const querySnapshot = await getDocs(q);   
+    }
+
+    async getAllCompanies() {
+        const result: DocumentData[] = []
+        const get = await getDocs(collection(firebaseCollection.db, "companies"));
+        get.forEach((doc) => {
+            result.push({id: doc.id, data: doc.data()})
+          });
+          return result
+    }
+
+    async getProductsForCompanyPage() {
+        const q = query(collection(firebaseCollection.db, "products"), where("company", "==", "daa"));
         const querySnapshot = await getDocs(q);
         const result: DocumentData[] = []
 
