@@ -4,25 +4,16 @@ import { FirebaseContext, FirebaseOptions } from '../../../../context/firebaseCo
 import Button from '../../button';
 import { Product } from "../../../../models"
 import { DocumentData } from 'firebase/firestore';
+import DashForCompanyAddProducts from './dashForCompanyAddProduct';
 
-type Alternatives = "show" | "edit"
+type Alternatives = "show" | "add"
 
 export default function DashForCompanyProducts() {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const [productAlternativ, setProductAlternativ] = useState<Alternatives>("show")
     
-    const [name, setName] = useState<string>("")
-    const [price, setPrice] = useState<number>(0)
     const [products, setProducts] = useState<DocumentData[]>()
-
-    const updateName = (event: any) => {
-        event? setName(event.target.value) : setName("")
-    }
-
-    const updatePrice = (event: any) => {
-        event? setPrice(event.target.value) : setPrice(0) //FIXME: is 0 really a good fallback?
-    }
 
     const getProducts = async () => {
         const currentUserCompany = await fbFuncs.getCurrentUserCompany()
@@ -46,6 +37,7 @@ export default function DashForCompanyProducts() {
     }, [])
 
 
+
     return (
         <div id="dashProducts" style={dashProductsStyle}>
             <div id="dashProductsBtnDiv" style={{width: "30%"}}>
@@ -59,11 +51,11 @@ export default function DashForCompanyProducts() {
                 />
 
                 <Button 
-                    onClick={() => setProductAlternativ('edit')} 
+                    onClick={() => setProductAlternativ('add')} 
                     margin='0 0 0.5em 0' 
                     /* width="30%"  */
                     buttonText='Add/edit product'
-                    bgColor={productAlternativ === "edit"? "pink" : ""}
+                    bgColor={productAlternativ === "add"? "pink" : ""}
 
                 />
             </div>
@@ -71,39 +63,19 @@ export default function DashForCompanyProducts() {
             {
                 productAlternativ === "show"? 
                    
-                   <div id="dashShowProducts" style={dashShowProductsStyle}>
+                    <div id="dashShowProducts" style={dashShowProductsStyle}>
                         SHOW PRODUCTS
                         { renderProducts() }
                     </div>
 
                     :
 
-                    productAlternativ === "edit"?
-                      
-                        <div id="dashEditProducts" style={dashEditProductsStyle}>
-                            <input 
-                                style={addProductInputStyle} 
-                                placeholder='Product name' 
-                                onChange={(event) => updateName(event)}
-                            />
-                            <input 
-                                style={addProductInputStyle} 
-                                placeholder='Product price'
-                                onChange={(event) => updatePrice(event)}
-                            />
-                            <div>
-                                <Button 
-                                    buttonText='Add product' 
-                                    onClick={() => {
-                                        fbFuncs.addProduct(new Product(name, price))
-                                        getProducts()
-                                    }}
-                                />
-                            </div>
-                        </div>
-                   
-                    :
+                productAlternativ === "add"?
                     
+                    <DashForCompanyAddProducts />
+                
+                    :
+                
                     null
             }
         </div>
@@ -117,23 +89,9 @@ const dashProductsStyle: CSSProperties = {
     display: "flex"
 }
 
-const dashEditProductsStyle: CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-    alignItems: "center"
-
-}
 
 const dashShowProductsStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
-}
-
-const addProductInputStyle: CSSProperties = {
     width: "70%",
-    fontSize: "1.2em",
-    padding: "0.5em",
-    marginBottom: "0.5em"
 }
