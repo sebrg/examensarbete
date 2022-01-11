@@ -38,7 +38,7 @@ export default function CompanyPage() {
                                 linkTo={`/company/${product.id}/${product.data.name}`}
                                 imgWidth='100%'
                                 imgHeight='auto'
-                                productImgUrl={product.data.imgUrl}
+                                productImgUrl={product.data.imgUrls[0]}
                             />     
                         )
                     })
