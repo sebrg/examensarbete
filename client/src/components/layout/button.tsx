@@ -1,9 +1,10 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactElement, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import "../../animations.css"
 import { Link } from 'react-router-dom';
+
 type Props = {
-    buttonText?: string
+    buttonText?: string | ReactElement
     bgColor?: string
     width?: string
     height?: string
