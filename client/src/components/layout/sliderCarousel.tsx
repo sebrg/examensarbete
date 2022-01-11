@@ -1,6 +1,5 @@
 import React, { CSSProperties, useState } from 'react';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
-import { IndexInfo, IndexType } from 'typescript';
 
 
 
@@ -30,7 +29,6 @@ export default function ImageSlider() {
           }
     ]
 
-    console.log(slides)
   const [current, setCurrent] = useState(0);
   
   const length = slides.length;
@@ -56,7 +54,7 @@ export default function ImageSlider() {
                         key={index}
                         >
                         {index === current && (
-                            <img style={img} src={slide.image} alt='travel image' />
+                            <img style={img} src={slide.image} alt='Bilden kunde inte ladda..' />
                             )}
                     </div>
                     );
