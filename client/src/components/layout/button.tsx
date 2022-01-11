@@ -1,9 +1,10 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactElement, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import "../../animations.css"
 import { Link } from 'react-router-dom';
+
 type Props = {
-    buttonText?: string
+    buttonText?: string | ReactElement
     bgColor?: string
     width?: string
     height?: string
@@ -34,9 +35,10 @@ export default function Button(props: Props) {
                         color: props.color, 
                         margin: props.margin,
                         backgroundPosition: props.backgroundPosition,
+                        
                     }}
                 >
-                    <p>
+                    <p style={centerText}>
                         {props.buttonText}
                     </p>
                 </div>
@@ -53,10 +55,10 @@ export default function Button(props: Props) {
                     height: props.height, 
                     color: props.color, 
                     margin: props.margin,
-                    backgroundPosition: props.backgroundPosition
+                    backgroundPosition: props.backgroundPosition,
                 }}
             >
-                <p>
+                <p style={centerText}>
                     {props.buttonText}
                 </p>
             </div>
@@ -76,5 +78,10 @@ const buttonStyle: CSSProperties = {
 const LinkStyle: CSSProperties = {
     display: "flex", 
     textDecoration: "none",
+}
+
+const centerText: CSSProperties = {
+    textAlign: 'center', 
+    width: '100%'
 }
 

@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, DocumentData, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, getDoc, getDocs, query, where } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../firebase";
 import { FirebaseContext, FirebaseOptions, } from "./firebaseContext"
@@ -23,6 +23,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         getProductsFromCompany: this.getProductsFromCompany.bind(this),
         getAllCompanies: this.getAllCompanies.bind(this),
         upLoadImg: this.upLoadImg.bind(this)
+        getSingleProduct: this.getSingleProduct.bind(this)
     }
 
     //User functions
@@ -285,6 +286,21 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         return imgUrl
 
     }
+
+    async getSingleProduct(docId: string) {
+        const result: DocumentData[] = []
+        const docRef = doc(firebaseCollection.db, "products", docId);
+        const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                result.push(docSnap.data())
+            } else {
+                console.log("No such document!");
+                }
+                
+            return result
+    }
+
 
     render() {
         return(
