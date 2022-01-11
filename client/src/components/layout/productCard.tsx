@@ -19,7 +19,7 @@ type Props = {
     id?: string
     imgHeight?: string
     imgWidth?: string
-
+    displayProductInfo?: string
 }
 
 
@@ -42,7 +42,7 @@ export default function ProductCard(props: Props) {
 
                 <Link style={imgFrame} to={props.linkTo}> <img style={{width: props.imgWidth, height: props.imgHeight}} src={props.productImgUrl} alt="" /></Link>
                 <div style={cardFrame}> 
-                    <p> {props.ProductInfo} product info goes here</p>
+                    <p style={{display: props.displayProductInfo}}> {props.ProductInfo} product info goes here</p>
                     <h3>{props.productTitle}</h3>
                     <h4> {props.productPrice + ' ' + 'kr'} </h4>
                 </div> 
@@ -83,7 +83,7 @@ const prodCard: CSSProperties = {
     borderTopLeftRadius: '10px',
     margin: '0.5em',
     padding: '0.2em',
-    minHeight: '30vh'
+    /* minHeight: '30vh' */
 }
 
 const cardFrame: CSSProperties = {
@@ -104,7 +104,7 @@ const imgFrame: CSSProperties = {
 }
 
 const img: CSSProperties = {
-    objectFit: 'contain'
+    objectFit: 'cover'
 }
 
 
