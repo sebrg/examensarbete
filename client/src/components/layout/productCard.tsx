@@ -1,11 +1,7 @@
-import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
-import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 import Button from './button'
-import ImageSlider from './sliderCarousel';
 
-import cartLogoSmallerM from '../../assets/cartLogoSmallerM.png';
 
 
 type Props = {
@@ -64,7 +60,7 @@ export default function ProductCard(props: Props) {
                         height: props.height
                     }}
                 >
-                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={cartLogoSmallerM} alt="" />
+                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.productImgUrl} alt="" />
                 <div style={cardFrame}> 
                     <p> {props.ProductInfo} product info goes here</p>
                     <h3>{props.productTitle}</h3>
