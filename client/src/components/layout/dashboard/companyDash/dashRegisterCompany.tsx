@@ -54,7 +54,7 @@ export default function DashRegisterCompany() {
             />
 
             <Button onClick={() => fbFuncs.addCompany(new Company(name, school, region, category))} buttonText='UF' width='30%' bgColor='black'/>
-            <Button onClick={() => fbFuncs.addProduct(new Product("produkt", 20))} buttonText='PRODUKT' width='30%' bgColor='black'/>
+            {/* <Button onClick={() => fbFuncs.addProduct(new Product("produkt", 20))} buttonText='PRODUKT' width='30%' bgColor='black'/> */}
         </div>
     );
 }
