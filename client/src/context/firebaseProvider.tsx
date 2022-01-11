@@ -22,7 +22,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         getCurrentUserCompany: this.getCurrentUserCompany.bind(this),
         getProductsFromCompany: this.getProductsFromCompany.bind(this),
         getAllCompanies: this.getAllCompanies.bind(this),
-        upLoadImg: this.upLoadImg.bind(this)
+        upLoadImg: this.upLoadImg.bind(this),
         getSingleProduct: this.getSingleProduct.bind(this)
     }
 

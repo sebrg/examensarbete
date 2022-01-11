@@ -37,7 +37,7 @@ export const FirebaseContext = createContext({
     getCurrentUserCompany: () => {},
     getProductsFromCompany: (companyId: string) => {},
     getAllCompanies: () => {},
-    upLoadImg: (file: any) => {}
+    upLoadImg: (file: any) => {},
     getSingleProduct: (docId: string) => {}
 
     /* users: undefined */
