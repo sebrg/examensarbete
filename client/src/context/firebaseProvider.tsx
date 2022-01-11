@@ -4,8 +4,9 @@ import React, { Component } from "react"
 import firebaseCollection from "../firebase";
 import { FirebaseContext, FirebaseOptions, } from "./firebaseContext"
 import { Company, Product } from "../models"
+import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable, uploadString } from "firebase/storage";
+import { promises } from "stream";
 interface Props{}
-
 export default class FirebaseProvider extends Component<Props, FirebaseOptions>   {
 
     state: FirebaseOptions = {
@@ -21,6 +22,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         getCurrentUserCompany: this.getCurrentUserCompany.bind(this),
         getProductsFromCompany: this.getProductsFromCompany.bind(this),
         getAllCompanies: this.getAllCompanies.bind(this),
+        upLoadImg: this.upLoadImg.bind(this)
         getSingleProduct: this.getSingleProduct.bind(this)
     }
 
@@ -172,11 +174,26 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
     }
 
     async addProduct(product: Product) {
-        
+
         let currentCompany = await this.getCurrentUserCompany()
-   
+        //const imgTest = await this.upLoadImg(product.img)
+
+        let productData = {
+            name: product.name as string,
+            price: product.price as number,
+            company: currentCompany[0].id as string,
+            imgUrls: [] as any[]
+        }
+        
+        await Promise.all(product.img.map( async (img) => {
+            const imgTest = await this.upLoadImg(img)
+            productData.imgUrls.push(imgTest)
+        }))
+
         await addDoc(collection(firebaseCollection.db, "products"), {
-            ...product, company: currentCompany[0].id
+            ...productData
+        }).then(()=> {
+            console.log("product added")
         });
     }
 
@@ -210,7 +227,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
        return result
     }
 
-    async getProductsForCurrentCompanyPage() {
+    async getProductsForCurrentCompanyPage() { //FIXME: remove this and use "getProductsFromCompany" 
         const q = query(collection(firebaseCollection.db, "products"), where("company", "==", "url-param"));
         const querySnapshot = await getDocs(q);   
     }
@@ -224,7 +241,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
           return result
     }
 
-    async getProductsForCompanyPage() {
+    async getProductsForCompanyPage() { //FIXME: remove this and use "getProductsFromCompany" 
         const q = query(collection(firebaseCollection.db, "products"), where("company", "==", "daa"));
         const querySnapshot = await getDocs(q);
         const result: DocumentData[] = []
@@ -236,6 +253,38 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
        });
 
        return result
+    }
+
+    async upLoadImg(file: any) {
+
+        const currentCompany = await this.getCurrentUserCompany() //NOTE: This is being used multiple times in different functions. Find one solution?
+        //Check if user authenticated with company
+        if(!currentCompany[0]) {
+            console.log("YOU ARE NOT AUTHENTICATED")
+            return
+        }
+
+        // Check if uploaded file is an image
+        if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/gif") {
+            alert("You can only upload .jpeg, .jpg, .png and .gif under 10mb")
+            return
+        }
+
+        // Check image file size
+        if (file.size/1024/1024>10) {
+            alert("The image size must be under 10mb")
+            return
+        }
+        
+        const storage = getStorage();
+        const imgName = file.name.split(".")[0]
+        const imgEnding = file.name.split(".")[1]
+        const storageRef = ref(storage, `${currentCompany[0].data.name}/productImages/${imgName + new Date().getTime()}.${imgEnding}`);
+        const uploadTask = await uploadBytesResumable(storageRef, file);
+
+        let imgUrl = await getDownloadURL(uploadTask.ref)
+        return imgUrl
+
     }
 
     async getSingleProduct(docId: string) {
@@ -261,3 +310,4 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         )
     }
 }
+

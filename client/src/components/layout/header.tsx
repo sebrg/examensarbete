@@ -1,6 +1,6 @@
 import React, { CSSProperties, useContext } from 'react';
 import MainNav from './mainNav';
-import marungoFatGreen from "./../../assets/cartLogoWithOutText.png"
+import marungoFatGreen from "./../../assets/baraMlogo.png"
 type Props = {
 	setLoginToggle: any
 	isLoggedIn: boolean | undefined
@@ -36,6 +36,5 @@ const headerStyle: CSSProperties = {
 const logoStyleTest: CSSProperties = {
 	objectFit: "contain", 
 	borderRadius: "15px", 
-/* 	border: "2px solid black", 
-	boxShadow: "inset 0 0 10px black" */
+	padding: "0 10px 0 0"
 }
