@@ -6,6 +6,7 @@ import ImageSlider from './sliderCarousel';
 import Button from './button';
 import { FaCartPlus } from 'react-icons/fa';
 import { Product } from '../../models';
+import { ProductContext, ProductOptions } from '../../context/products/productContext';
 
 
 export default function SingleProduct() {
@@ -13,30 +14,35 @@ export default function SingleProduct() {
     const [product, setProduct] = useState<Product>()
     const [products, setProducts] = useState<Product[]>()
 
-    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const productContext: ProductOptions = useContext(ProductContext)
+
     const match = useMatch("company/:productId/:productName");
     const productId = match?.params.productId
 
-    const getProduct = async () => { // FIXME: Remove getSingleProduct func
+    const getCurrentProduct = async () => { // FIXME: Remove getSingleProduct func
         if(productId && productId !== undefined) {
-            const product = await fbFuncs.getSingleProduct(productId)
-            setProduct(product[0] as Product)  
+            const product = await productContext.functions.getSingleProduct(productId)
+            setProduct(product as Product)  
          
-         
-            if(product && product !== undefined) {
-                const prods = await fbFuncs.getProductsFromCompany(product[0].company)
-                let filteredArray = prods.filter(i => i.name !== product[0].name)
-                setProducts(filteredArray) 
-            }
+        }
+    }
+
+    const getAllProducts = async () => {
+        if(product && product !== undefined && product.company) {
+            const prods = await productContext.functions.getProductsFromCompany(product.company)
+            let filteredArray = prods.filter(i => i.name !== product.name)
+            setProducts(filteredArray as Product[]) 
         }
     }
 
     useEffect(() => {
-        getProduct()
+        getCurrentProduct()
     }, [])
     
     useEffect(() => {
        /*  console.log(product, "single product") */
+       getAllProducts()
     }, [product])
     
     useEffect(() => {
@@ -46,20 +52,20 @@ export default function SingleProduct() {
     function renderProduct() {
         return (               
                 product?
-                        <React.Fragment>
-                            <div style={productDetails}>
+                    <React.Fragment>
+                        <div style={productDetails}>
                             <h1> {product.name} </h1>
                             <h3> {product.price + " " + 'kr'} </h3>
                             <p style={marginBottom}> Product info goes here </p>
-                        <Button
-                            width='30%' 
-                            buttonText={<FaCartPlus/>}
-                            bgColor='#363945'
+                            <Button
+                                width='30%' 
+                                buttonText={<FaCartPlus/>}
+                                bgColor='#363945'
                             />  
-                            </div>
-                        </React.Fragment>          
+                        </div>
+                    </React.Fragment>          
                     :
-                      <h1>Hämtar produkt..</h1>
+                    <h1>Hämtar produkt..</h1>
         )
     }
 
@@ -68,11 +74,11 @@ export default function SingleProduct() {
     function productReel() {
         return (               
                 products?
-                        <React.Fragment>
-                          
-                        </React.Fragment>          
+                    <React.Fragment>
+                        
+                    </React.Fragment>          
                     :
-                      <h1>Hämtar produkt..</h1>
+                    <h1>Hämtar produkt..</h1>
         )
     }
 
@@ -85,16 +91,16 @@ export default function SingleProduct() {
                     {
                         product? 
                             <ImageSlider slides={product.images}/>
-                        :
-                        <p>Kunde inte hitta images</p>    
+                            :
+                            <p>Kunde inte hitta bilderna</p>    
                     }
                 </div>
                 
             </div>
 
-               <div style={productReelStyle}>
+            <div style={productReelStyle}>
                 {productReel()}
-                </div> 
+            </div> 
         </div>
 
         

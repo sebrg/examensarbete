@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, where, WhereFilterOp } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
@@ -18,9 +18,9 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             getProductsFromCompany: this.getProductsFromCompany.bind(this),
             upLoadImg: this.upLoadImg.bind(this),
             getSingleProduct: this.getSingleProduct.bind(this),
-            getAllProducts: this.getAllProducts.bind(this)
-        }
-        
+            getAllProducts: this.getAllProducts.bind(this),
+        },
+        allProducts: []
     }
 
 
@@ -48,20 +48,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         });
     }
 
-/*     async getCurrentUserCompany() {
-        const auth = getAuth();
-        const q = query(collection(firebaseCollection.db, "companies"), where("creator", "==", auth.currentUser?.uid));
-        const querySnapshot = await getDocs(q);
-        const result: DocumentData[] = []
-
-        querySnapshot.forEach((doc) => {
-             // doc.data() is never undefined for query doc snapshots  
-             //console.log({id: doc.id, data: doc.data()});
-             result.push({id: doc.id, data: doc.data()})
-        });
-
-        return result
-    } */
 
     async getProductsFromCompany(companyId: string) {
 
@@ -79,17 +65,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     }
 
    
-
-    async getAllCompanies() {
-        const result: DocumentData[] = []
-        const get = await getDocs(collection(firebaseCollection.db, "companies"));
-        get.forEach((doc) => {
-            result.push({id: doc.id, data: doc.data()})
-          });
-          return result
-    }
-
-
     async upLoadImg(file: any) {
 
         const currentCompany = await this.context.getCurrentUserCompany() //NOTE: This is being used multiple times in different functions. Find one solution?
@@ -123,23 +98,26 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     }
 
     async getSingleProduct(docId: string) {
-        let result: Product 
+        let result: Product | undefined
 
         const docRef = doc(firebaseCollection.db, "products", docId);
         const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
                 result = docSnap.data() as Product
+                console.log(result)
             } 
             else {
                 console.log("No such document!");
                 return
             }
-            if(result !== undefined) {
-                return result
-            }
-       
+            
+            return result
     }
+
+
+
+
 
     async getAllProducts() {
         const result: DocumentData[] = []
@@ -147,7 +125,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         get.forEach((doc) => {
             result.push({id: doc.id, ...doc.data()})
           });
-          return result
+          this.state.allProducts = result as Product[]
     }
 
     render() {
@@ -158,3 +136,36 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         )
     }
 }
+
+
+
+
+
+
+
+
+
+
+//NOTE: Continue develop if u dare
+
+    /** Param description: 
+        ** dbCollection: From what collection to fetch
+        ** fieldPath: The path to compare
+        ** opStr: The operation string (e.g "<", "<=", "==", "<", "<=", "!=").
+        ** value: The value for comparison
+    **/ 
+ /*        async getProducts(fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) {
+       
+            const q = query(collection(firebaseCollection.db, "products"), where(fieldPath, opStr, value));
+            const querySnapshot = await getDocs(q);
+            const result: Product[] = []
+            
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots  
+                //console.log({id: doc.id, data: doc.data()});
+                result.push({id: doc.id, ...doc.data()} as Product)
+           });
+    
+           return result
+        }
+     */

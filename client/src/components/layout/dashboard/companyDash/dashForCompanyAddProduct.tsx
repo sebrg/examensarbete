@@ -9,8 +9,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
-
-   
+    
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
     const [imgArr, setImgArr] = useState<any[] | undefined>(undefined) //NOTE: any type, no good!
