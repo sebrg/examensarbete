@@ -16,7 +16,7 @@ export default function SingleProduct() {
     const match = useMatch("company/:productId/:productName");
     const productId = match?.params.productId
 
-    const getProduct = async () => {
+    const getProduct = async () => { // FIXME: Remove getSingleProduct func
         if(productId && productId !== undefined) {
             const product = await fbFuncs.getSingleProduct(productId)
             setProduct(product)  
