@@ -5,12 +5,13 @@ import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext'
 import ImageSlider from './sliderCarousel';
 import Button from './button';
 import { FaCartPlus } from 'react-icons/fa';
+import { Product } from '../../models';
 
 
 export default function SingleProduct() {
 
-    const [product, setProduct] = useState<DocumentData[]>()
-    const [products, setProducts] = useState<DocumentData[]>()
+    const [product, setProduct] = useState<Product>()
+    const [products, setProducts] = useState<Product[]>()
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const match = useMatch("company/:productId/:productName");
@@ -19,10 +20,12 @@ export default function SingleProduct() {
     const getProduct = async () => { // FIXME: Remove getSingleProduct func
         if(productId && productId !== undefined) {
             const product = await fbFuncs.getSingleProduct(productId)
-            setProduct(product)  
+            setProduct(product[0] as Product)  
+         
+         
             if(product && product !== undefined) {
                 const prods = await fbFuncs.getProductsFromCompany(product[0].company)
-                let filteredArray = prods.filter(i => i.data.name !== product[0].name)
+                let filteredArray = prods.filter(i => i.name !== product[0].name)
                 setProducts(filteredArray) 
             }
         }
@@ -45,8 +48,8 @@ export default function SingleProduct() {
                 product?
                         <React.Fragment>
                             <div style={productDetails}>
-                            <h1> {product[0].name} </h1>
-                            <h3> {product[0].price + " " + 'kr'} </h3>
+                            <h1> {product.name} </h1>
+                            <h3> {product.price + " " + 'kr'} </h3>
                             <p style={marginBottom}> Product info goes here </p>
                         <Button
                             width='30%' 
@@ -81,7 +84,7 @@ export default function SingleProduct() {
                 <div>
                     {
                         product? 
-                            <ImageSlider slides={product[0].images}/>
+                            <ImageSlider slides={product.images}/>
                         :
                         <p>Kunde inte hitta images</p>    
                     }
