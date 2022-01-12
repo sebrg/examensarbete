@@ -7,6 +7,7 @@ import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext'
 import Hero from './hero';
 import { useLocation } from 'react-router-dom';
 
+
 export default function Layout() {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)

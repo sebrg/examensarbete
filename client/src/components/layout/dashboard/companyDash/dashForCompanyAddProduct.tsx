@@ -1,5 +1,6 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
 import { FirebaseContext, FirebaseOptions } from "../../../../context/firebaseContext";
+import { ProductContext, ProductOptions } from "../../../../context/products/productContext";
 import { Product } from "../../../../models";
 import ImgPreview from "../../../functions/imgPreview";
 import Button from "../../button";
@@ -7,6 +8,8 @@ import Button from "../../button";
 export default function DashForCompanyAddProducts(/* props: Props */) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const productContext: ProductOptions = useContext(ProductContext)
+
    
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
@@ -93,7 +96,8 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
             <Button 
                 buttonText='Add product' 
                 onClick={() => {
-                    fbFuncs.addProduct(new Product(name, price, imgArr))
+
+                    productContext.functions.addProduct(new Product(name, price, imgArr))
                     //getProducts()
                 }}
             />

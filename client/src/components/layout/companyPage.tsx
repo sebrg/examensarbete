@@ -1,7 +1,9 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
-import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
+//import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
+import { ProductContext, ProductOptions } from "../../context/products/productContext";
+
 import ProductCard from './productCard';
 import { Product } from '../../models'
 
@@ -10,7 +12,8 @@ export default function CompanyPage() {
 
     const [products, setProducts] = useState<DocumentData[]>()
 
-    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const productContext: ProductOptions = useContext(ProductContext)
 
     
     const match = useMatch("company/:id");
@@ -18,7 +21,7 @@ export default function CompanyPage() {
 
     const getProducts = async () => {
         if(companyId && companyId !== undefined) {
-            const products = await fbFuncs.getProductsFromCompany(companyId)
+            const products = await productContext.functions.getProductsFromCompany(companyId)
             setProducts(products) 
         }
     }
@@ -32,12 +35,12 @@ export default function CompanyPage() {
                         return(
                             <ProductCard key={i} 
                                 bgColor='#EFE1CE'
-                                product={product} 
+                                product={product as Product} 
                                 /* productTitle={product.data.name} 
                                 productPrice={product.data.price} */
                                 width='20vw'
                                 height='auto'
-                                linkTo={`/company/${product.id}/${product.data.name}`}
+                                linkTo={`/company/${product.id}/${product.name}`}
                                 imgWidth='100%'
                                 imgHeight='auto'
                                 /* productImgUrl={product.data.imgUrls[0]} */

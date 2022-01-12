@@ -81,7 +81,7 @@ export default function SingleProduct() {
                 <div>
                     {
                         product? 
-                            <ImageSlider slides={product[0].imgUrls}/>
+                            <ImageSlider slides={product[0].images}/>
                         :
                         <p>Kunde inte hitta images</p>    
                     }

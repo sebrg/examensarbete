@@ -23,7 +23,7 @@ type Props = {
     imgHeight?: string
     imgWidth?: string
     displayProductInfo?: string
-    product: DocumentData
+    product: Product
 }
 
 
@@ -44,11 +44,11 @@ export default function ProductCard(props: Props) {
                     }}
                 >
 
-                <Link style={imgFrame} to={props.linkTo}> <img style={{width: props.imgWidth, height: props.imgHeight}} src={props.product.data.imgUrls[0]} alt="" /></Link>
+                <Link style={imgFrame} to={props.linkTo}> <img style={{width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" /></Link>
                 <div style={cardFrame}> 
                     <p style={{display: props.displayProductInfo}}> {/* {props.ProductInfo} */} product info goes here</p>
-                    <h3>{props.product.data.name}</h3>
-                    <h4> {props.product.data.price + ' ' + 'kr'} </h4>
+                    <h3>{props.product.name}</h3>
+                    <h4> {props.product.price + ' ' + 'kr'} </h4>
                     <AddToCartBtn product={props.product}/>
                 </div> 
                      
@@ -65,11 +65,11 @@ export default function ProductCard(props: Props) {
                         height: props.height
                     }}
                 >
-                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.data.imgUrls[0]} alt="" />
+                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
                 <div style={cardFrame}> 
                     <p> {/* {props.ProductInfo} */} product info goes here</p>
-                    <h3>{props.product.data.name}</h3>
-                    <h4> {props.product.data.price + ' ' + 'kr'} </h4>
+                    <h3>{props.product.name}</h3>
+                    <h4> {props.product.price + ' ' + 'kr'} </h4>
                     <AddToCartBtn product={props.product}/>  
                 </div> 
             </div>

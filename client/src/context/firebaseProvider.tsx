@@ -186,7 +186,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
             imgUrls: [] as any[]
         }
         
-        await Promise.all(product.img.map( async (img) => {
+        await Promise.all(product.images.map( async (img) => {
             const imgTest = await this.upLoadImg(img)
             productData.imgUrls.push(imgTest)
         }))
