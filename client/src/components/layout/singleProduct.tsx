@@ -5,7 +5,6 @@ import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext'
 import ImageSlider from './sliderCarousel';
 import Button from './button';
 import { FaCartPlus } from 'react-icons/fa';
-import ProductCard from './productCard';
 
 
 export default function SingleProduct() {
@@ -17,7 +16,7 @@ export default function SingleProduct() {
     const match = useMatch("company/:productId/:productName");
     const productId = match?.params.productId
 
-    const getProduct = async () => {
+    const getProduct = async () => { // FIXME: Remove getSingleProduct func
         if(productId && productId !== undefined) {
             const product = await fbFuncs.getSingleProduct(productId)
             setProduct(product)  
@@ -34,7 +33,7 @@ export default function SingleProduct() {
     }, [])
     
     useEffect(() => {
-        /* console.log(product, "single product") */
+       /*  console.log(product, "single product") */
     }, [product])
     
     useEffect(() => {
@@ -80,7 +79,12 @@ export default function SingleProduct() {
             <div style={productInfoDiv}>
                 {renderProduct()}
                 <div>
-                    <ImageSlider/>
+                    {
+                        product? 
+                            <ImageSlider slides={product[0].imgUrls}/>
+                        :
+                        <p>Kunde inte hitta images</p>    
+                    }
                 </div>
                 
             </div>
