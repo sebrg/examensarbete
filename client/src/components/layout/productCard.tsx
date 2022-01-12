@@ -1,14 +1,17 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import Button from './button'
+import AddToCartBtn from './cart/addToCartBtn';
+import { Product } from '../../models'
+import { DocumentData } from 'firebase/firestore';
 
 
 
 type Props = {
-    ProductInfo?: string
-    productTitle: string
-    productPrice: string
-    productImgUrl?: string
+  /*   ProductInfo?: string
+    productTitle?: string
+    productPrice?: string
+    productImgUrl?: string */
     bgColor?: string
     width?: string
     height?: string
@@ -20,12 +23,13 @@ type Props = {
     imgHeight?: string
     imgWidth?: string
     displayProductInfo?: string
+    product: DocumentData
 }
 
 
 export default function ProductCard(props: Props) {
 
- 
+    
     return (
         props.linkTo?
             <div 
@@ -40,13 +44,14 @@ export default function ProductCard(props: Props) {
                     }}
                 >
 
-                <Link style={imgFrame} to={props.linkTo}> <img style={{width: props.imgWidth, height: props.imgHeight}} src={props.productImgUrl} alt="" /></Link>
+                <Link style={imgFrame} to={props.linkTo}> <img style={{width: props.imgWidth, height: props.imgHeight}} src={props.product.data.imgUrls[0]} alt="" /></Link>
                 <div style={cardFrame}> 
-                    <p style={{display: props.displayProductInfo}}> {props.ProductInfo} product info goes here</p>
-                    <h3>{props.productTitle}</h3>
-                    <h4> {props.productPrice + ' ' + 'kr'} </h4>
+                    <p style={{display: props.displayProductInfo}}> {/* {props.ProductInfo} */} product info goes here</p>
+                    <h3>{props.product.data.name}</h3>
+                    <h4> {props.product.data.price + ' ' + 'kr'} </h4>
+                    <AddToCartBtn product={props.product}/>
                 </div> 
-                    <Button width='100%' buttonText='Lägg till i kundvagn' bgColor='#98DDDE'/>  
+                     
             </div>
             :
             <div 
@@ -60,12 +65,12 @@ export default function ProductCard(props: Props) {
                         height: props.height
                     }}
                 >
-                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.productImgUrl} alt="" />
+                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.data.imgUrls[0]} alt="" />
                 <div style={cardFrame}> 
-                    <p> {props.ProductInfo} product info goes here</p>
-                    <h3>{props.productTitle}</h3>
-                    <h4> {props.productPrice + ' ' + 'kr'} </h4>
-                    <Button width='100%' buttonText='Lägg till i kundvagn' bgColor='#98DDDE'/>  
+                    <p> {/* {props.ProductInfo} */} product info goes here</p>
+                    <h3>{props.product.data.name}</h3>
+                    <h4> {props.product.data.price + ' ' + 'kr'} </h4>
+                    <AddToCartBtn product={props.product}/>  
                 </div> 
             </div>
             

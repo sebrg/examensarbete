@@ -3,6 +3,7 @@ import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 import ProductCard from './productCard';
+import { Product } from '../../models'
 
 
 export default function CompanyPage() {
@@ -30,15 +31,16 @@ export default function CompanyPage() {
                     products.map((product, i) => {
                         return(
                             <ProductCard key={i} 
-                                bgColor='#EFE1CE' 
-                                productTitle={product.data.name} 
-                                productPrice={product.data.price}
+                                bgColor='#EFE1CE'
+                                product={product} 
+                                /* productTitle={product.data.name} 
+                                productPrice={product.data.price} */
                                 width='20vw'
                                 height='auto'
                                 linkTo={`/company/${product.id}/${product.data.name}`}
                                 imgWidth='100%'
                                 imgHeight='auto'
-                                productImgUrl={product.data.imgUrls[0]}
+                                /* productImgUrl={product.data.imgUrls[0]} */
                             />     
                         )
                     })
