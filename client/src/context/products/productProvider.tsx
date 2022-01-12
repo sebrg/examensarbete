@@ -19,6 +19,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             upLoadImg: this.upLoadImg.bind(this),
             getSingleProduct: this.getSingleProduct.bind(this),
             getAllProducts: this.getAllProducts.bind(this),
+            getProducts: this.getProducts.bind(this)
         },
         allProducts: []
     }
@@ -47,6 +48,28 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             console.log("product added")
         });
     }
+
+       /** Param description: 
+        ** dbCollection: From what collection to fetch
+        ** fieldPath: The path to compare
+        ** opStr: The operation string (e.g "<", "<=", "==", "<", "<=", "!=").
+        ** value: The value for comparison
+    **/ 
+        async getProducts(dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) {
+       
+            const q = query(collection(firebaseCollection.db, dbCollection), where(fieldPath, opStr, value));
+            const querySnapshot = await getDocs(q);
+            const result: Product[] = []
+            
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots  
+                //console.log({id: doc.id, data: doc.data()});
+                result.push({id: doc.id, ...doc.data()} as Product)
+           });
+    
+           return result
+        }
+    
 
 
     async getProductsFromCompany(companyId: string) {

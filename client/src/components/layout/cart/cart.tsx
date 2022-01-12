@@ -11,16 +11,17 @@ export default function Cart() {
 
     //productContext.functions.getAllProducts()
     
-    const test = async () => {
+    const getCart = async () => {
         let localst: string | null = localStorage.getItem('cart')
         if(localst) {
             let parsedLocal = JSON.parse(localst)
-        
+            let cart = await productContext.functions.getProducts("products", documentId(), 'in', parsedLocal)
+            console.log(cart, "products in cart")
         }
     }
 
     useEffect(() => {
-        test()
+        getCart()
     }, [])
 
     useEffect(() => {
