@@ -15,6 +15,7 @@ type Props = {
     id?: string
     backgroundPosition?: string,
     icon?: ReactElement
+    iconMargin?: string
 }
 
 
@@ -36,6 +37,7 @@ export default function Button(props: Props) {
                         color: props.color, 
                         margin: props.margin,
                         backgroundPosition: props.backgroundPosition,
+                        justifyContent: "center"
                         
                     }}
                 >
@@ -46,7 +48,7 @@ export default function Button(props: Props) {
 
                     {
                         props.icon?
-                            <p style={{marginLeft: "0.5em", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <p style={{margin: props.iconMargin, display: "flex", justifyContent: "center", alignItems: "center"}}>
                                 {props.icon}
                             </p>
                         :
@@ -68,6 +70,7 @@ export default function Button(props: Props) {
                     color: props.color, 
                     margin: props.margin,
                     backgroundPosition: props.backgroundPosition,
+                    justifyContent: "center"
                 }}
             >
 
@@ -77,7 +80,7 @@ export default function Button(props: Props) {
 
                 {
                     props.icon?
-                        <p style={{marginLeft: "0.5em", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <p style={{margin: props.iconMargin, display: "flex", justifyContent: "center", alignItems: "center"}}>
                             {props.icon}
                         </p>
                     :
