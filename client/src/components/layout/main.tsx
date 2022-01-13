@@ -35,7 +35,7 @@ export default function Main(props: Props) {
 
     return (
 
-		<main ref={props.passedRef} style={mainStyle}>
+		<main className="noScrollBar" ref={props.passedRef} style={mainStyle}>
 			<Routes>
 				<Route path='/' element={<Start/>} />
 				<Route 
@@ -55,6 +55,7 @@ export default function Main(props: Props) {
 }
 
 const mainStyle: CSSProperties = {
-  minHeight: "85%"
+  minHeight: "85%",
+  overflowY: "auto"
 }
 
