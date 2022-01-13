@@ -1,8 +1,8 @@
 import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
-import DashContent from './dashboard/dashContent';
-import DashNav from './dashboard/dashNav';
+import DashContent from '../dashboard/dashContent';
+import DashNav from '../dashboard/dashNav';
 
 
 

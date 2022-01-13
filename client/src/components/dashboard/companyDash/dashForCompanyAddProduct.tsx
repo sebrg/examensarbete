@@ -1,13 +1,15 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
-import { FirebaseContext, FirebaseOptions } from "../../../../context/firebaseContext";
-import { Product } from "../../../../models";
-import ImgPreview from "../../../functions/imgPreview";
-import Button from "../../button";
+import { FirebaseContext, FirebaseOptions } from "../../../context/firebaseContext";
+import { ProductContext, ProductOptions } from "../../../context/products/productContext";
+import { Product } from "../../../models";
+import ImgPreview from "../../functions/imgPreview";
+import Button from "../../UI/button";
 
 export default function DashForCompanyAddProducts(/* props: Props */) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-   
+    const productContext: ProductOptions = useContext(ProductContext)
+    
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
     const [imgArr, setImgArr] = useState<any[] | undefined>(undefined) //NOTE: any type, no good!
@@ -93,7 +95,8 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
             <Button 
                 buttonText='Add product' 
                 onClick={() => {
-                    fbFuncs.addProduct(new Product(name, price, imgArr))
+
+                    productContext.functions.addProduct(new Product(name, price, imgArr))
                     //getProducts()
                 }}
             />

@@ -1,27 +1,33 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
-import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
-import ProductCard from './productCard';
+import { ProductContext, ProductOptions } from "../../context/products/productContext";
+
+import ProductCard from '../UI/productCard';
+import { Product } from '../../models'
 
 
 export default function CompanyPage() {
 
-    const [products, setProducts] = useState<DocumentData[]>()
+    const productContext: ProductOptions = useContext(ProductContext)
+    const [products, setProducts] = useState<Product[]>()
 
-    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
 
     
-    const match = useMatch("company/:id");
-    const companyId = match?.params.id
+    const params = useMatch(":param")?.params;
+    const companyName = params?.param?.split("-")[0]
+    const companyId = params?.param?.split("-")[1]
+
+    console.log(companyId)
+
 
     const getProducts = async () => {
         if(companyId && companyId !== undefined) {
-            const products = await fbFuncs.getProductsFromCompany(companyId)
+            const products = await productContext.functions.getProducts("products", "company", "==", companyId)
             setProducts(products) 
         }
     }
-
+   
     function renderProducts() {
         return ( 
             <div style={coPage}>
@@ -30,15 +36,16 @@ export default function CompanyPage() {
                     products.map((product, i) => {
                         return(
                             <ProductCard key={i} 
-                                bgColor='#EFE1CE' 
-                                productTitle={product.data.name} 
-                                productPrice={product.data.price}
+                                bgColor='#EFE1CE'
+                                product={product as Product} 
+                                /* productTitle={product.data.name} 
+                                productPrice={product.data.price} */
                                 width='20vw'
                                 height='auto'
-                                linkTo={`/company/${product.id}/${product.data.name}`}
+                                linkTo={`${product.name}-${product.id}`}
                                 imgWidth='100%'
                                 imgHeight='auto'
-                                productImgUrl={product.data.imgUrls[0]}
+                                /* productImgUrl={product.data.imgUrls[0]} */
                             />     
                         )
                     })

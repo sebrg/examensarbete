@@ -1,7 +1,7 @@
 import React, { CSSProperties, useContext, useState } from 'react';
-import Button from '../../button';
-import { FirebaseContext, FirebaseOptions } from "../../../../context/firebaseContext";
-import { Company, Product } from "../../../../models"
+import Button from '../../UI/button';
+import { FirebaseContext, FirebaseOptions } from "../../../context/firebaseContext";
+import { Company, Product } from "../../../models"
 
 
 export default function DashRegisterCompany() {

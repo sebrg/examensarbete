@@ -1,6 +1,6 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
-import Button from './button';
+import Button from '../UI/button';
 import { DocumentData } from 'firebase/firestore';
 
 
@@ -23,7 +23,7 @@ export default function CompanyList() {
                 companies?    
                     companies.map((company, i) => {
                         return( 
-                            <Button key={i} linkTo={`/company/${company.id}`} buttonText={`${company.data.name}`}></Button>
+                            <Button key={i} linkTo={`/${company.data.name.replace(" ", '')}-${company.id}`} buttonText={`${company.data.name}`}></Button>
                         )
                     })
                     :

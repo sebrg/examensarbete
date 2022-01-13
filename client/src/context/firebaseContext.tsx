@@ -19,6 +19,7 @@ export interface FirebaseOptions {
     getAllCompanies: () => Promise<DocumentData[]>
     upLoadImg: (file: any) => void 
     getSingleProduct: (docId: string) => Promise<DocumentData[]>
+    getAllProducts: () => Promise<DocumentData[]>
 
    // users?: User[]
 }
@@ -38,7 +39,8 @@ export const FirebaseContext = createContext({
     getProductsFromCompany: (companyId: string) => {},
     getAllCompanies: () => {},
     upLoadImg: (file: any) => {},
-    getSingleProduct: (docId: string) => {}
+    getSingleProduct: (docId: string) => {},
+    getAllProducts: () => {}
 
     /* users: undefined */
         

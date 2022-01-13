@@ -23,7 +23,8 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         getProductsFromCompany: this.getProductsFromCompany.bind(this),
         getAllCompanies: this.getAllCompanies.bind(this),
         upLoadImg: this.upLoadImg.bind(this),
-        getSingleProduct: this.getSingleProduct.bind(this)
+        getSingleProduct: this.getSingleProduct.bind(this),
+        getAllProducts: this.getAllProducts.bind(this)
     }
 
     //User functions
@@ -185,7 +186,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
             imgUrls: [] as any[]
         }
         
-        await Promise.all(product.img.map( async (img) => {
+        await Promise.all(product.images.map( async (img) => {
             const imgTest = await this.upLoadImg(img)
             productData.imgUrls.push(imgTest)
         }))
@@ -227,10 +228,10 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
        return result
     }
 
-    async getProductsForCurrentCompanyPage() { //FIXME: remove this and use "getProductsFromCompany" 
+    /* async getProductsForCurrentCompanyPage() { //FIXME: remove this and use "getProductsFromCompany" 
         const q = query(collection(firebaseCollection.db, "products"), where("company", "==", "url-param"));
         const querySnapshot = await getDocs(q);   
-    }
+    } */
 
     async getAllCompanies() {
         const result: DocumentData[] = []
@@ -241,7 +242,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
           return result
     }
 
-    async getProductsForCompanyPage() { //FIXME: remove this and use "getProductsFromCompany" 
+    /* async getProductsForCompanyPage() { //FIXME: remove this and use "getProductsFromCompany" 
         const q = query(collection(firebaseCollection.db, "products"), where("company", "==", "daa"));
         const querySnapshot = await getDocs(q);
         const result: DocumentData[] = []
@@ -253,7 +254,7 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
        });
 
        return result
-    }
+    } */
 
     async upLoadImg(file: any) {
 
@@ -299,6 +300,15 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
                 }
                 
             return result
+    }
+
+    async getAllProducts() {
+        const result: DocumentData[] = []
+        const get = await getDocs(collection(firebaseCollection.db, "products"));
+        get.forEach((doc) => {
+            result.push({id: doc.id, data: doc.data()})
+          });
+          return result
     }
 
 

@@ -3,7 +3,7 @@ import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
-import Button from './button';
+import Button from '../UI/button';
 
 
 type Props = {
@@ -27,7 +27,7 @@ export default function MainNav(props: Props) {
   
                 <Button linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
                 {/* <Button linkTo={"/"} buttonText='Logout' onClick={() => fbFuncs.logOut()} /> */}
-            
+                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`}/>
 
             </nav>
             :
@@ -36,6 +36,8 @@ export default function MainNav(props: Props) {
                 {/*TODO: Remove the mypages row beneth. Only here for testing */}
                 {/* <Button onClick={() =>  navigate(`/myPages/${auth.currentUser?.uid}`)} buttonText='Mina sidor' /> */} 
                 <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
+                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`}/>
+                
             </nav>
     );
 }
