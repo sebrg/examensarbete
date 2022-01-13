@@ -1,15 +1,14 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
 import { FirebaseContext, FirebaseOptions } from "../../../context/firebaseContext";
-import { ProductContext, ProductOptions } from "../../../context/products/productContext";
 import { Product } from "../../../models";
 import ImgPreview from "../../functions/imgPreview";
 import Button from "../../UI/button";
+import { AiOutlineFileAdd } from 'react-icons/ai';
 
 export default function DashForCompanyAddProducts(/* props: Props */) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-    const productContext: ProductOptions = useContext(ProductContext)
-    
+   
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
     const [imgArr, setImgArr] = useState<any[] | undefined>(undefined) //NOTE: any type, no good!
@@ -36,11 +35,16 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
     }
 
     const removeImgFromArr = (img: any) => { 
-        if(imgArr) {
+        if(imgArr && imgArr.length > 1) {
             let originalArray = [...imgArr]
             let filteredArray = originalArray.filter(i => i.name !== img.name)
             setImgArr(filteredArray)
         }
+        else {
+            setImgArr(undefined)
+        }
+        
+        
     }
     
 
@@ -52,7 +56,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
 
     return (
 		  
-        <div id="dashEditProducts" style={dashAddProductsStyle}>
+        <div id="dashAddProducts" style={dashAddProductsStyle}>
             <input 
                 style={addProductInputStyle} 
                 placeholder='Product name' 
@@ -63,13 +67,13 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                 placeholder='Product price'
                 onChange={(event) => updatePrice(event)}
             />
-           {/*  <div style={uploadWrappStyle}> */}
 
 
+            <div id="imgUploadInput" style={uploadWrappStyle}>
 
-                <label style={{position: "relative", width: "100%", height: "20%"}}>
+                <label style={{position: "relative", minWidth: "20%", height: "100%"}}>
                     <div style={uploadBtn}>
-                        +
+                        <AiOutlineFileAdd fontSize={"4em"}/>
                     </div>
                     <input 
                         style={uploadInputStyle}
@@ -81,27 +85,24 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                     />
                 </label>
 
-
-
-
-         {/*    </div> */}
+                <ImgPreview imgArr={imgArr} removeFunc={removeImgFromArr} />
+            </div>
 
         
 
-                <ImgPreview imgArr={imgArr} removeFunc={removeImgFromArr} />
     
 
-        <div>
-            <Button 
-                buttonText='Add product' 
-                onClick={() => {
-
-                    productContext.functions.addProduct(new Product(name, price, imgArr))
-                    //getProducts()
-                }}
-            />
+            <div style={{marginTop: "auto", width: "50%"}}>
+                <Button 
+                    buttonText='Add product'
+                    width="100%" 
+                    onClick={() => {
+                        fbFuncs.addProduct(new Product(name, price, imgArr))
+                        //getProducts()
+                    }}
+                />
+            </div>
         </div>
-    </div>
     );
 }
 
@@ -128,7 +129,7 @@ const uploadInputStyle: CSSProperties = {
     top: 0,
     bottom: 0,
     opacity: 0,
-    width: "25%",
+    width: "100%",
     cursor: "pointer",
 
 }
@@ -137,10 +138,18 @@ const uploadBtn: CSSProperties = {
     position: "absolute",
     top: 0,
     bottom: 0,
-    width: "25%",
-    backgroundColor: "red",
+    width: "100%",
+    backgroundColor: "rgb(146 209 170)",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderRadius: "10px",
+    
 }
 
+const uploadWrappStyle: CSSProperties = {
+    width: "100%",
+    height: "20%",
+    display: "flex",
+    
+}

@@ -34,12 +34,13 @@ export default function DashCompanyNav() {
 
 const dashCompanyNavStyle: CSSProperties = {
     width: "100%",
-    height: "10%",
-    backgroundColor: "pink",
+    height: "20%",
+    backgroundColor: "rgb(49, 52, 68)",
     display: "flex",
-    padding: "0.5em",
+    padding: "1.2em",
     borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
+    boxShadow: "0 -30px 20px 10px black",
 /*     boxShadow: "0 10px 10px -10px black",
     WebkitBoxShadow: "0 10px 10px -10px black", */
 }
