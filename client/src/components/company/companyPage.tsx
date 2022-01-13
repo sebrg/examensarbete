@@ -1,31 +1,33 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
-//import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 import { ProductContext, ProductOptions } from "../../context/products/productContext";
 
-import ProductCard from './productCard';
+import ProductCard from '../UI/productCard';
 import { Product } from '../../models'
 
 
 export default function CompanyPage() {
 
-    const [products, setProducts] = useState<DocumentData[]>()
-
-    //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
+    const [products, setProducts] = useState<Product[]>()
+
 
     
-    const match = useMatch("company/:id");
-    const companyId = match?.params.id
+    const params = useMatch(":param")?.params;
+    const companyName = params?.param?.split("-")[0]
+    const companyId = params?.param?.split("-")[1]
+
+    console.log(companyId)
+
 
     const getProducts = async () => {
         if(companyId && companyId !== undefined) {
-            const products = await productContext.functions.getProductsFromCompany(companyId)
+            const products = await productContext.functions.getProducts("products", "company", "==", companyId)
             setProducts(products) 
         }
     }
-
+   
     function renderProducts() {
         return ( 
             <div style={coPage}>
@@ -40,7 +42,7 @@ export default function CompanyPage() {
                                 productPrice={product.data.price} */
                                 width='20vw'
                                 height='auto'
-                                linkTo={`/company/${product.id}/${product.name}`}
+                                linkTo={`${product.name}-${product.id}`}
                                 imgWidth='100%'
                                 imgHeight='auto'
                                 /* productImgUrl={product.data.imgUrls[0]} */

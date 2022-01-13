@@ -1,8 +1,8 @@
 import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import "../../../animations.css"
-import { FirebaseOptions, FirebaseContext } from '../../../context/firebaseContext';
+import "../../animations.css"
+import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 
 
 export default function DashNav() {

@@ -1,9 +1,9 @@
-import { DocumentData } from 'firebase/firestore';
+import { DocumentData, documentId } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
-import ImageSlider from './sliderCarousel';
-import Button from './button';
+import ImageSlider from '../UI/sliderCarousel';
+import Button from '../UI/button';
 import { FaCartPlus } from 'react-icons/fa';
 import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
@@ -17,37 +17,45 @@ export default function SingleProduct() {
     //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
 
-    const match = useMatch("company/:productId/:productName");
-    const productId = match?.params.productId
+    const params = useMatch(":company/:product")?.params;
+    const productName = params?.product?.split("-")[0]
+    const productId = params?.product?.split("-")[1]
+    const companyName = params?.company?.split("-")[0]
+    const companyId = params?.company?.split("-")[1]
+    
+
+
+
+    const getProducts = async () => {
+        if(companyId && companyId !== undefined) {
+            const products = await productContext.functions.getProducts("products", "company", "==", companyId)
+            setProducts(products) 
+        }
+    }
 
     const getCurrentProduct = async () => { // FIXME: Remove getSingleProduct func
-        if(productId && productId !== undefined) {
-            const product = await productContext.functions.getSingleProduct(productId)
-            setProduct(product as Product)  
-         
+        if(products?.length) {
+            let filteredProducts = products.filter(product => product.id == productId)
+            setProduct(filteredProducts[0])
         }
     }
 
-    const getAllProducts = async () => {
-        if(product && product !== undefined && product.company) {
-            const prods = await productContext.functions.getProductsFromCompany(product.company)
-            let filteredArray = prods.filter(i => i.name !== product.name)
-            setProducts(filteredArray as Product[]) 
-        }
-    }
+
 
     useEffect(() => {
-        getCurrentProduct()
+        getProducts()
     }, [])
-    
-    useEffect(() => {
-       /*  console.log(product, "single product") */
-       getAllProducts()
-    }, [product])
-    
+
     useEffect(() => {
         console.log(products, "all products")
+        getCurrentProduct()
     }, [products])
+    
+    useEffect(() => {
+       console.log(product, "single product")
+    }, [product])
+    
+
 
     function renderProduct() {
         return (               

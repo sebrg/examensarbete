@@ -1,8 +1,8 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { FirebaseContext, FirebaseOptions } from '../../../../context/firebaseContext';
-import Button from '../../button';
-import { Product } from "../../../../models"
+import { FirebaseContext, FirebaseOptions } from '../../../context/firebaseContext';
+import Button from '../../UI/button';
+import { Product } from "../../../models"
 import { DocumentData } from 'firebase/firestore';
 import DashForCompanyAddProducts from './dashForCompanyAddProduct';
 

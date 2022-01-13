@@ -55,7 +55,7 @@ const img: CSSProperties = {
     width: '30vw',
     height: '50vh',
     position: 'absolute',
-    objectFit: 'cover',
+    objectFit: 'contain',
     border: '1px solid black',
     borderRadius: '5px'
 }

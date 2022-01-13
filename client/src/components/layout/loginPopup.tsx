@@ -1,7 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
-import Button from './button';
+import Button from '../UI/button';
 
 type Props = {
     setLoginToggle: any

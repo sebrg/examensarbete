@@ -1,9 +1,9 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
-import { FirebaseContext, FirebaseOptions } from "../../../../context/firebaseContext";
-import { ProductContext, ProductOptions } from "../../../../context/products/productContext";
-import { Product } from "../../../../models";
-import ImgPreview from "../../../functions/imgPreview";
-import Button from "../../button";
+import { FirebaseContext, FirebaseOptions } from "../../../context/firebaseContext";
+import { ProductContext, ProductOptions } from "../../../context/products/productContext";
+import { Product } from "../../../models";
+import ImgPreview from "../../functions/imgPreview";
+import Button from "../../UI/button";
 
 export default function DashForCompanyAddProducts(/* props: Props */) {
 

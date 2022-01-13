@@ -17,7 +17,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             //getCurrentUserCompany: this.getCurrentUserCompany.bind(this),
             getProductsFromCompany: this.getProductsFromCompany.bind(this),
             upLoadImg: this.upLoadImg.bind(this),
-            getSingleProduct: this.getSingleProduct.bind(this),
+            //getSingleProduct: this.getSingleProduct.bind(this),
             getAllProducts: this.getAllProducts.bind(this),
             getProducts: this.getProducts.bind(this)
         },
@@ -120,7 +120,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
     }
 
-    async getSingleProduct(docId: string) {
+/*     async getSingleProduct(docId: string) {
         let result: Product | undefined
 
         const docRef = doc(firebaseCollection.db, "products", docId);
@@ -136,9 +136,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             }
             
             return result
-    }
-
-
+    } */
 
 
 
@@ -162,33 +160,3 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
 
 
-
-
-
-
-
-
-
-//NOTE: Continue develop if u dare
-
-    /** Param description: 
-        ** dbCollection: From what collection to fetch
-        ** fieldPath: The path to compare
-        ** opStr: The operation string (e.g "<", "<=", "==", "<", "<=", "!=").
-        ** value: The value for comparison
-    **/ 
- /*        async getProducts(fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) {
-       
-            const q = query(collection(firebaseCollection.db, "products"), where(fieldPath, opStr, value));
-            const querySnapshot = await getDocs(q);
-            const result: Product[] = []
-            
-            querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots  
-                //console.log({id: doc.id, data: doc.data()});
-                result.push({id: doc.id, ...doc.data()} as Product)
-           });
-    
-           return result
-        }
-     */

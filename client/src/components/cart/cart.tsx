@@ -1,7 +1,7 @@
 import { DocumentData, documentId } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { FirebaseOptions, FirebaseContext } from '../../../context/firebaseContext';
-import { ProductContext, ProductOptions } from '../../../context/products/productContext';
+import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
+import { ProductContext, ProductOptions } from '../../context/products/productContext';
 
 export default function Cart() {
 

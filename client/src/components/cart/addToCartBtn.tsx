@@ -1,6 +1,6 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import Button from '../button'
-import { Product } from '../../../models'
+import Button from '../UI/button'
+import { Product } from '../../models'
 import { DocumentData } from 'firebase/firestore';
 type Props = { //FIXME Fix correct types
     product: DocumentData
