@@ -4,7 +4,7 @@ import "../../animations.css"
 import { Link } from 'react-router-dom';
 
 type Props = {
-    buttonText?: string | ReactElement
+    buttonText?: string
     bgColor?: string
     width?: string
     height?: string
@@ -14,6 +14,7 @@ type Props = {
     margin?: string
     id?: string
     backgroundPosition?: string,
+    icon?: ReactElement
 }
 
 
@@ -38,9 +39,20 @@ export default function Button(props: Props) {
                         
                     }}
                 >
+
                     <p style={centerText}>
                         {props.buttonText}
                     </p>
+
+                    {
+                        props.icon?
+                            <p style={{marginLeft: "0.5em", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                {props.icon}
+                            </p>
+                        :
+                            null
+                    }
+
                 </div>
             </Link>
             :
@@ -58,9 +70,21 @@ export default function Button(props: Props) {
                     backgroundPosition: props.backgroundPosition,
                 }}
             >
+
                 <p style={centerText}>
                     {props.buttonText}
                 </p>
+
+                {
+                    props.icon?
+                        <p style={{marginLeft: "0.5em", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            {props.icon}
+                        </p>
+                    :
+                        null
+                }
+
+
             </div>
     );
 }
@@ -82,6 +106,5 @@ const LinkStyle: CSSProperties = {
 
 const centerText: CSSProperties = {
     textAlign: 'center', 
-    width: '100%'
 }
 

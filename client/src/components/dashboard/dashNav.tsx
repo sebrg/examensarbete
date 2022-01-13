@@ -14,7 +14,7 @@ export default function DashNav() {
     const currentDashPage = url.split("/")[3]
     const linksForDashNav = [
         {
-            name: "Om mig", 
+            name: "Mitt konto", 
             to: ""
         },
         {

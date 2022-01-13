@@ -45,7 +45,7 @@ export default function DashForCompanyProducts() {
                     margin='0 0 0.5em 0' 
                     /* width="30%" */ 
                     buttonText='See all products' 
-                    bgColor={productAlternativ === "show"? "pink" : ""}
+                    bgColor={productAlternativ === "show"? "rgb(49, 52, 68)" : ""}
                     onClick={() => setProductAlternativ('show')} 
                     
                 />
@@ -55,7 +55,7 @@ export default function DashForCompanyProducts() {
                     margin='0 0 0.5em 0' 
                     /* width="30%"  */
                     buttonText='Add/edit product'
-                    bgColor={productAlternativ === "add"? "pink" : ""}
+                    bgColor={productAlternativ === "add"? "rgb(49, 52, 68)" : ""}
 
                 />
             </div>
@@ -84,7 +84,7 @@ export default function DashForCompanyProducts() {
 
 const dashProductsStyle: CSSProperties = {
     width: "100%",
-    height: "90%",
+    height: "80%",
     padding: "1em",
     display: "flex"
 }
