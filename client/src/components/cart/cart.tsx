@@ -28,6 +28,10 @@ export default function Cart() {
                         cartItem.quantity = foundItem.quantity
                     }
                 }) 
+                
+                let sortedCart = []
+                console.log(cart.filter((cartItem) => cartItem.company))
+                
                 setProductsInCart(cart)
             } 
             else {
@@ -36,8 +40,24 @@ export default function Cart() {
         }
     }
 
+    const sortCart = () => {
+        const sortedCart: any[] = []
+
+        productsInCart?.map((itemInCart) => {
+            if(!sortedCart.length) {
+                
+                sortedCart.push({company: itemInCart.company, products: [itemInCart]})
+                console.log("sorted: ", sortedCart)
+            }
+          
+
+        })
+        console.log("final sortedCart: ", sortedCart)
+    }
+
     useEffect(() => {
         syncCart()
+
     }, [])
 
     useEffect(() => {
@@ -48,6 +68,7 @@ export default function Cart() {
     
 
     return (
+
 		<div id="cartProductsWrapper" style={cartProductsWrapperStyle}>
             { 
                 productsInCart?    
@@ -60,7 +81,7 @@ export default function Cart() {
                                     height='100%'
                                     imgWidth='100%'
                                     imgHeight='auto'
-                                    linkTo={`${product.name}-${product.id}`}
+                                    linkTo={`/${product.name}-${product.id}`} //FIXME: gör om routing, singleProduct behöver inte vara child till company pages
                                     displayProductInfo={false}
                                 >     
                                     
@@ -70,7 +91,7 @@ export default function Cart() {
                             )
                         })
                     :
-                    <p>*SPINNER* ELLER "VARUKORGEN ÄR TOM"</p>
+                    <p>Din varukorg är tom</p>
             } 
         </div>
     );
