@@ -56,7 +56,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         ** value: The value for comparison
     **/ 
         async getProducts(dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) {
-       
+            //FIXME: remove param dbCollection and replace with "products"
             const q = query(collection(firebaseCollection.db, dbCollection), where(fieldPath, opStr, value));
             const querySnapshot = await getDocs(q);
             const result: Product[] = []

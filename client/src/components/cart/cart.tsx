@@ -2,9 +2,16 @@ import { DocumentData, documentId } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
+import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { Product } from '../../models';
 import ProductCard from '../UI/productCard';
 import CartProductController from './cartProductController';
+
+type Cart = {
+    companyId: string
+    companyName: string
+    products: Product[]
+}
 
 /**
  * The cart synchronize ID'S saved in the localstorage to fetch the correct product data from the DB and 
@@ -12,27 +19,47 @@ import CartProductController from './cartProductController';
  * */ 
 export default function Cart() {
 
-    const [productsInCart, setProductsInCart] = useState<Product[]>()
     const productContext: ProductOptions = useContext(ProductContext)
+    const companyContext: CompanyOptions = useContext(CompanyContext)
+
+    const [productsInCart, setProductsInCart] = useState<Cart[]>()
 
     const syncCart = async () => {
+        //Get products from DB
         let localst: string | null = localStorage.getItem('cart')
         if(localst) {
             let parsedLocal = JSON.parse(localst)
             if(parsedLocal.length) {
                 
                 let cart = await productContext.functions.getProducts("products", documentId(), 'in', parsedLocal.map((localItem: any) => { return localItem.id }))
-                cart.map((cartItem: any) => {
+                //Merge quantity from localstorage to cart
+                cart.forEach((cartItem: any) => {
                     let foundItem = parsedLocal.find((localItem: any) => localItem.id == cartItem.id)
                     if(foundItem) {
                         cartItem.quantity = foundItem.quantity
                     }
                 }) 
-                
-                let sortedCart = []
-                console.log(cart.filter((cartItem) => cartItem.company))
-                
-                setProductsInCart(cart)
+
+                //Sorting cart before pushing to state
+                const sortedCart: any[] = []
+                cart?.forEach( async (itemInCart) => {
+                    let foundItem = sortedCart.find((itemInSortedCart) => itemInSortedCart.companyId == itemInCart.company)
+                    if(!foundItem) {
+                            
+                        sortedCart.push({companyId: itemInCart.company})
+
+                    }
+                })
+               
+                //Filter products and sort them with correct company
+                sortedCart.forEach((itemInSortedCart) => {
+                    const filteredProducts = cart?.filter(item => item.company == itemInSortedCart.companyId)
+                    itemInSortedCart.products = filteredProducts
+                })
+
+                //Get name for companies as a new array
+                const arrayWithCompanyNames = await getCompanyNames(sortedCart)
+                setProductsInCart(arrayWithCompanyNames)
             } 
             else {
                 setProductsInCart(undefined)
@@ -40,65 +67,83 @@ export default function Cart() {
         }
     }
 
-    const sortCart = () => {
-        const sortedCart: any[] = []
-
-        productsInCart?.map((itemInCart) => {
-            if(!sortedCart.length) {
-                
-                sortedCart.push({company: itemInCart.company, products: [itemInCart]})
-                console.log("sorted: ", sortedCart)
-            }
-          
-
-        })
-        console.log("final sortedCart: ", sortedCart)
+    const getCompanyNames = async (array: any) => {
+        if(array) {
+            const arrayClone: Cart[] = [...array]
+            const arrayWithNames = await Promise.all(arrayClone?.map( async (product) => {
+                const company = await companyContext.getCompany(documentId(), "==", product.companyId)
+                product.companyName = company[0].name
+                return product
+            }))
+            return arrayWithNames
+        }
     }
 
-    useEffect(() => {
-        syncCart()
 
+    useEffect(() => {
+        syncCart()  
     }, [])
 
     useEffect(() => {
-        console.log(productsInCart)
+        console.log("productsInCart: ", productsInCart)
     }, [productsInCart])
 
 
     
 
     return (
-
-		<div id="cartProductsWrapper" style={cartProductsWrapperStyle}>
+        
+		<div id="cartWrapper" style={cartWrapperStyle}>
             { 
                 productsInCart?    
-                    productsInCart.map((product, i) => {
-                            return(
-                                <ProductCard key={i} 
-                                    bgColor='#EFE1CE'
-                                    product={product as Product} 
-                                    width='15%'
-                                    height='100%'
-                                    imgWidth='100%'
-                                    imgHeight='auto'
-                                    linkTo={`/${product.name}-${product.id}`} //FIXME: gör om routing, singleProduct behöver inte vara child till company pages
-                                    displayProductInfo={false}
-                                >     
-                                    
-                                    <CartProductController product={product} syncCart={syncCart}/>
+                    productsInCart.map((cartItem, i) => {
+                        return (
+                            <div key={i} className="cartSection" style={cartSectionStyle}>
+                                <h1>{cartItem.companyName}</h1>
+                                <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
+                                    {
+                                        cartItem.products.map((product, i) => {
+                                            return(
+                                                <ProductCard key={i} 
+                                                    bgColor='#EFE1CE'
+                                                    product={product as Product} 
+                                                    width='15%'
+                                                    height='100%'
+                                                    imgWidth='100%'
+                                            
+                                                    linkTo={`/${product.name}-${product.id}`} //FIXME: gör om routing, singleProduct behöver inte vara child till company pages
+                                                    displayProductInfo={false}
+                                                >     
 
-                                </ProductCard>
-                            )
-                        })
-                    :
-                    <p>Din varukorg är tom</p>
-            } 
+                                                    <CartProductController product={product} syncCart={syncCart}/>
+
+                                                </ProductCard>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        )
+                    })
+                :
+                <p>Din varukorg är tom</p>
+            }
         </div>
     );
 }
 
-const cartProductsWrapperStyle: CSSProperties = {
+const cartWrapperStyle: CSSProperties = {
     width: "100%",
     display: "flex",
-    
+    flexDirection: "column"
+}
+
+const cartSectionStyle: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+}
+
+const cartSectionProductWrapperStyle: CSSProperties = {
+    display: "flex",
+    height: "100%"
 }

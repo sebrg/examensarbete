@@ -71,7 +71,9 @@ export default function ProductCard(props: Props) {
                         height: props.height
                     }}
                 >
-                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
+                <div style={imgFrame}>
+                    <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
+                </div>
                 <div style={cardFrame}> 
                     {
                         props.displayProductInfo? 
@@ -114,13 +116,16 @@ const cardFrame: CSSProperties = {
 const imgFrame: CSSProperties = {
     width: '100%',
     height: '60%',
+    display: "flex",
     backgroundColor: 'lightgray',
     borderTopRightRadius: '10px',
     borderTopLeftRadius: '10px',
 }
 
 const img: CSSProperties = {
-    objectFit: 'contain'
+    objectFit: 'contain',
+    width: "100%",
+    height: "100%"
 }
 
 
