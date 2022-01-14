@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { FirebaseContext, FirebaseOptions } from './context/firebaseContext';
 import { DocumentData } from 'firebase/firestore';
 import ProductProvider from './context/products/productProvider';
+import CompanyProvider from './context/companies/companyProvider';
 
 
 
@@ -22,11 +23,13 @@ function App() {
 	return (
 		<Elements stripe={stripePromise}>
 			<FirebaseProvider>
-				<ProductProvider>
-					<BrowserRouter>
-						<Layout />  
-					</BrowserRouter>
-				</ProductProvider>
+				<CompanyProvider>
+					<ProductProvider>
+						<BrowserRouter>
+							<Layout />  
+						</BrowserRouter>
+					</ProductProvider>
+				</CompanyProvider>
 			</FirebaseProvider>
 		</Elements>
   );

@@ -8,10 +8,7 @@ import { DocumentData } from 'firebase/firestore';
 
 
 type Props = {
-  /*   ProductInfo?: string
-    productTitle?: string
-    productPrice?: string
-    productImgUrl?: string */
+    product: Product
     bgColor?: string
     width?: string
     height?: string
@@ -22,8 +19,8 @@ type Props = {
     id?: string
     imgHeight?: string
     imgWidth?: string
-    displayProductInfo?: string
-    product: Product
+    displayProductInfo?: boolean
+    children?: JSX.Element
 }
 
 
@@ -44,16 +41,25 @@ export default function ProductCard(props: Props) {
                     }}
                 >
 
-                <Link style={imgFrame} to={props.linkTo}> <img style={{width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" /></Link>
+                <Link style={imgFrame} to={props.linkTo}> 
+                    <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
+                </Link>
                 <div style={cardFrame}> 
-                    <p style={{display: props.displayProductInfo}}> {/* {props.ProductInfo} */} product info goes here</p>
+                    {
+                        props.displayProductInfo? 
+                            <p> {/* {props.ProductInfo} */} product info goes here</p>
+                            :
+                            null
+                    }
                     <h3>{props.product.name}</h3>
                     <h4> {props.product.price + ' ' + 'kr'} </h4>
-                    <AddToCartBtn product={props.product}/>
+                    {props.children}
                 </div> 
                      
             </div>
+
             :
+
             <div 
                     className="" 
                     id={props.id} 
@@ -65,12 +71,19 @@ export default function ProductCard(props: Props) {
                         height: props.height
                     }}
                 >
-                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
+                <div style={imgFrame}>
+                    <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
+                </div>
                 <div style={cardFrame}> 
-                    <p> {/* {props.ProductInfo} */} product info goes here</p>
+                    {
+                        props.displayProductInfo? 
+                            <p> {/* {props.ProductInfo} */} product info goes here</p>
+                            :
+                            null
+                    }
                     <h3>{props.product.name}</h3>
                     <h4> {props.product.price + ' ' + 'kr'} </h4>
-                    <AddToCartBtn product={props.product}/>  
+                    {props.children} 
                 </div> 
             </div>
             
@@ -80,7 +93,7 @@ export default function ProductCard(props: Props) {
 
 const prodCard: CSSProperties = {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'column',
     border: '1px solid gray',
@@ -103,13 +116,16 @@ const cardFrame: CSSProperties = {
 const imgFrame: CSSProperties = {
     width: '100%',
     height: '60%',
+    display: "flex",
     backgroundColor: 'lightgray',
     borderTopRightRadius: '10px',
     borderTopLeftRadius: '10px',
 }
 
 const img: CSSProperties = {
-    objectFit: 'cover'
+    objectFit: 'contain',
+    width: "100%",
+    height: "100%"
 }
 
 

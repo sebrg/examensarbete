@@ -5,6 +5,7 @@ import { ProductContext, ProductOptions } from "../../context/products/productCo
 
 import ProductCard from '../UI/productCard';
 import { Product } from '../../models'
+import AddToCartBtn from '../cart/addToCartBtn';
 
 
 export default function CompanyPage() {
@@ -38,15 +39,16 @@ export default function CompanyPage() {
                             <ProductCard key={i} 
                                 bgColor='#EFE1CE'
                                 product={product as Product} 
-                                /* productTitle={product.data.name} 
-                                productPrice={product.data.price} */
                                 width='20vw'
                                 height='auto'
                                 linkTo={`${product.name}-${product.id}`}
                                 imgWidth='100%'
                                 imgHeight='auto'
-                                /* productImgUrl={product.data.imgUrls[0]} */
-                            />     
+                            >   
+                              
+                                <AddToCartBtn product={product}/>  
+
+                            </ProductCard>
                         )
                     })
                     :

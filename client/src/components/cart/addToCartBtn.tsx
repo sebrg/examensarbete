@@ -3,12 +3,12 @@ import Button from '../UI/button'
 import { Product } from '../../models'
 import { DocumentData } from 'firebase/firestore';
 type Props = { //FIXME Fix correct types
-    product: DocumentData
+    product: Product
 }
 
 export default function AddToCartBtn(props: Props) {
 
-    const addToLocal = (product: DocumentData) => {
+    const addToLocal = (product: Product) => {
         let newCart = []
         let currentCart = []
         let localst: string | null = localStorage.getItem('cart')
@@ -18,12 +18,15 @@ export default function AddToCartBtn(props: Props) {
        }
 
         if(!currentCart.length) {
-            newCart.push(product.id)
-        }
-        
-        else {
+            newCart.push({id: product.id, quantity: 1})
+        } else {
             newCart = [...currentCart]
-            newCart.push(product.id)
+            let foundProduct = newCart.find(oldProduct => oldProduct.id == product.id)
+            if(foundProduct) {
+                foundProduct.quantity++
+            } else {
+                newCart.push({id: product.id, quantity: 1})
+            }
         }
 
         localStorage.setItem('cart', JSON.stringify(newCart))

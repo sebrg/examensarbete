@@ -70,6 +70,7 @@ export default function SingleProduct() {
                                 buttonText='Lägg till i kundvagn'
                                 icon={<FaCartPlus fontSize={"1.2em"}/>}
                                 bgColor='#363945'
+                                iconMargin='0 0 0 0.5em'
                             />  
                         </div>
                     </React.Fragment>          
