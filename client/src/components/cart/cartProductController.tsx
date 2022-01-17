@@ -45,19 +45,22 @@ export default function CartProductController(props: Props) {
 
     return (
         <div style={cartProductControllerStyle}>
-            <Button height="20%" width='30%' icon={<FaPlus />} onClick={() => {changeQuantity("plus")}}/>
-            <div style={{width: "30%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <Button height="100%" width='25%' icon={<FaPlus />} onClick={() => {changeQuantity("plus")}}/>
+            <div style={{minWidth: "25%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <p>{props.product.quantity}</p>
             </div>
-            <Button height="20%" width="30%" icon={<FaMinus />} onClick={() => {changeQuantity("minus")}}/>
-            <Button height="20%" width='100%' bgColor='red' icon={<RiDeleteBin5Fill/>} onClick={() => {changeQuantity("remove")}}/>
+            <Button height="100%" width="25%" icon={<FaMinus />} onClick={() => {changeQuantity("minus")}}/>
+            <Button height="100%" width='25%' bgColor='red' icon={<RiDeleteBin5Fill/>} onClick={() => {changeQuantity("remove")}}/>
         </div>
     );
 }
 
 const cartProductControllerStyle: CSSProperties = {
     display: "flex",
-    width: "100%",
-    flexWrap: "wrap",
-    justifyContent: "space-between"
+    //width: "20%",
+    //flexGrow: 1,
+    height: "100%",
+    //height: "100%",
+    //flexWrap: "wrap",
+    //justifyContent: "space-between"
 }
