@@ -6,6 +6,8 @@ import { CompanyContext, CompanyOptions } from '../../context/companies/companyC
 import { Product } from '../../models';
 import ProductCard from '../UI/productCard';
 import CartProductController from './cartProductController';
+import { useStripe } from '@stripe/react-stripe-js';
+import Button from '../UI/button';
 
 type Cart = {
     companyId: string
@@ -88,6 +90,23 @@ export default function Cart() {
         console.log("productsInCart: ", productsInCart)
     }, [productsInCart])
 
+    const stripe = useStripe()
+
+	async function toCheckOut(cartItem: any) {
+		if(stripe) {
+      		const response = await fetch("http://localhost:3001/checkout", {
+          		method: "POST",
+          		headers: {"content-type": "application/json"},
+          		credentials: 'include',
+                body: JSON.stringify({products: cartItem})
+      		})
+
+			const { id } = await response.json()
+			console.log(id)
+			stripe.redirectToCheckout({sessionId: id})
+		}  
+	}
+
 
     
 
@@ -100,6 +119,9 @@ export default function Cart() {
                         return (
                             <div key={i} className="cartSection" style={cartSectionStyle}>
                                 <h1>{cartItem.companyName}</h1>
+
+                                <Button onClick={() => toCheckOut(cartItem.products)} buttonText='Till checkout' width='20%'></Button>
+
                                 <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
                                     {
                                         cartItem.products.map((product, i) => {
