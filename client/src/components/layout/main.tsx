@@ -15,24 +15,6 @@ type Props = {
   }
 export default function Main(props: Props) {
 
-	const stripe = useStripe()
-
-	async function toCheckOut() {
-		if(stripe) {
-      		const response = await fetch("http://localhost:3001/checkout", {
-          		method: "POST",
-          		headers: {"content-type": "application/json"},
-          		credentials: 'include',
-      		})
-
-			const { id } = await response.json()
-			console.log(id)
-			console.log(stripe)
-			stripe.redirectToCheckout({sessionId: id})
-		}  
-	}
-	
-
     return (
 
 		<main className="noScrollBar" ref={props.passedRef} style={mainStyle}>

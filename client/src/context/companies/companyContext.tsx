@@ -9,6 +9,8 @@ export interface CompanyOptions {
     getCurrentUserCompany: () => Promise<DocumentData[]>
     getAllCompanies: () => Promise<DocumentData[]>
     getCompany: (fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Company[]>
+    updateCompany: (stripeId: string) => void,
+    setPaymentEnabled: (enabled: boolean) => void
 
 }
 
@@ -17,6 +19,8 @@ export const CompanyContext = createContext({
     addCompany: (company: Company) => {},
     getCurrentUserCompany: () => {},
     getAllCompanies: () => {},
-    getCompany: (fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {}
+    getCompany: (fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {},
+    updateCompany: (stripeId: string) => {},
+    setPaymentEnabled: (enabled: boolean) => {}
         
 } as CompanyOptions)

@@ -17,8 +17,6 @@ app.use(cors({ // Required for cookies to client.
     credentials: true,
 }));
 
-app.use('/', routes)
-
 
 app.use(express.json())
 
@@ -29,3 +27,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('The application is listening on port 3001!');
 })
+
+app.use('/', routes)
