@@ -140,7 +140,7 @@ export default function Cart() {
                                {/*  </div> */}
                                 <div className='paymentSection' style={paymentSectionStyle}>
                                     <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
-                                    <Button width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
+                                    <Button onClick={() => toCheckOut(cartItem.products)} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
 
                                 </div>
                             </div>

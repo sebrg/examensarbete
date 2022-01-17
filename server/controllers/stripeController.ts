@@ -74,7 +74,7 @@ export const checkOut = async (req: any, res: any, next: any) => {
         },
         }, 
         {
-            stripeAccount: 'acct_1KIDcY2X2rY6BoyU',
+            stripeAccount: 'acct_1KIvKL2ZjQKtl2fI', //NOTE: Skall skickas upp i body
     });
 
     res.status(200).json({ id: session.id })
