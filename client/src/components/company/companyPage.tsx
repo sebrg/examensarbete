@@ -39,11 +39,11 @@ export default function CompanyPage() {
                             <ProductCard key={i} 
                                 bgColor='#EFE1CE'
                                 product={product as Product} 
+                                direction="column"
                                 width='20vw'
-                                height='auto'
                                 linkTo={`${product.name}-${product.id}`}
-                                imgWidth='100%'
-                                imgHeight='auto'
+                                //imgWidth='100%'
+                                //imgHeight='auto'
                             >   
                               
                                 <AddToCartBtn product={product}/>  

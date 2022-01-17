@@ -112,37 +112,36 @@ export default function Cart() {
 
     return (
         
-		<div id="cartWrapper" style={cartWrapperStyle}>
+		<div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
             { 
                 productsInCart?    
                     productsInCart.map((cartItem, i) => {
                         return (
-                            <div key={i} className="cartSection" style={cartSectionStyle}>
-                                <h1>{cartItem.companyName}</h1>
+                            <div key={i} className="cartSection" style={cartSectionStyle}> 
+                                <h1 style={{width: "100%", textAlign: "center", marginBottom: "1em"}}>{cartItem.companyName}</h1>
+                                {/* <div className='cartSectionContent' style={cartSectionContentStyle}> */}
+                                    <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
+                                        {
+                                            cartItem.products.map((product, i) => {
+                                                return(
+                                                    <ProductCard key={i} 
+                                                        product={product}
+                                                        direction='row'
+                                                        linkTo="asd"
+                                                        height='10vh' //NOTE: Vh istället för procent kan skapa problem. Procent skapar dock stretch problem här då närmsta parent inte har en height
+                                                        width='100%'
+                                                    >     
+                                                        <CartProductController product={product} syncCart={syncCart}/>
+                                                    </ProductCard>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                               {/*  </div> */}
+                                <div className='paymentSection' style={paymentSectionStyle}>
+                                    <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
+                                    <Button width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
 
-                                <Button onClick={() => toCheckOut(cartItem.products)} buttonText='Till checkout' width='20%'></Button>
-
-                                <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
-                                    {
-                                        cartItem.products.map((product, i) => {
-                                            return(
-                                                <ProductCard key={i} 
-                                                    bgColor='#EFE1CE'
-                                                    product={product as Product} 
-                                                    width='15%'
-                                                    height='100%'
-                                                    imgWidth='100%'
-                                            
-                                                    linkTo={`/${product.name}-${product.id}`} //FIXME: gör om routing, singleProduct behöver inte vara child till company pages
-                                                    displayProductInfo={false}
-                                                >     
-
-                                                    <CartProductController product={product} syncCart={syncCart}/>
-
-                                                </ProductCard>
-                                            )
-                                        })
-                                    }
                                 </div>
                             </div>
                         )
@@ -154,18 +153,47 @@ export default function Cart() {
     );
 }
 
-const cartWrapperStyle: CSSProperties = {
+const cartWrapperStyle: CSSProperties = { 
     width: "100%",
-    display: "flex",
-    flexDirection: "column"
-}
-
-const cartSectionStyle: CSSProperties = {
+    height: "100%",
     display: "flex",
     flexDirection: "column",
+    padding: "2em",
+    overflow: "auto"
+}
+
+const cartSectionStyle: CSSProperties = { //FIXME: CSS lastchild margin 0
+    //flexDirection: "column",
+    //overflow: "auto"
+    display: "flex",
+    //height: "100%",
+    padding: "1em",
+    flexWrap: "wrap",
+    alignItems: "stretch",
+    alignContent: "flex-start",
+    backgroundColor: "#EFE1CE",
+    marginBottom: "2em",
+    borderRadius: "10px"
 }
 
 const cartSectionProductWrapperStyle: CSSProperties = {
     display: "flex",
-    height: "100%"
+    width: "50%",
+    flexDirection: "column",
+    minWidth: "350px",
+    flexGrow: 1,
+}
+
+
+
+const paymentSectionStyle: CSSProperties = {
+    display: "flex",
+    width: "50%",
+    //height: "100%",
+    minWidth: "350px",
+    //backgroundColor: "red",
+    flexGrow: 1,
+    justifyContent: "center",
+    flexWrap: "wrap",
+    alignItems: "center"
 }

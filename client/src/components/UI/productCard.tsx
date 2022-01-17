@@ -9,6 +9,7 @@ import { DocumentData } from 'firebase/firestore';
 
 type Props = {
     product: Product
+    direction: "column" | "row"
     bgColor?: string
     width?: string
     height?: string
@@ -17,8 +18,6 @@ type Props = {
     productId?: string
     onClick?: any
     id?: string
-    imgHeight?: string
-    imgWidth?: string
     displayProductInfo?: boolean
     children?: JSX.Element
 }
@@ -26,106 +25,91 @@ type Props = {
 
 export default function ProductCard(props: Props) {
 
+    let currency = "kr"
     
     return (
         props.linkTo?
-            <div 
-                    className="" 
-                    id={props.id} 
-                    onClick={props.onClick} 
-                    style={{
-                        ...prodCard,
-                        background: props.bgColor, 
-                        width: props.width,
-                        height: props.height
-                    }}
-                >
+            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor}}>
+                <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
+                 {   <Link style={{width: "100%", height: "100%", display: "flex", alignItems: "center"}} to={props.linkTo}> 
+                        <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
+                    </Link>}
+                </div>
+                <div className='productInfoWrapper' style={props.direction == "row"? productInfoWrapperRowStyle : productInfoWrapperColumnStyle }>
+                    {props.product.info? <p>{props.product.info}</p> : null}
+                    <h3 style={{flexGrow: 1, textAlign: "center"}}>
+                        {props.product.name}
+                    </h3>
 
-                <Link style={imgFrame} to={props.linkTo}> 
-                    <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
-                </Link>
-                <div style={cardFrame}> 
-                    {
-                        props.displayProductInfo? 
-                            <p> {/* {props.ProductInfo} */} product info goes here</p>
-                            :
-                            null
-                    }
-                    <h3>{props.product.name}</h3>
-                    <h4> {props.product.price + ' ' + 'kr'} </h4>
-                    {props.children}
-                </div> 
-                     
+                    <h4 style={{flexGrow: 1, textAlign: "center"}}>
+                        {props.product.price + " " + currency}
+                    </h4>
+                </div>
+                {props.children}
             </div>
 
             :
 
-            <div 
-                    className="" 
-                    id={props.id} 
-                    onClick={props.onClick} 
-                    style={{
-                        ...prodCard,
-                        background: props.bgColor, 
-                        width: props.width,
-                        height: props.height
-                    }}
-                >
-                <div style={imgFrame}>
-                    <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
+            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor}}>
+                <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
+                    <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center"}}> 
+                        <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
+                    </div>
                 </div>
-                <div style={cardFrame}> 
-                    {
-                        props.displayProductInfo? 
-                            <p> {/* {props.ProductInfo} */} product info goes here</p>
-                            :
-                            null
-                    }
-                    <h3>{props.product.name}</h3>
-                    <h4> {props.product.price + ' ' + 'kr'} </h4>
-                    {props.children} 
-                </div> 
+                <div className='productInfoWrapper' style={props.direction == "row"? productInfoWrapperRowStyle : productInfoWrapperColumnStyle }>
+                    {props.product.info? <p>{props.product.info}</p> : null}
+                    <h3 style={{flexGrow: 1, textAlign: "center"}}>
+                        {props.product.name}
+                    </h3>
+
+                    <h4 style={{flexGrow: 1, textAlign: "center"}}>
+                        {props.product.price + " " + currency}
+                    </h4>
+                </div>
+                {props.children}
             </div>
             
-    );
+    )
 }
 
 
-const prodCard: CSSProperties = {
+const productCardWrapperStyle: CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    flexDirection: 'column',
     border: '1px solid gray',
-    borderTopRightRadius: '10px',
-    borderTopLeftRadius: '10px',
-    margin: '0.5em',
-    padding: '0.2em',
-    /* minHeight: '30vh' */
+    borderRadius: "10px",
+    marginBottom: "1em",
+    padding: '0.5em',
+    minHeight: "55px",
 }
 
-const cardFrame: CSSProperties = {
-    width: '100%',
-    height: '30%',
-    display: 'flex', 
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+//IMG ROW
+const productCardImgWrapperRowStyle: CSSProperties = {
+    width: "20%",
+    height: "100%",
+
 }
 
-const imgFrame: CSSProperties = {
-    width: '100%',
-    height: '60%',
+//INFO ROW
+const productInfoWrapperRowStyle: CSSProperties = {
+    flexGrow: 10,
     display: "flex",
-    backgroundColor: 'lightgray',
-    borderTopRightRadius: '10px',
-    borderTopLeftRadius: '10px',
+    flexDirection: "column",
+    justifyContent: "space-around"
 }
 
-const img: CSSProperties = {
-    objectFit: 'contain',
+//IMG COLUMM
+const productCardImgWrapperColumnStyle: CSSProperties = {
+    backgroundColor: "red",
     width: "100%",
-    height: "100%"
+    height: "30vh",
+    background: "lightgray",
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px"
 }
 
-
+//INFO COLUMN
+const productInfoWrapperColumnStyle: CSSProperties = {
+    width: "100%"
+}
