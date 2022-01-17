@@ -27,7 +27,7 @@ export default function MainNav(props: Props) {
   
                 <Button linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
                 {/* <Button linkTo={"/"} buttonText='Logout' onClick={() => fbFuncs.logOut()} /> */}
-                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`}/>
+                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null}/>
 
             </nav>
             :
@@ -36,7 +36,7 @@ export default function MainNav(props: Props) {
                 {/*TODO: Remove the mypages row beneth. Only here for testing */}
                 {/* <Button onClick={() =>  navigate(`/myPages/${auth.currentUser?.uid}`)} buttonText='Mina sidor' /> */} 
                 <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
-                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`}/>
+                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null}/>
                 
             </nav>
     );
