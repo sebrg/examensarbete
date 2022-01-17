@@ -7,6 +7,7 @@ type Props = {
     buttonText?: string
     bgColor?: string
     width?: string
+    minWidth?: string
     height?: string
     onClick?: any
     linkTo?: any
@@ -33,6 +34,7 @@ export default function Button(props: Props) {
                         ...buttonStyle, 
                         background: props.bgColor, 
                         width: props.width, 
+                        minWidth: props.minWidth,
                         height: props.height, 
                         color: props.color, 
                         margin: props.margin,
@@ -66,6 +68,7 @@ export default function Button(props: Props) {
                     ...buttonStyle, 
                     backgroundColor: props.bgColor, 
                     width: props.width, 
+                    minWidth: props.minWidth,
                     height: props.height, 
                     color: props.color, 
                     margin: props.margin,
