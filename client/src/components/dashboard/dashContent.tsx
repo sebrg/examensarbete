@@ -4,11 +4,19 @@ import DashForCompany from './companyDash/dashForCompany';
 import DashOldOrders from './dashOldOrders';
 import DashRegisterCompany from './companyDash/dashRegisterCompany';
 import DashUserInfo from './dashUserInfo';
+import ReqCompanyAuth from '../functions/reqCompanyAuth';
 
+type CurrentCompany = {
+    name: string
+    id: string
 
+}
+type Props = {
+    currentCompany: CurrentCompany | undefined
+    companyLoaded: boolean
+}
 
-
-export default function DashContent() {
+export default function DashContent(props: Props) {
 
 
 
@@ -16,10 +24,18 @@ export default function DashContent() {
         <div id="userDashFrame" style={userDashFrameStyle}>
             <div id="userDashContent" style={userDashContentStyle}>
                 <Routes>
-                        <Route index element={<DashUserInfo/>} />
+                        <Route index element={<DashUserInfo currentCompany={props.currentCompany}/>} />
                         <Route path="/oldOrders" element={<DashOldOrders/>} />
-                        <Route path="/dashForCompany/*" element={<DashForCompany/>} />
                         <Route path="/registerCompany" element={<DashRegisterCompany/>} />
+                        
+                        <Route 
+                            path="/:companyId/*" 
+                            element={
+                                <ReqCompanyAuth currentCompany={props.currentCompany} companyLoaded={props.companyLoaded}>
+                                    <DashForCompany/>
+                                </ReqCompanyAuth>
+                            } 
+                        />
                 </Routes>
             </div>
         </div>
