@@ -2,11 +2,13 @@ import React, { CSSProperties, useContext, useState } from 'react';
 import Button from '../../UI/button';
 import { FirebaseContext, FirebaseOptions } from "../../../context/firebaseContext";
 import { Company, Product } from "../../../models"
+import { CompanyContext, CompanyOptions } from '../../../context/companies/companyContext';
 
 
 export default function DashRegisterCompany() {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const companyContext: CompanyOptions = useContext(CompanyContext)
 
 
         const [name, setName] = useState<string>("")
@@ -53,7 +55,7 @@ export default function DashRegisterCompany() {
                 onChange={(event) => updateCategory(event)}
             />
 
-            <Button onClick={() => fbFuncs.addCompany(new Company(name, school, region, category))} buttonText='UF' width='30%' bgColor='black'/>
+            <Button onClick={() => companyContext.addCompany(new Company(name, school, region, category), "pendingCompanies")} buttonText='UF' width='30%' bgColor='black'/>
             {/* <Button onClick={() => fbFuncs.addProduct(new Product("produkt", 20))} buttonText='PRODUKT' width='30%' bgColor='black'/> */}
         </div>
     );
