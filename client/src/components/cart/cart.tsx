@@ -72,7 +72,7 @@ export default function Cart() {
         if(array) {
             const arrayClone: Cart[] = [...array]
             const arrayWithNames = await Promise.all(arrayClone?.map( async (product) => {
-                const company = await companyContext.getCompany(documentId(), "==", product.companyId)
+                const company = await companyContext.getCompany("companies", documentId(), "==", product.companyId)
                 product.companyName = company[0].name
                 return product
             }))
