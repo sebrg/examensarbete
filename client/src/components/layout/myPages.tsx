@@ -1,20 +1,40 @@
 import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
+import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
+import { Company } from '../../models';
 import DashContent from '../dashboard/dashContent';
 import DashNav from '../dashboard/dashNav';
 
-
-
+/* type CurrentCompany = {
+    name: string
+    id: string
+} */
 
 export default function MyPages() {
+
+    const companyContext: CompanyOptions = useContext(CompanyContext)
+    const [currentCompany, setCurrentCompany] = useState<any>(undefined) //FIXME: fix type "any"
+    const [companyLoaded, setCompanyLoaded] = useState<boolean>(false)
+    
+    const checkCompany = async () => {
+        const currentCompany = await companyContext.getCurrentUserCompany() as Company[]
+        if(currentCompany.length && currentCompany[0].id) {
+            setCurrentCompany({name: currentCompany[0].name, id: currentCompany[0].id})
+        }
+        setCompanyLoaded(true)
+    }   
+
+    useEffect(() => {
+        checkCompany()    
+    }, [])
 
 
     return (
         <div id="myPagesWrapper" style={myPagesWrapperStyle}>
             
-            <DashContent />
-            <DashNav />
+            <DashContent currentCompany={currentCompany} companyLoaded={companyLoaded} /> {/* FIXME: turn props into object */}
+            <DashNav currentCompany={currentCompany}/>
         </div>
     );
 }
