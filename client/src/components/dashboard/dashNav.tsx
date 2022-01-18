@@ -2,16 +2,25 @@ import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import "../../animations.css"
+import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 
+type CurrentCompany = {
+    name: string
+    id: string
+}
+type Props = {
+    currentCompany: CurrentCompany | undefined
+}
+export default function DashNav(props: Props) {
 
-export default function DashNav() {
-    
-    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const fbFuncs: FirebaseOptions = useContext(FirebaseContext) //FIXME: change this
     const linearBg = "linear-gradient(to left, rgb(131 159 105) 50%, rgb(49 52 68) 50%) right"
     const fullBg = "rgb(49 52 68)"
     const url = useLocation().pathname
     const currentDashPage = url.split("/")[3]
+    
+    
     const linksForDashNav = [
         {
             name: "Mitt konto", 
@@ -21,16 +30,10 @@ export default function DashNav() {
             name: "Gamla ordrar",
             to: "oldOrders"
         },
-        {
-            name: "UF NAMN",
-            to: "dashForCompany"
-        },
-        {
-            name: "registrera UF",
-            to: "registerCompany"
-        },
-
     ]
+
+
+
 
     const renderLinksForDashNav = () => {
         return linksForDashNav.map((link, index) => {
@@ -56,9 +59,24 @@ export default function DashNav() {
         <div id="dashNav" style={dashNavStyle}>
             {renderLinksForDashNav()}
             
-            <Link to={"/"} onClick={() => fbFuncs.logOut()} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%", marginTop: "auto"}}>
-                Logga ut
-            </Link>
+            <div style={{height: "100%", flexDirection: "column", display: "flex", justifyContent: "flex-end"}}>
+                {props.currentCompany !== undefined?
+                    currentDashPage == props.currentCompany.id?
+                        <Link to={`/${props.currentCompany.id}`} className='dashLink' style={{...dashLinkStyle, background: fullBg}}>
+                            {props.currentCompany.name}
+                        </Link>
+                        :
+                        <Link to={props.currentCompany.id} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%"}}>
+                            {props.currentCompany.name}
+                        </Link>
+                    :
+                    null
+                }
+
+                <Link to={"/"} onClick={() => fbFuncs.logOut()} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%"}}>
+                    Logga ut
+                </Link>
+            </div>
         </div>
     );
 }
