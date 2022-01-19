@@ -4,13 +4,11 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import "../../animations.css"
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
+import { Company } from '../../models';
 
-type CurrentCompany = {
-    name: string
-    id: string
-}
+
 type Props = {
-    currentCompany: CurrentCompany | undefined
+    currentCompany: Pick<Company, "name" | "id"> | undefined
 }
 export default function DashNav(props: Props) {
 
@@ -65,8 +63,8 @@ export default function DashNav(props: Props) {
                         <Link to={`/${props.currentCompany.id}`} className='dashLink' style={{...dashLinkStyle, background: fullBg}}>
                             {props.currentCompany.name}
                         </Link>
-                        :
-                        <Link to={props.currentCompany.id} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%"}}>
+                        : //Not sure row beneth works
+                        <Link to={props.currentCompany.id as string} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%"}}>
                             {props.currentCompany.name}
                         </Link>
                     :
