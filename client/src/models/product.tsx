@@ -2,12 +2,11 @@ export class Product {
     name: string; 
     price: number;
     images: any[];
-
+    quantity?: number
     company?: string
 
     id?: string
 
-    quantity?: number
     info?: string
 
     constructor(name: string, price: number, imgs: any, company?: string, id?: string, quantity?: number, info?: string) {

@@ -24,6 +24,15 @@
     box-shadow:         inset 0 0 2.5px #000000;
 }
 
+/* .foldableCompanyCard {
+    transition: height 0.05s ease-in-out;
+    
+} */
+
+/* .foldableCardContent {
+    transition: opacity 0.5s ease-in-out;
+} */
+
 
 @keyframes smallBounce {
     0%, 10%, 20%  {

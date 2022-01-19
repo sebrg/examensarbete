@@ -1,18 +1,26 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { Company } from '../../models';
+import Button from '../UI/button';
+
+type Props = {
+    currentCompany: Pick<Company, "name" | "id"> | undefined
+}
 
 
-
-
-export default function DashUserInfo() {
+export default function DashUserInfo(props: Props) {
 
    
-
+    
 
 
     return (
         <div>
-            <p>UserInfo hej hej</p>
+            {props.currentCompany === undefined?
+                <Button buttonText="Ansök om att registrera ditt företag" linkTo={"registerCompany"} />
+                : 
+                null
+            }
         </div>
     );
 }

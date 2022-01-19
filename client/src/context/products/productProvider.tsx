@@ -1,10 +1,10 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
 import { Company, Product } from "../../models"
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { FirebaseContext } from "../firebaseContext";
 
 interface Props{}
@@ -36,7 +36,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             name: product.name as string,
             price: product.price as number,
             company: currentCompany[0].id as string,
-            images: [] as any[]
+            images: [] as any[],
+            quantity: product.quantity as number
         }
         
         await Promise.all(product.images.map( async (img) => {
@@ -78,14 +79,14 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
         const q = query(collection(firebaseCollection.db, "products"), where("company", "==", companyId));
         const querySnapshot = await getDocs(q);
-        const result: DocumentData[] = []
+        const result: Product[] = []
 
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots  
             //console.log({id: doc.id, data: doc.data()});
-            result.push({id: doc.id, ...doc.data()})
+            result.push({id: doc.id, ...doc.data()} as Product)
        });
-
+       console.log("test: ", result)
        return result
     }
 
@@ -122,23 +123,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
     }
 
-/*     async getSingleProduct(docId: string) {
-        let result: Product | undefined
 
-        const docRef = doc(firebaseCollection.db, "products", docId);
-        const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                result = docSnap.data() as Product
-                console.log(result)
-            } 
-            else {
-                console.log("No such document!");
-                return
-            }
-            
-            return result
-    } */
     async addOrder(sessionId: string, data: any) {
         await setDoc(doc(firebaseCollection.db, "orders", sessionId), data);
         console.log('order added')
@@ -155,7 +140,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     }
 
 
-
     async getAllProducts() {
         const result: DocumentData[] = []
         const get = await getDocs(collection(firebaseCollection.db, "products"));
@@ -163,6 +147,23 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             result.push({id: doc.id, ...doc.data()})
           });
           this.state.allProducts = result as Product[]
+    }
+    async deleteImg() {
+        const storage = getStorage();
+
+        // Create a reference to the file to delete
+        const desertRef = ref(storage, 'images/desert.jpg');
+
+        // Delete the file
+        deleteObject(desertRef).then(() => {
+        // File deleted successfully
+        }).catch((error) => {
+        // Uh-oh, an error occurred!
+        });
+    }
+    async deleteProduct(id: string) {
+        await deleteDoc(doc(firebaseCollection.db, "pendingCompanies", id));
+        console.log("Product deleted")
     }
 
     render() {

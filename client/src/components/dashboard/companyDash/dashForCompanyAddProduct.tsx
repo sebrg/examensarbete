@@ -11,6 +11,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
    
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
+    const [quantity, setQuantity] = useState<number>(0)
     const [imgArr, setImgArr] = useState<any[] | undefined>(undefined) //NOTE: any type, no good!
 
     const updateName = (event: any) => {
@@ -18,7 +19,11 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
     }
 
     const updatePrice = (event: any) => {
-        event? setPrice(event.target.value) : setPrice(0) //FIXME: is 0 really a good fallback?
+        event? setPrice(event.target.value) : setPrice(0) //NOTE: is 0 really a good fallback?
+    }
+    
+    const updateQuantity = (event: any) => {
+        event? setQuantity(event.target.value) : setQuantity(0) //NOTE: is 0 really a good fallback?
     }
 
     const updateProductImg = (event: any) => {
@@ -65,7 +70,14 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
             <input 
                 style={addProductInputStyle} 
                 placeholder='Product price'
+                type="number"
                 onChange={(event) => updatePrice(event)}
+            />
+            <input 
+                style={addProductInputStyle} 
+                placeholder='Quantity'
+                type="number"
+                onChange={(event) => updateQuantity(event)}
             />
 
 
@@ -97,7 +109,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                     buttonText='Add product'
                     width="100%" 
                     onClick={() => {
-                        productContext.functions.addProduct(new Product(name, price, imgArr))
+                        productContext.functions.addProduct(new Product(name, price, imgArr, undefined, undefined, quantity))
                         //getProducts()
                     }}
                 />

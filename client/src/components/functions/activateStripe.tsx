@@ -11,15 +11,15 @@ type Status = {
 export default function ActivateStripe() {
 
     const companyContext: CompanyOptions = useContext(CompanyContext)
-    const [stripeId, setStripeId] = useState(null)
+    const [stripeId, setStripeId] = useState<string | null>(null)
     const [accountStatus, setAccountStatus] = useState<Status>()
 
     const setState = async () => {
         let currentCompany = await companyContext.getCurrentUserCompany()
-        if(currentCompany[0].data.payments.stripe_acc_id) {
-            setStripeId(currentCompany[0].data.payments.stripe_acc_id)
+        if(currentCompany[0].payments.stripe_acc_id) {
+            setStripeId(currentCompany[0].payments.stripe_acc_id)
         }
-        if(currentCompany[0].data.payments.enabled === false) { //NOTE: Ska den ligga här?? 
+        if(currentCompany[0].payments.enabled === false) { //NOTE: Ska den ligga här?? 
             if(accountStatus?.status === 200) {
                 companyContext.setPaymentEnabled(true)
             }
