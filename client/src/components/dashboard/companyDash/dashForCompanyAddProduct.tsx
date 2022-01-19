@@ -110,7 +110,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                     width="100%" 
                     onClick={() => {
                         productContext.functions.addProduct(new Product(name, price, imgArr, undefined, undefined, quantity))
-                        //getProducts()
+                        //FIXME: Get all products after product added
                     }}
                 />
             </div>

@@ -22,12 +22,13 @@ type Props = {
 export default function ToCheckout(props: Props) {
 
     const stripePK = 'pk_test_51KCOmfFKFGHIBqJeuHe27RBjAFluqc1kaOArTwLHDQ6H1rIrSPE4HBYMz6O3eHD2V5rqOkR4xBmumJlBdGj04l7J00azQB7MR5'
-	const stripePromise = loadStripe(stripePK, {
+/* 	const stripePromise = loadStripe(stripePK, {
 		stripeAccount: props.stripeAccountId
 	}) 
+ */
 
     const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
-
+    const [stripePromise, setStripePromise] = useState(() => loadStripe(stripePK, {stripeAccount: props.stripeAccountId}))
 	
     return (
 
