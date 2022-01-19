@@ -1,18 +1,22 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import { Routes, Route } from 'react-router-dom';
-import { useStripe } from '@stripe/react-stripe-js';
+import { Elements, useStripe } from '@stripe/react-stripe-js';
 import Start from './start';
 import MyPages from './myPages';
 import UserNotFound from './userNotFound';
 import ReqAuth from '../functions/reqAuth';
 import Cart from '../cart/cart';
 import CompanyContent from '../company/companyContent';
+import PaymentSuccess from '../cart/paymentSuccess';
+
+
 
 type Props = {
 	isLoggedIn: boolean | undefined
 	passedRef?: React.MutableRefObject<HTMLInputElement>
-  }
+}
+
 export default function Main(props: Props) {
 
     return (
@@ -31,6 +35,7 @@ export default function Main(props: Props) {
 				<Route path='/userNotFound' element={<UserNotFound/>} />
 				<Route path='/:companyName-:companyId/*' element={<CompanyContent />} />
 				<Route path='/cart/:id' element={<Cart/>} />
+				<Route path={"/success/:stripeId/:sessionId/"} element={<PaymentSuccess />} /> {/* NOTE: UserId med i urlen? */}
 			</Routes>
 		</main>
     );
