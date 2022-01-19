@@ -13,7 +13,9 @@ export default function Layout() {
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const mainRef = useRef() as React.MutableRefObject<HTMLInputElement>
     const url = useLocation().pathname
-    const [loginToggle, setLoginToggle] = useState(false) //NOTE: maybe move this to App.tsx
+
+
+    const [loginToggle, setLoginToggle] = useState(false) //NOTE: This is for loginPopup. maybe move this to App.tsx
     const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>() //NOTE: Maybe not needed
 
     

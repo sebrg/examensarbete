@@ -5,9 +5,12 @@ import { useStripe } from '@stripe/react-stripe-js';
 import Start from './start';
 import MyPages from './myPages';
 import UserNotFound from './userNotFound';
-import ReqAuth from '../functions/reqAuth';
+import ReqUserAuth from '../functions/reqUserAuth';
 import Cart from '../cart/cart';
 import CompanyContent from '../company/companyContent';
+import AdminView from '../admin/adminView';
+import ReqAdminAuth from '../functions/reqAdminAuth';
+import { UserContext, UserOptions } from '../../context/users/userContext';
 
 type Props = {
 	isLoggedIn: boolean | undefined
@@ -15,22 +18,28 @@ type Props = {
   }
 export default function Main(props: Props) {
 
+
     return (
 
 		<main className="noScrollBar" ref={props.passedRef} style={mainStyle}>
 			<Routes>
 				<Route path='/' element={<Start/>} />
 				<Route 
-					path='/myPages/:id/*' 
+					path='/myPages/:userId/*' 
 					element={
-						<ReqAuth isLoggedIn={props.isLoggedIn}>
+						<ReqUserAuth isLoggedIn={props.isLoggedIn}>
 							<MyPages />
-						</ReqAuth>
+						</ReqUserAuth>
 					} 
 				/>
 				<Route path='/userNotFound' element={<UserNotFound/>} />
 				<Route path='/:companyName-:companyId/*' element={<CompanyContent />} />
-				<Route path='/cart/:id' element={<Cart/>} />
+				<Route path='/cart/:userId' element={<Cart/>} />
+				<Route path='/admin/*' element={
+					<ReqAdminAuth >
+						<AdminView />
+					</ReqAdminAuth>
+				}/>
 			</Routes>
 		</main>
     );

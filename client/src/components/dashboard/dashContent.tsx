@@ -4,11 +4,16 @@ import DashForCompany from './companyDash/dashForCompany';
 import DashOldOrders from './dashOldOrders';
 import DashRegisterCompany from './companyDash/dashRegisterCompany';
 import DashUserInfo from './dashUserInfo';
+import ReqCompanyAuth from '../functions/reqCompanyAuth';
+import { Company } from '../../models';
 
 
+type Props = {
+    currentCompany: Pick<Company, "name" | "id"> | undefined
+    companyLoaded: boolean
+}
 
-
-export default function DashContent() {
+export default function DashContent(props: Props) {
 
 
 
@@ -16,10 +21,18 @@ export default function DashContent() {
         <div id="userDashFrame" style={userDashFrameStyle}>
             <div id="userDashContent" style={userDashContentStyle}>
                 <Routes>
-                        <Route index element={<DashUserInfo/>} />
+                        <Route index element={<DashUserInfo currentCompany={props.currentCompany}/>} />
                         <Route path="/oldOrders" element={<DashOldOrders/>} />
-                        <Route path="/dashForCompany/*" element={<DashForCompany/>} />
                         <Route path="/registerCompany" element={<DashRegisterCompany/>} />
+                        
+                        <Route 
+                            path="/:companyId/*" 
+                            element={
+                                <ReqCompanyAuth currentCompany={props.currentCompany} companyLoaded={props.companyLoaded}>
+                                    <DashForCompany/>
+                                </ReqCompanyAuth>
+                            } 
+                        />
                 </Routes>
             </div>
         </div>
@@ -29,13 +42,13 @@ export default function DashContent() {
 const userDashFrameStyle: CSSProperties = {
     width: "80%",
     height: "100%",
-    padding: "1em",
+    padding: "0px 0.5em 0px 0px ",
 }
 
 const userDashContentStyle: CSSProperties = {
     backgroundColor: "rgb(131 159 105)",
     width: "100%",
     height: "100%",
-    borderRadius: "10px",
+    //borderRadius: "10px",
     color: "white"
 }

@@ -8,21 +8,20 @@ type Props = {
 
 }
 
-export default function ReqAuth(props: Props) {
+export default function ReqUserAuth(props: Props) {
   
     // const navigate = useNavigate();
     //let location = useLocation();
     
-    const match = useMatch("myPages/:id/*");
+    const match = useMatch("myPages/:userId/*");
     const auth = getAuth();
 
     if (props.isLoggedIn === undefined) {
     
         return <p>Spinner</p>        
-    
     }
-    else if(props.isLoggedIn === true && auth.currentUser?.uid === match?.params.id) {
-    
+    else if(props.isLoggedIn === true && auth.currentUser?.uid === match?.params.userId) {
+        console.log("User authenticated")
         return props.children
     
     }

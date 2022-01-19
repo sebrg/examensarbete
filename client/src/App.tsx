@@ -8,6 +8,7 @@ import { FirebaseContext, FirebaseOptions } from './context/firebaseContext';
 import { DocumentData } from 'firebase/firestore';
 import ProductProvider from './context/products/productProvider';
 import CompanyProvider from './context/companies/companyProvider';
+import UserProvider from './context/users/userProvider';
 
 
 
@@ -24,13 +25,15 @@ function App() {
 	return (
 		<Elements stripe={stripePromise}>
 			<FirebaseProvider>
-				<CompanyProvider>
-					<ProductProvider>
-						<BrowserRouter>
-							<Layout />  
-						</BrowserRouter>
-					</ProductProvider>
-				</CompanyProvider>
+				<UserProvider>
+					<CompanyProvider>
+						<ProductProvider>
+							<BrowserRouter>
+								<Layout />  
+							</BrowserRouter>
+						</ProductProvider>
+					</CompanyProvider>
+				</UserProvider>
 			</FirebaseProvider>
 		</Elements>
   );

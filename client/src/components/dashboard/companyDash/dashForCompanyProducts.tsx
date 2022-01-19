@@ -5,29 +5,41 @@ import Button from '../../UI/button';
 import { Product } from "../../../models"
 import { DocumentData } from 'firebase/firestore';
 import DashForCompanyAddProducts from './dashForCompanyAddProduct';
+import { ProductContext, ProductOptions } from '../../../context/products/productContext';
+import { CompanyContext, CompanyOptions } from '../../../context/companies/companyContext';
+import ProductCard from '../../UI/productCard';
+import EditPopup from './editPopup';
 
 type Alternatives = "show" | "add"
 
 export default function DashForCompanyProducts() {
 
-    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    const productContext: ProductOptions = useContext(ProductContext)
+    const companyContext: CompanyOptions = useContext(CompanyContext)
+
+    const [editPopupOpen, setEditPopupOpen] = useState<boolean>(false)
     const [productAlternativ, setProductAlternativ] = useState<Alternatives>("show")
-    
-    const [products, setProducts] = useState<DocumentData[]>()
+    const [products, setProducts] = useState<Product[]>()
+    const [editProductTarget, setEditProductTarget] = useState<Product>()
 
     const getProducts = async () => {
-        const currentUserCompany = await fbFuncs.getCurrentUserCompany()
-        const products = await fbFuncs.getProductsFromCompany(currentUserCompany[0].id)
+        const currentUserCompany = await companyContext.getCurrentUserCompany()
+        const products = await productContext.functions.getProductsFromCompany(currentUserCompany[0].id as string)
         setProducts(products)
     }
 
+
     const renderProducts = () => { //FIXME: make this div returned to a component
+        const findId = (product: Product) => { return products?.find((productInArray) => productInArray === product as Product) }
         return products?.map((product, index) => {
-            return (
-                <div key={index}>
-                    <p>{product.data.name}</p>
-                    <p>{product.data.price}</p>
-                </div>
+            return ( //Productcard with edit and delete button
+                <ProductCard key={index} product={product} direction='row' height='12.5vh'>
+                    <div style={{display: "flex"}}>
+                        <Button buttonText='edit' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
+                        <Button buttonText='delete'/>
+                    </div>
+                </ProductCard>
             )
         })
     }
@@ -36,6 +48,14 @@ export default function DashForCompanyProducts() {
         getProducts()
     }, [])
 
+    useEffect(() => {
+        console.log("useEffect in dashforcompany: ", editProductTarget)
+        
+    }, [editProductTarget])
+
+    useEffect(() => {
+        console.log(products)
+    }, [products])
 
 
     return (
@@ -63,9 +83,12 @@ export default function DashForCompanyProducts() {
             {
                 productAlternativ === "show"? 
                    
-                    <div id="dashShowProducts" style={dashShowProductsStyle}>
-                        SHOW PRODUCTS
+                    <div id="dashShowProducts" className='noScrollBar' style={dashShowProductsStyle}>
                         { renderProducts() }
+                        { editPopupOpen?
+                            <EditPopup product={editProductTarget as Product}setEditPopupOpen={(bool: boolean) => setEditPopupOpen(bool)} />
+                            : null
+                        }
                     </div>
 
                     :
@@ -84,7 +107,7 @@ export default function DashForCompanyProducts() {
 
 const dashProductsStyle: CSSProperties = {
     width: "100%",
-    height: "80%",
+    height: "85%",
     padding: "1em",
     display: "flex"
 }
@@ -94,4 +117,6 @@ const dashShowProductsStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
     width: "70%",
+    padding: "0 1em",
+    overflow: "scroll"
 }
