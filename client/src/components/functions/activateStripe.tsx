@@ -1,5 +1,5 @@
 import { Elements, useStripe } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { RiContactsBookLine } from 'react-icons/ri';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
@@ -14,15 +14,21 @@ type Props = {
     stripeId: string
     stripeAccountStatus: Status | undefined
     setStripeAccountStatus: (status: Status) => void
+    syncIdAndStatus: () => void 
 }
 
 export default function ActivateStripe(props: Props) {
 
     
     const companyContext: CompanyOptions = useContext(CompanyContext)
+       
+    let stripe = useStripe()
    
-    const stripe =  useStripe()
+   
+
     
+    //const [accountStatus, setAccountStatus] = useState<Status>(props.stripeAccountStatus as Status)
+
    /*  async function getAccount() {
         if(stripe) {
             const response = await fetch("http://localhost:3001/getStripeAcc", {
@@ -37,6 +43,9 @@ export default function ActivateStripe(props: Props) {
         }
         
     } */
+
+
+
     
     async function createStripeAcc() {
         if(stripe) {
@@ -47,8 +56,10 @@ export default function ActivateStripe(props: Props) {
             })
             
 			const { id } = await response.json()
-            companyContext.updateCompany(id)
-            
+            //const updateCompany = async () => { await Promise.all([companyContext.updateCompany(id)])}
+            //await updateCompany()
+            await Promise.all([companyContext.updateCompany(id)])
+            props.syncIdAndStatus()
 		}  
 	}
     
@@ -62,42 +73,40 @@ export default function ActivateStripe(props: Props) {
             })
 			const { url } = await response.json()
             window.location.href = url
-			
+            props.syncIdAndStatus()
 		}  
 	}
 
     useEffect(() => {
-       /*  if(props.stripeId) {
-            getAccount()
-        } */
-    }, [stripe])
+        console.log(props.stripeAccountStatus)
+    }, [props.stripeAccountStatus])
+
+    useEffect(() => {
+        console.log(props.stripeId)
+     }, [props.stripeId])
+
+
 
 
     return (
         <div style={StripeActivation}> 
-            {
-                !props.stripeId? 
+            {!props.stripeId? 
+                <div>
+                    <p>Steg 1: Skapa ditt stripe konto för att ta emot kortbetalningar</p>
+                    <Button onClick={createStripeAcc} buttonText='Skapa stripe konto'/>
+                    <p> {props.stripeAccountStatus?.message} </p>
+                </div>
+                : props.stripeAccountStatus?.status === 201?
                     <div>
-                        <p>Steg 1: Skapa ditt stripe konto för att ta emot kortbetalningar</p>
-                        <Button onClick={createStripeAcc} buttonText='Skapa stripe konto'/>
-                        <p> {props.stripeAccountStatus?.message} </p>
+                        <p>Steg 2: Länka ditt stripe konto till oss för att ta betalt</p>
+                        <Button onClick={createStripeLink} buttonText='Länka konto'/>
+                        <p> {props.stripeAccountStatus.message} </p>
                     </div>
-
-                    :
-                    props.stripeAccountStatus?.status === 201?
-                        <div>
-                            <p>Steg 2: Länka ditt stripe konto till oss för att ta betalt</p>
-                            <Button onClick={createStripeLink} buttonText='Länka konto'/>
+                    : props.stripeAccountStatus?.status === 202?
+                        <p> {props.stripeAccountStatus?.message} </p>
+                        : props.stripeAccountStatus?.status === 200?
                             <p> {props.stripeAccountStatus?.message} </p>
-                        </div>
-                        :
-                        props.stripeAccountStatus?.status === 202?
-                            <p> {props.stripeAccountStatus?.message} </p>
-                        : 
-                        props.stripeAccountStatus?.status === 200?
-                            <p> {props.stripeAccountStatus?.message} </p>
-                        :
-                        null    
+                            : null    
             }
         </div>    
             
