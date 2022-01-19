@@ -1,17 +1,18 @@
 import { DocumentData, documentId } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { Product } from '../../models';
 import ProductCard from '../UI/productCard';
 import CartProductController from './cartProductController';
-import { useStripe } from '@stripe/react-stripe-js';
 import Button from '../UI/button';
+import ToCheckout from './toCheckout';
+
 
 type Cart = {
     companyId: string
     companyName: string
+    stripeId: string
     products: Product[]
 }
 
@@ -25,7 +26,10 @@ export default function Cart() {
     const companyContext: CompanyOptions = useContext(CompanyContext)
 
     const [productsInCart, setProductsInCart] = useState<Cart[]>()
-
+    const [stripeAccountId, setStripeAccountId] = useState<string>("")
+    const [checkoutOpen, setCheckoutOpen] = useState<boolean>(false)
+    const [checkoutItems, setCheckoutItems] = useState<any>()
+ 
     const syncCart = async () => {
         //Get products from DB
         let localst: string | null = localStorage.getItem('cart')
@@ -60,7 +64,7 @@ export default function Cart() {
                 })
 
                 //Get name for companies as a new array
-                const arrayWithCompanyNames = await getCompanyNames(sortedCart)
+                const arrayWithCompanyNames = await getCompanyData(sortedCart)
                 setProductsInCart(arrayWithCompanyNames)
             } 
             else {
@@ -69,11 +73,12 @@ export default function Cart() {
         }
     }
 
-    const getCompanyNames = async (array: any) => {
+    const getCompanyData = async (array: any) => {
         if(array) {
             const arrayClone: Cart[] = [...array]
             const arrayWithNames = await Promise.all(arrayClone?.map( async (product) => {
                 const company = await companyContext.getCompany("companies", documentId(), "==", product.companyId)
+                product.stripeId = company[0].payments.stripe_acc_id as string
                 product.companyName = company[0].name
                 return product
             }))
@@ -90,32 +95,18 @@ export default function Cart() {
         console.log("productsInCart: ", productsInCart)
     }, [productsInCart])
 
-    const stripe = useStripe()
-
-	async function toCheckOut(cartItem: any) {
-		if(stripe) {
-      		const response = await fetch("http://localhost:3001/checkout", {
-          		method: "POST",
-          		headers: {"content-type": "application/json"},
-          		credentials: 'include',
-                body: JSON.stringify({products: cartItem})
-      		})
-
-			const { id } = await response.json()
-			console.log(id)
-			stripe.redirectToCheckout({sessionId: id})
-		}  
-	}
-
-
-    
 
     return (
         
-		<div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
+        <div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
+            {checkoutOpen?      
+                    <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
+                : null
+            }
             { 
                 productsInCart?    
-                    productsInCart.map((cartItem, i) => {
+                productsInCart.map((cartItem, i) => {
+                        /* const findId = (cartItem: any) => { return productsInCart?.find((productInArray) => productInArray === cartItem) } */
                         return (
                             <div key={i} className="cartSection" style={cartSectionStyle}> 
                                 <h1 style={{width: "100%", textAlign: "center", marginBottom: "1em"}}>{cartItem.companyName}</h1>
@@ -123,6 +114,7 @@ export default function Cart() {
                                     <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
                                         {
                                             cartItem.products.map((product, i) => {
+                                            
                                                 return(
                                                     <ProductCard key={i} 
                                                         product={product}
@@ -140,8 +132,8 @@ export default function Cart() {
                                {/*  </div> */}
                                 <div className='paymentSection' style={paymentSectionStyle}>
                                     <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
-                                    <Button onClick={() => toCheckOut(cartItem.products)} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
-
+                                    <Button onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
+                                  
                                 </div>
                             </div>
                         )

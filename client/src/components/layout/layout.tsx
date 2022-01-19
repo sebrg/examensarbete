@@ -7,8 +7,16 @@ import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext'
 import Hero from './hero';
 import { useLocation } from 'react-router-dom';
 
+type stripeAcc = {
+    stripeAccount: string,
+    setStripeAccount: (param: string) => void
+}
 
-export default function Layout() {
+type Props = {
+   /*  stripeOptions: stripeAcc */
+}
+
+export default function Layout(props: Props) {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const mainRef = useRef() as React.MutableRefObject<HTMLInputElement>
@@ -40,7 +48,7 @@ export default function Layout() {
             <div id="layoutWrap" className='noScrollBar' style={layoutStyle}>
                 <Hero />
                 <Header scrollContentIntoView={scrollContentIntoView} setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
-                <Main passedRef={mainRef} isLoggedIn={isLoggedIn}/>
+                <Main /* stripeOptions={props.stripeOptions} */ passedRef={mainRef} isLoggedIn={isLoggedIn}/>
             </div>
             {
                 loginToggle? //NOTE: Maybe move this condition into the LoginPopup component instead
