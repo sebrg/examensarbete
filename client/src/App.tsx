@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Layout from './components/layout/layout';
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 import FirebaseProvider from './context/firebaseProvider';
 import { BrowserRouter } from 'react-router-dom';
 import { FirebaseContext, FirebaseOptions } from './context/firebaseContext';
