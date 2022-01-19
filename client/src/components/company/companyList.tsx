@@ -23,7 +23,7 @@ export default function CompanyList() {
                 companies?    
                     companies.map((company, i) => {
                         return( 
-                            <Button key={i} linkTo={`/${company.data.name.replace(" ", '')}-${company.id}`} buttonText={`${company.data.name}`}></Button>
+                            <Button key={i} linkTo={`/${company.data.name.replace(" ", '').replace("-", "").replace("_", "")}-${company.id}`} buttonText={`${company.data.name}`}></Button>
                         )
                     })
                     :
