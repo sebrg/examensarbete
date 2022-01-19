@@ -1,13 +1,10 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { Company } from '../../models';
 import Button from '../UI/button';
 
-type CurrentCompany = {
-    name: string
-    id: string
-}
 type Props = {
-    currentCompany: CurrentCompany | undefined
+    currentCompany: Pick<Company, "name" | "id"> | undefined
 }
 
 
