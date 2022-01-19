@@ -5,11 +5,13 @@ import { Company, Product } from "../../models"
 
 export interface CompanyOptions {
 
-    addCompany: (company: Company, to: "companies" | "pendingCompanies") => Promise<void>
-    getCurrentUserCompany: () => Promise<Company[]>
-    getAllCompanies: (company: "companies" | "pendingCompanies") => Promise<Company[]>
-    getCompany: (from: "companies" | "pendingCompanies", fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Company[]>
 
+    addCompany: (company: Company) => void
+    getCurrentUserCompany: () => Promise<DocumentData[]>
+    getAllCompanies: () => Promise<DocumentData[]>
+    getCompany: (fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Company[]>
+    updateCompany: (stripeId: string) => void,
+    setPaymentEnabled: (enabled: boolean) => void
     aproveCompany: (id: string) => void
     removeCompany: (id: string) => void
 }
@@ -18,8 +20,11 @@ export interface CompanyOptions {
 export const CompanyContext = createContext({
     addCompany: (company: Company, to: "companies" | "pendingCompanies") => {},
     getCurrentUserCompany: () => {},
-    getAllCompanies: (company: "companies" | "pendingCompanies") => {},
-    getCompany: (from: "companies" | "pendingCompanies", fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {},
     aproveCompany: (id: string) => {},
-    removeCompany: (id: string) => {}
+    removeCompany: (id: string) => {},
+    getAllCompanies: () => {},
+    getCompany: (fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {},
+    updateCompany: (stripeId: string) => {},
+    setPaymentEnabled: (enabled: boolean) => {}
+        
 } as CompanyOptions)

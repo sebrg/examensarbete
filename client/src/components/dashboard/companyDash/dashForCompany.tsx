@@ -15,6 +15,7 @@ export default function DashForCompany() {
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const [testState, setTestState] = useState<DocumentData[]>()
 
+
     return (
         <div id="dashContentForCompany" style={{width: "100%", height: "100%"}}>
             <DashCompanyNav />    

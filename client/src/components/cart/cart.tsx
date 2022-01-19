@@ -6,6 +6,7 @@ import { CompanyContext, CompanyOptions } from '../../context/companies/companyC
 import { Product } from '../../models';
 import ProductCard from '../UI/productCard';
 import CartProductController from './cartProductController';
+import { useStripe } from '@stripe/react-stripe-js';
 import Button from '../UI/button';
 
 type Cart = {
@@ -89,6 +90,23 @@ export default function Cart() {
         console.log("productsInCart: ", productsInCart)
     }, [productsInCart])
 
+    const stripe = useStripe()
+
+	async function toCheckOut(cartItem: any) {
+		if(stripe) {
+      		const response = await fetch("http://localhost:3001/checkout", {
+          		method: "POST",
+          		headers: {"content-type": "application/json"},
+          		credentials: 'include',
+                body: JSON.stringify({products: cartItem})
+      		})
+
+			const { id } = await response.json()
+			console.log(id)
+			stripe.redirectToCheckout({sessionId: id})
+		}  
+	}
+
 
     
 
@@ -122,7 +140,8 @@ export default function Cart() {
                                {/*  </div> */}
                                 <div className='paymentSection' style={paymentSectionStyle}>
                                     <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
-                                    <Button width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
+                                    <Button onClick={() => toCheckOut(cartItem.products)} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
+
                                 </div>
                             </div>
                         )

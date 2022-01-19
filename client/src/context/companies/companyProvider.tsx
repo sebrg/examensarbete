@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, DocumentData, documentId, FieldPath, getDoc, getDocs, query, where, WhereFilterOp } from "firebase/firestore";
+
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { CompanyContext, CompanyOptions, } from "../companies/companyContext"
@@ -16,6 +17,8 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         getCompany: this.getCompany.bind(this),
         aproveCompany: this.aproveCompany.bind(this),
         removeCompany: this.removeCompany.bind(this)
+        updateCompany: this.updateCompany.bind(this),
+        setPaymentEnabled: this.setPaymentEnabled.bind(this)
     }
 
     async addCompany(company: Company, to: "companies" | "pendingCompanies") {
@@ -30,8 +33,19 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
 
         const auth = getAuth();
 
+        let companyData = {
+            name: company.name,
+            school: company.school,
+            region: company.region, 
+            category: company.category,
+            payments: {
+                enabled: company.payments.enabled,
+            }
+        }
+
         if(auth.currentUser) {
             await addDoc(collection(firebaseCollection.db, to), {
+
                 ...companyData, creator: auth.currentUser.uid
             });
         }
@@ -94,6 +108,31 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         await deleteDoc(doc(firebaseCollection.db, "pendingCompanies", id));
         console.log("company deleted")
     }
+
+    async updateCompany(stripeId: string) { // NOTE: Kanske göra mer flexibel funktion?
+        let getCompany = await this.getCurrentUserCompany()
+        let currentCompanyClone = getCompany[0].data as Company
+
+        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id);
+        currentCompanyClone.payments.stripe_acc_id = stripeId
+        await updateDoc(companyRef, {
+        ...currentCompanyClone as Company
+        });     
+        console.log("Added stripe id:", stripeId, "to current company")   
+    }
+
+    async setPaymentEnabled(enabled: boolean) { // NOTE: Kanske göra mer flexibel funktion?
+        let getCompany = await this.getCurrentUserCompany()
+        let currentCompanyClone = getCompany[0].data as Company
+
+        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id);
+        currentCompanyClone.payments.enabled = enabled
+        await updateDoc(companyRef, {
+        ...currentCompanyClone as Company
+        });     
+        console.log("Enabled is set to:", enabled)   
+    }
+
     
     render() {
         return(
