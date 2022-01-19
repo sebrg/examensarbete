@@ -6,15 +6,11 @@ import { Company } from '../../models';
 import DashContent from '../dashboard/dashContent';
 import DashNav from '../dashboard/dashNav';
 
-/* type CurrentCompany = {
-    name: string
-    id: string
-} */
 
 export default function MyPages() {
 
     const companyContext: CompanyOptions = useContext(CompanyContext)
-    const [currentCompany, setCurrentCompany] = useState<any>(undefined) //FIXME: fix type "any"
+    const [currentCompany, setCurrentCompany] = useState<Pick<Company, "name" | "id"> | undefined>() //FIXME: fix type "any"
     const [companyLoaded, setCompanyLoaded] = useState<boolean>(false)
     
     const checkCompany = async () => {
