@@ -15,6 +15,8 @@ export interface ProductFunctions {
     //getSingleProduct: (docId: string) => Promise<Product | undefined> //FIXME: should not be allowed to be undefined
     getAllProducts: () => void//Promise<DocumentData[]>
     getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Product[]>
+    addOrder: (sessionId: string, data: any) => void
+    getAllOrders: () =>  Promise<DocumentData[]>
 }
 
 
@@ -25,7 +27,9 @@ export const ProductContext = createContext({
         upLoadImg: (file: any) => {},
         //getSingleProduct: (docId: string) => {},
         getAllProducts: () => {},
-        getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {}        
+        getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {},
+        addOrder: (sessionId: string, data: any) => {},
+        getAllOrders: () => {}        
     },
     allProducts: []
         

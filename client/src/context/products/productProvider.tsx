@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, where, WhereFilterOp } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
@@ -19,7 +19,9 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             upLoadImg: this.upLoadImg.bind(this),
             //getSingleProduct: this.getSingleProduct.bind(this),
             getAllProducts: this.getAllProducts.bind(this),
-            getProducts: this.getProducts.bind(this)
+            getProducts: this.getProducts.bind(this),
+            addOrder: this.addOrder.bind(this),
+            getAllOrders: this.getAllOrders.bind(this)
         },
         allProducts: []
     }
@@ -137,6 +139,20 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             
             return result
     } */
+    async addOrder(sessionId: string, data: any) {
+        await setDoc(doc(firebaseCollection.db, "orders", sessionId), data);
+        console.log('order added')
+    }
+
+    async getAllOrders() {
+        const result: DocumentData[] = []
+        const get = await getDocs(collection(firebaseCollection.db, "orders"));
+        get.forEach((doc) => {
+            result.push({id: doc.id, ...doc.data()})
+          });
+          
+          return result
+    }
 
 
 
