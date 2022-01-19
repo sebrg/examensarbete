@@ -15,8 +15,8 @@ export default function ReqAdminAuth(props: Props) {
     const [loadingComplete, setLoadingComplete] = useState<Boolean>(false)
 
     let authenticate = async () => {
-        const la = await userContext.checkAdmin()
-        setAuth(la)
+        const checkAdmin = await userContext.checkAdmin()
+        setAuth(checkAdmin)
         setLoadingComplete(true)
     }
   

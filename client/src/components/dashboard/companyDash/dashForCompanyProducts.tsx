@@ -74,7 +74,7 @@ export default function DashForCompanyProducts() {
                     onClick={() => setProductAlternativ('add')} 
                     margin='0 0 0.5em 0' 
                     /* width="30%"  */
-                    buttonText='Add/edit product'
+                    buttonText='Add product'
                     bgColor={productAlternativ === "add"? "rgb(49, 52, 68)" : ""}
 
                 />
@@ -86,7 +86,7 @@ export default function DashForCompanyProducts() {
                     <div id="dashShowProducts" className='noScrollBar' style={dashShowProductsStyle}>
                         { renderProducts() }
                         { editPopupOpen?
-                            <EditPopup product={editProductTarget as Product}setEditPopupOpen={(bool: boolean) => setEditPopupOpen(bool)} />
+                            <EditPopup product={editProductTarget as Product} setEditPopupOpen={(bool: boolean) => setEditPopupOpen(bool)} />
                             : null
                         }
                     </div>
