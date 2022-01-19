@@ -5,14 +5,11 @@ import DashOldOrders from './dashOldOrders';
 import DashRegisterCompany from './companyDash/dashRegisterCompany';
 import DashUserInfo from './dashUserInfo';
 import ReqCompanyAuth from '../functions/reqCompanyAuth';
+import { Company } from '../../models';
 
-type CurrentCompany = {
-    name: string
-    id: string
 
-}
 type Props = {
-    currentCompany: CurrentCompany | undefined
+    currentCompany: Pick<Company, "name" | "id"> | undefined
     companyLoaded: boolean
 }
 
@@ -45,13 +42,13 @@ export default function DashContent(props: Props) {
 const userDashFrameStyle: CSSProperties = {
     width: "80%",
     height: "100%",
-    padding: "1em",
+    padding: "0px 0.5em 0px 0px ",
 }
 
 const userDashContentStyle: CSSProperties = {
     backgroundColor: "rgb(131 159 105)",
     width: "100%",
     height: "100%",
-    borderRadius: "10px",
+    //borderRadius: "10px",
     color: "white"
 }
