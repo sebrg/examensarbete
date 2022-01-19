@@ -51,5 +51,7 @@ export default function PendingCompanies() {
 const pendingCompaniesStyle: CSSProperties = {
     padding: "1em",
     display: "flex",
-    width: "100%"
+    width: "100%",
+    flexWrap: "wrap",
+    alignContent: "flex-start"
 }
