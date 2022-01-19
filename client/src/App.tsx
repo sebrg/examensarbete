@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Layout from './components/layout/layout';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -12,27 +12,31 @@ import CompanyProvider from './context/companies/companyProvider';
 
 
 function App() {
-	
-	const stripePromise = loadStripe("pk_test_51KCOmfFKFGHIBqJeuHe27RBjAFluqc1kaOArTwLHDQ6H1rIrSPE4HBYMz6O3eHD2V5rqOkR4xBmumJlBdGj04l7J00azQB7MR5", {
-	  stripeAccount: 'acct_1KIvKL2ZjQKtl2fI' //NOTE: Ska dynamiskt ändras
-	})
-	//const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-	//const [allProducts, setAllProducts] = useState<undefined | DocumentData[]>(undefined)
-	 
 
+	/* const stripePK = 'pk_test_51KCOmfFKFGHIBqJeuHe27RBjAFluqc1kaOArTwLHDQ6H1rIrSPE4HBYMz6O3eHD2V5rqOkR4xBmumJlBdGj04l7J00azQB7MR5'
+	const [stripeAccount, setStripeAccount] = useState<string>("") */
+	/* const [stripePromise, setStripePromise] = useState(() => loadStripe(stripePK, {stripeAccount: stripeAccount})) */
+
+
+/* 	useEffect(() => {
+		console.log(stripeAccount, "in app")
+    }, [stripeAccount])
+ */
+	
+/* 	const stripePromise = loadStripe(stripePK, {
+		stripeAccount: stripeAccount
+	}) */
 
 	return (
-		<Elements stripe={stripePromise}>
 			<FirebaseProvider>
 				<CompanyProvider>
 					<ProductProvider>
 						<BrowserRouter>
-							<Layout />  
+							<Layout /* stripeOptions={{stripeAccount, setStripeAccount}} *//>  
 						</BrowserRouter>
 					</ProductProvider>
 				</CompanyProvider>
 			</FirebaseProvider>
-		</Elements>
   );
 }
 
