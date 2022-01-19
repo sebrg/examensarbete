@@ -10,7 +10,7 @@ export interface ProductOptions {
 
 export interface ProductFunctions {
     addProduct: (product: Product) => void
-    getProductsFromCompany: (companyId: string) => Promise<DocumentData[]>
+    getProductsFromCompany: (companyId: string) => Promise<Product[]>
     upLoadImg: (file: any) => void 
     //getSingleProduct: (docId: string) => Promise<Product | undefined> //FIXME: should not be allowed to be undefined
     getAllProducts: () => void//Promise<DocumentData[]>
