@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, DocumentData, documentId, FieldPath, getDoc, getDocs, query, where, WhereFilterOp } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, DocumentData, documentId, FieldPath, getDoc, getDocs, query, updateDoc, where, WhereFilterOp } from "firebase/firestore";
 
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
@@ -16,24 +16,17 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         getAllCompanies: this.getAllCompanies.bind(this),
         getCompany: this.getCompany.bind(this),
         aproveCompany: this.aproveCompany.bind(this),
-        removeCompany: this.removeCompany.bind(this)
+        removeCompany: this.removeCompany.bind(this),
         updateCompany: this.updateCompany.bind(this),
         setPaymentEnabled: this.setPaymentEnabled.bind(this)
     }
 
     async addCompany(company: Company, to: "companies" | "pendingCompanies") {
         //TODO: Fix better failsafe
-       
-        let companyData: Omit<Company, "id"> = { // FORTSÄTT HÄR
-            category: company.category,
-            name: company.name,
-            region: company.region,
-            school: company.school
-        }
 
         const auth = getAuth();
 
-        let companyData = {
+        let companyData: Omit<Company, "id"> = {
             name: company.name,
             school: company.school,
             region: company.region, 
@@ -99,7 +92,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         const currentPendingCompany: Company[] = await this.getCompany("pendingCompanies", documentId(), "==", id)
         console.log(currentPendingCompany)
         
-        await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category ), "companies")
+        await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false} ), "companies")
         await this.removeCompany(id)
         console.log("company aproved")
     }
@@ -111,9 +104,9 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
 
     async updateCompany(stripeId: string) { // NOTE: Kanske göra mer flexibel funktion?
         let getCompany = await this.getCurrentUserCompany()
-        let currentCompanyClone = getCompany[0].data as Company
+        let currentCompanyClone = getCompany[0] as Company
 
-        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id);
+        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id as string);
         currentCompanyClone.payments.stripe_acc_id = stripeId
         await updateDoc(companyRef, {
         ...currentCompanyClone as Company
@@ -123,9 +116,9 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
 
     async setPaymentEnabled(enabled: boolean) { // NOTE: Kanske göra mer flexibel funktion?
         let getCompany = await this.getCurrentUserCompany()
-        let currentCompanyClone = getCompany[0].data as Company
+        let currentCompanyClone = getCompany[0] as Company
 
-        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id);
+        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id as string);
         currentCompanyClone.payments.enabled = enabled
         await updateDoc(companyRef, {
         ...currentCompanyClone as Company
