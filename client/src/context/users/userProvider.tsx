@@ -150,8 +150,8 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         const auth = getAuth();
         const userCollectionRef = collection(firebaseCollection.db, "admin")
         const data = await getDocs(userCollectionRef);
-        const adminList = data.docs.map(doc => ({...doc.data()} as DocumentData));
-        const foundAdmin = adminList.find((admin) => admin.id === auth.currentUser?.uid)
+        const adminList = data.docs.map(doc => (doc.id));
+        const foundAdmin = adminList.find((admin) => admin === auth.currentUser?.uid)
         
         if(foundAdmin && foundAdmin !== undefined) {
             return true
