@@ -1,5 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import { Navigate, useLocation, useMatch } from 'react-router-dom';
+import { Company } from '../../models';
 
 type CurrentCompany = {
     name: string
@@ -7,7 +8,7 @@ type CurrentCompany = {
 }
 type Props = {
     children: JSX.Element
-    currentCompany: CurrentCompany | undefined
+    currentCompany: Pick<Company, "name" | "id"> | undefined
     companyLoaded: boolean
 }
 
