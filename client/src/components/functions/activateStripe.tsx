@@ -1,5 +1,7 @@
-import { useStripe } from '@stripe/react-stripe-js';
+import { Elements, useStripe } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import { RiContactsBookLine } from 'react-icons/ri';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import Button from '../UI/button';
 
@@ -8,115 +10,97 @@ type Status = {
     message: string
 }
 
-export default function ActivateStripe() {
+type Props = {
+    stripeId: string
+    stripeAccountStatus: Status | undefined
+    setStripeAccountStatus: (status: Status) => void
+}
 
+export default function ActivateStripe(props: Props) {
+
+    
     const companyContext: CompanyOptions = useContext(CompanyContext)
-    const [stripeId, setStripeId] = useState<string | null>(null)
-    const [accountStatus, setAccountStatus] = useState<Status>()
-
-    const setState = async () => {
-        let currentCompany = await companyContext.getCurrentUserCompany()
-        if(currentCompany[0].payments.stripe_acc_id) {
-            setStripeId(currentCompany[0].payments.stripe_acc_id)
-        }
-        if(currentCompany[0].payments.enabled === false) { //NOTE: Ska den ligga här?? 
-            if(accountStatus?.status === 200) {
-                companyContext.setPaymentEnabled(true)
-            }
-        }
-    }
-
-    useEffect(() => {
-        setState()
-    }, []) 
-
-    useEffect(() => {
-        getAccount()
-        console.log("state = ", stripeId)
-    }, [stripeId])
-
-    useEffect(() => {
-        console.log("accStatus:", accountStatus)
-    }, [accountStatus])
-
-
-    const stripe = useStripe()
-
-    async function getAccount() {
-        if(stripe && stripeId) {
+   
+    const stripe =  useStripe()
+    
+   /*  async function getAccount() {
+        if(stripe) {
             const response = await fetch("http://localhost:3001/getStripeAcc", {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 credentials: 'include',
-                body: JSON.stringify({stripeId: stripeId})
+                body: JSON.stringify({stripeId: props.stripeId})
             })
-
+            
             const status = await response.json()
-            console.log(status.status)
-            setAccountStatus(status)
-      }
-      
-    }
-
+            props.setStripeAccountStatus(status)
+        }
+        
+    } */
+    
     async function createStripeAcc() {
-		if(stripe) {
-      		const response = await fetch("http://localhost:3001/createStripe", {
-          		method: "POST",
-          		headers: {"content-type": "application/json"},
-          		credentials: 'include',
-      		})
-
+        if(stripe) {
+            const response = await fetch("http://localhost:3001/createStripe", {
+                method: "POST",
+                headers: {"content-type": "application/json"},
+                credentials: 'include',
+            })
+            
 			const { id } = await response.json()
-			console.log("stripe acc id:" , id)
             companyContext.updateCompany(id)
-        			
+            
 		}  
 	}
-
+    
     async function createStripeLink() {
-		if(stripe && stripeId) {
-      		const response = await fetch("http://localhost:3001/createStripeLink", {
-          		method: "POST",
-          		headers: {"content-type": "application/json"},
-          		credentials: 'include',
-                body: JSON.stringify({stripeId: stripeId})
-      		})
-            console.log(stripeId)
+        if(stripe && props.stripeId) {
+            const response = await fetch("http://localhost:3001/createStripeLink", {
+                method: "POST",
+                headers: {"content-type": "application/json"},
+                credentials: 'include',
+                body: JSON.stringify({stripeId: props.stripeId})
+            })
 			const { url } = await response.json()
             window.location.href = url
 			
 		}  
 	}
 
+    useEffect(() => {
+       /*  if(props.stripeId) {
+            getAccount()
+        } */
+    }, [stripe])
+
+
     return (
-    
         <div style={StripeActivation}> 
             {
-                !stripeId? 
+                !props.stripeId? 
                     <div>
                         <p>Steg 1: Skapa ditt stripe konto för att ta emot kortbetalningar</p>
                         <Button onClick={createStripeAcc} buttonText='Skapa stripe konto'/>
-                        <p> {accountStatus?.message} </p>
+                        <p> {props.stripeAccountStatus?.message} </p>
                     </div>
 
                     :
-                    accountStatus?.status === 201?
+                    props.stripeAccountStatus?.status === 201?
                         <div>
                             <p>Steg 2: Länka ditt stripe konto till oss för att ta betalt</p>
                             <Button onClick={createStripeLink} buttonText='Länka konto'/>
-                            <p> {accountStatus?.message} </p>
+                            <p> {props.stripeAccountStatus?.message} </p>
                         </div>
                         :
-                        accountStatus?.status === 202?
-                            <p> {accountStatus?.message} </p>
+                        props.stripeAccountStatus?.status === 202?
+                            <p> {props.stripeAccountStatus?.message} </p>
                         : 
-                        accountStatus?.status === 200?
-                            <p> {accountStatus?.message} </p>
+                        props.stripeAccountStatus?.status === 200?
+                            <p> {props.stripeAccountStatus?.message} </p>
                         :
                         null    
             }
         </div>    
-  
+            
     );
 }
 
