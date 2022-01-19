@@ -98,8 +98,8 @@ const foldableCompanyCardOpen: CSSProperties = {
     padding: "0.5em 0.5em 0em 0.5em",
     width: "100%",
     height: "100%",
-
-
+    marginBottom: "1em",
+    
 }
 
 const foldableCompanyCardClosed: CSSProperties = {
@@ -113,6 +113,7 @@ const foldableCompanyCardClosed: CSSProperties = {
     cursor: "pointer",
     textAlign: "center",
     justifyContent: "center",
+    marginBottom: "1em",
 }
 
 const foldCardHeader: CSSProperties = {
