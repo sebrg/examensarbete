@@ -4,6 +4,7 @@ import ImgPreview from "../../functions/imgPreview";
 import Button from "../../UI/button";
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import { ProductContext, ProductOptions } from '../../../context/products/productContext';
+import ImgUpload from "../../functions/imgUpload";
 
 export default function DashForCompanyAddProducts(/* props: Props */) {
 
@@ -12,7 +13,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
     const [quantity, setQuantity] = useState<number>(0)
-    const [imgArr, setImgArr] = useState<any[] | undefined>(undefined) //NOTE: any type, no good!
+    const [imgArr, setImgArr] = useState<string[] | Blob[] | MediaSource[] | object[] | undefined>(undefined) //NOTE: any type, no good!
 
     const updateName = (event: any) => {
         event? setName(event.target.value) : setName("")
@@ -26,37 +27,10 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
         event? setQuantity(event.target.value) : setQuantity(0) //NOTE: is 0 really a good fallback?
     }
 
-    const updateProductImg = (event: any) => {
-        console.log("running updateProductImg function")
-        let arr: any[] = []
-        if(imgArr) {
-            arr = [...imgArr]
-        }
-        let files = Object.values(event.target.files)
-        files.forEach((file: any) => {
-            arr.push(file)
-        })        
-        setImgArr(arr)
-    }
 
-    const removeImgFromArr = (img: any) => { 
-        if(imgArr && imgArr.length > 1) {
-            let originalArray = [...imgArr]
-            let filteredArray = originalArray.filter(i => i.name !== img.name)
-            setImgArr(filteredArray)
-        }
-        else {
-            setImgArr(undefined)
-        }
-        
-        
-    }
-    
-
-
-    useEffect(() => {
+/*     useEffect(() => {
         console.log("arr in state: ", imgArr)
-    }, [imgArr])
+    }, [imgArr]) */
 
 
     return (
@@ -81,27 +55,8 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
             />
 
 
-            <div id="imgUploadInput" style={uploadWrappStyle}>
-
-                <label style={{position: "relative", minWidth: "20%", height: "100%"}}>
-                    <div style={uploadBtn}>
-                        <AiOutlineFileAdd fontSize={"4em"}/>
-                    </div>
-                    <input 
-                        style={uploadInputStyle}
-                        //placeholder='Ladda upp bild'
-                        type="file"
-                        accept="image/*"
-                        multiple={false}
-                        onChange={(event) => updateProductImg(event)}
-                    />
-                </label>
-
-                <ImgPreview imgArr={imgArr} removeFunc={removeImgFromArr} />
-            </div>
-
         
-
+            <ImgUpload style={uploadWrappStyle} imgArr={imgArr} setImgArr={(newArr: string[] | Blob[] | MediaSource[] | object[] | undefined) => setImgArr(newArr)}/>
     
 
             <div style={{marginTop: "auto", width: "50%"}}>
@@ -133,30 +88,6 @@ const addProductInputStyle: CSSProperties = {
     fontSize: "1.2em",
     padding: "0.5em",
     marginBottom: "0.5em"
-}
-
-const uploadInputStyle: CSSProperties = {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    bottom: 0,
-    opacity: 0,
-    width: "100%",
-    cursor: "pointer",
-
-}
-
-const uploadBtn: CSSProperties = {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    width: "100%",
-    backgroundColor: "rgb(146 209 170)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: "10px",
-    
 }
 
 const uploadWrappStyle: CSSProperties = {
