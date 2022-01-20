@@ -8,15 +8,16 @@ export class Company {
     school: string;
     region: string;
     category: string;
-    id?: string //NOTE: not sure to keep
     payments: Payments
-        
-   constructor(name: string, school: string, region: string, category: string, payments: Payments, id?: string) {
+    id?: string //NOTE: not sure to keep
+    creator?: string
+   constructor(name: string, school: string, region: string, category: string, payments: Payments, id?: string, creator?: string) {
         this.name = name
         this.school = school
         this.region = region
         this.category = category
         this.id = id
         this.payments = payments
+        this.creator = creator
     }
 }
