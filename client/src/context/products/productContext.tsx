@@ -17,6 +17,8 @@ export interface ProductFunctions {
     getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Product[]>
     addOrder: (sessionId: string, data: any) => void
     getAllOrders: () =>  Promise<DocumentData[]>
+    deleteProduct: (product: Product) => void
+    updateProduct: (updatedProduct: Product) => void
 }
 
 
@@ -29,7 +31,9 @@ export const ProductContext = createContext({
         getAllProducts: () => {},
         getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {},
         addOrder: (sessionId: string, data: any) => {},
-        getAllOrders: () => {}        
+        getAllOrders: () => {},
+        deleteProduct: (product: Product) => {},
+        updateProduct: (updatedProduct: Product) => {},
     },
     allProducts: []
         
