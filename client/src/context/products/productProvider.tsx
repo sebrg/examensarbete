@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, updateDoc, documentId } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
@@ -21,7 +21,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             getAllProducts: this.getAllProducts.bind(this),
             getProducts: this.getProducts.bind(this),
             addOrder: this.addOrder.bind(this),
-            getAllOrders: this.getAllOrders.bind(this)
+            getAllOrders: this.getAllOrders.bind(this),
+            updateQuantityOnPurchase: this.updateQuantityOnPurchase.bind(this)
         },
         allProducts: []
     }
@@ -164,6 +165,21 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     async deleteProduct(id: string) {
         await deleteDoc(doc(firebaseCollection.db, "pendingCompanies", id));
         console.log("Product deleted")
+    }
+
+    async updateQuantityOnPurchase(productId: string, QuantityToRemove: number) { 
+        let getProduct = await this.getProducts("products", documentId(), "==", productId)
+        const productClone = getProduct[0] as Product
+    
+        const productRef = doc(firebaseCollection.db, "products", productId as string);
+        if(productClone.quantity) { 
+            let quantity = productClone.quantity - QuantityToRemove
+            productClone.quantity = quantity
+            await updateDoc(productRef, {
+            ...productClone as Product
+            });     
+            console.log("Removed", QuantityToRemove, "on product:", productId)   
+        }
     }
 
     render() {
