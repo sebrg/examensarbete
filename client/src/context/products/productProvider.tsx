@@ -1,15 +1,15 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, documentId } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
 import { Company, Product } from "../../models"
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { FirebaseContext } from "../firebaseContext";
+import { CompanyContext } from "../companies/companyContext";
 
 interface Props{}
 export default class ProductProvider extends Component<Props, ProductOptions>   {
-    static contextType = FirebaseContext
+    static contextType = CompanyContext
 
     state: ProductOptions = {
         functions: {
@@ -21,7 +21,9 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             getAllProducts: this.getAllProducts.bind(this),
             getProducts: this.getProducts.bind(this),
             addOrder: this.addOrder.bind(this),
-            getAllOrders: this.getAllOrders.bind(this)
+            getAllOrders: this.getAllOrders.bind(this),
+            deleteProduct: this.deleteProduct.bind(this),
+            updateProduct: this.updateProduct.bind(this)
         },
         allProducts: []
     }
@@ -115,7 +117,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         const storage = getStorage();
         const imgName = file.name.split(".")[0]
         const imgEnding = file.name.split(".")[1]
-        const storageRef = ref(storage, `${currentCompany[0].data.name}/productImages/${imgName + new Date().getTime()}.${imgEnding}`);
+        const storageRef = ref(storage, `${currentCompany[0].name}/productImages/${imgName + new Date().getTime()}.${imgEnding}`);
         const uploadTask = await uploadBytesResumable(storageRef, file);
 
         let imgUrl = await getDownloadURL(uploadTask.ref)
@@ -148,22 +150,39 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
           });
           this.state.allProducts = result as Product[]
     }
-    async deleteImg() {
+    async deleteImg(imgName: string) {
+
+        //const currentCompany = await this.context.getCurrentUserCompany()
         const storage = getStorage();
-
+        //`${currentCompany[0].name}/productImages/${imgName}`
         // Create a reference to the file to delete
-        const desertRef = ref(storage, 'images/desert.jpg');
-
+        const desertRef = ref(storage, imgName);
         // Delete the file
         deleteObject(desertRef).then(() => {
         // File deleted successfully
+        console.log(imgName, " has been deleted from DB")
         }).catch((error) => {
         // Uh-oh, an error occurred!
+        console.log("Uh Oh something went wrong in the process of deleting ", imgName)
         });
     }
-    async deleteProduct(id: string) {
-        await deleteDoc(doc(firebaseCollection.db, "pendingCompanies", id));
+    async deleteProduct(product: Product) {
+        
+        await Promise.all(product.images.map( async (img) => {
+            await this.deleteImg(img)
+        }))
+
+        await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
         console.log("Product deleted")
+    }
+
+    async updateProduct(updatedProduct: Product) {
+        let product = await this.getProducts("products", documentId(), "==", updatedProduct.id as string)
+        console.log("old product: ", product)
+        console.log("new product: ", updatedProduct)
+
+        //FIXME: Continue here with update function
+
     }
 
     render() {
