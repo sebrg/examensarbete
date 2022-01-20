@@ -1,6 +1,7 @@
 import { DocumentData, FieldPath, WhereFilterOp } from 'firebase/firestore'
 import { createContext } from 'react'
 import { Company, Product } from "../../models"
+import { FbQuery } from '../../types'
 
 
 export interface CompanyOptions {
@@ -9,11 +10,11 @@ export interface CompanyOptions {
     addCompany: (company: Company, to: "companies" | "pendingCompanies") => void
     getCurrentUserCompany: () => Promise<Company[]>
     getAllCompanies: (company: "companies" | "pendingCompanies") => Promise<Company[]>
-    getCompany: (from: "companies" | "pendingCompanies", fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Company[]>
     updateCompany: (stripeId: string) => void,
     setPaymentEnabled: (enabled: boolean) => void
     aproveCompany: (id: string) => void
     removeCompany: (id: string) => void
+    getCompany: (from: "companies" | "pendingCompanies", queryOne: FbQuery, queryTwo?: FbQuery) => Promise<Company[]>
 }
 
 
@@ -23,8 +24,11 @@ export const CompanyContext = createContext({
     aproveCompany: (id: string) => {},
     removeCompany: (id: string) => {},
     getAllCompanies: (company: "companies" | "pendingCompanies") => {},
-    getCompany: (from: "companies" | "pendingCompanies", fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {},
     updateCompany: (stripeId: string) => {},
-    setPaymentEnabled: (enabled: boolean) => {}
+    setPaymentEnabled: (enabled: boolean) => {},
+    getCompany: (from: "companies" | "pendingCompanies", queryOne: FbQuery, queryTwo?: FbQuery) => {}
+
+
+
         
 } as CompanyOptions)

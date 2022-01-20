@@ -6,7 +6,8 @@ import firebaseCollection from "../../firebase";
 import { CompanyContext, CompanyOptions, } from "../companies/companyContext"
 import { Company, Product } from "../../models"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable,  } from "firebase/storage";
-import { promises } from "stream";
+//import { promises } from "stream";
+import { FbQuery } from "../../types"
 interface Props{}
 export default class CompanyProvider extends Component<Props, CompanyOptions>   {
 
@@ -73,12 +74,21 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
           return result
     }
 
-    async getCompany(from: "companies" | "pendingCompanies", fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) {
-        //FIXME: remove param dbCollection and replace with "products"
-        const q = query(collection(firebaseCollection.db, from), where(fieldPath, opStr, value));
+    async getCompany(from: "companies" | "pendingCompanies", queryOne: FbQuery, queryTwo?: FbQuery) {
+        
+        let q
+
+        if(queryTwo) {
+            q = query(collection(firebaseCollection.db, from), 
+                where(queryOne.fieldPath, queryOne.opStr, queryOne.value), 
+                where(queryTwo.fieldPath, queryTwo.opStr, queryTwo.value));
+        } else {
+            q = query(collection(firebaseCollection.db, from), where(queryOne.fieldPath, queryOne.opStr, queryOne.value));
+
+        }
+        
         const querySnapshot = await getDocs(q);
         const result: Company[] = []
-        
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots  
             //console.log({id: doc.id, data: doc.data()});
@@ -89,7 +99,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
     }
 
     async aproveCompany(id: string) {
-        const currentPendingCompany: Company[] = await this.getCompany("pendingCompanies", documentId(), "==", id)
+        const currentPendingCompany: Company[] = await this.getCompany("pendingCompanies", {fieldPath: documentId(), opStr: "==", value: id})
         console.log(currentPendingCompany)
         
         await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false} ), "companies")
