@@ -34,13 +34,14 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
             category: company.category,
             payments: {
                 enabled: company.payments.enabled,
-            }
+            },
+            creator: to == "companies"? company.creator : auth.currentUser?.uid
         }
 
         if(auth.currentUser) {
             await addDoc(collection(firebaseCollection.db, to), {
 
-                ...companyData, creator: auth.currentUser.uid
+                ...companyData
             });
         }
         else {
@@ -102,7 +103,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         const currentPendingCompany: Company[] = await this.getCompany("pendingCompanies", {fieldPath: documentId(), opStr: "==", value: id})
         console.log(currentPendingCompany)
         
-        await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false} ), "companies")
+        await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false}, undefined, currentPendingCompany[0].creator), "companies")
         await this.removeCompany(id)
         console.log("company aproved")
     }
