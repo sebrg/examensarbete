@@ -51,6 +51,11 @@ export const checkOut = async (req: any, res: any, next: any) => {
     const cartItems = req.body.products
     const companyId = req.body.companyId
     const userId = req.body.userId
+
+    
+    const cartItemIds = await cartItems.map(product => {
+        return product.id
+    })
  
 
     const lineItems = await cartItems.map(product => {
@@ -78,7 +83,7 @@ export const checkOut = async (req: any, res: any, next: any) => {
         payment_intent_data: {
             application_fee_amount: 10000, //NOTE: avgift vi tar per betalning, sätt den procentuell
         },
-        metadata: {'company_id': companyId, 'user_id': userId}
+        metadata: {'company_id': companyId, 'user_id': userId, 'cartItem_ids': JSON.stringify(cartItemIds)}
         }, 
         {
             stripeAccount: stripeId, //NOTE: Skall skickas upp i body
@@ -131,7 +136,7 @@ export const verifySession = async (req: any, res: any, next: any) => {
                     currency: session.currency
                 }
                 console.log("Order added", newOrder)
-                res.status(200).json({status: 200, order: newOrder, message: "Tack för din order." })
+                res.status(200).json({status: 200, order: newOrder, cartItemIds: JSON.parse(session.metadata.cartItem_ids), message: "Tack för din order."})
         }
           else {
             console.log("Finns redan")
