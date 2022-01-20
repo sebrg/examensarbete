@@ -26,6 +26,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
     
     const [ifOrderExist, setIfOrderExist] = useState(false)
     const [order, setOrder] = useState<orderInterface>()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     let match = useMatch({
         path: "/success/:stripeId/:sessionId"
@@ -46,17 +47,36 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
         const data = await response.json()
         console.log(data)
         if(response.status === 404) {
+            setIsLoading(true)
             setIfOrderExist(false)
             console.log(response)
-            console.log("in if, ordern finns redan")
            
-        }
-        else if(response.status === 200 && sessionId){
+        } else if(response.status === 200 && sessionId){
+            // sätter order i databas om godkänd, uppdaterar cart i local & quantity i db.    
             setIfOrderExist(true)
             console.log(response)
             productContext.functions.addOrder(sessionId, data.order)
             setOrder(data.order)
 
+            let localst = localStorage.getItem('cart')
+            if(localst) {
+                let parsedLocal: [] | any = JSON.parse(localst)
+                console.log("cart:", parsedLocal)
+
+                const productIds: string[] = data.cartItemIds
+
+                productIds.forEach(id => {
+                    const filteredIds = parsedLocal.find((item: any) => item.id == id)
+                    productContext.functions.updateQuantityOnPurchase(id, filteredIds.quantity)
+                })
+
+                let newCart = parsedLocal.filter((item: any) => productIds.indexOf(item.id) === -1); //NOTE: hmm?
+               
+                console.log("newCart:", newCart);
+                localStorage.setItem('cart', JSON.stringify(newCart))
+                
+            }
+            setIsLoading(true)
         }
     }
 
@@ -69,28 +89,34 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
         console.log(order)
     }, [order])
 
+    useEffect(() => {
+        console.log(isLoading)
+    }, [isLoading])
+
     return (
         <div>
-           {
-
-                !ifOrderExist?
-                <p>Din order är redan lagd</p>
-                :
-                order?
-                    order.products.map((product, i) => {
-                        console.log(product)
-                        return (
-                            <div key={i}>
-                                <p> {product.name + '' + 'x' + product.quantity} </p>
-                                <p> {product.unitPrice} </p>
-                            </div>
-                        )
-                    })
+            {    
+                !isLoading?
+                    <p>spinner.... stäng inte ner fliken..</p>
                     :
+                    !ifOrderExist?
+                    <p>Din order är redan lagd</p>
+                    :
+                    order?
+                        order.products.map((product, i) => {
+                            console.log(product)
+                            return (
+                                <div key={i}>
+                                    <p> {product.name + '' + 'x' + product.quantity} </p>
+                                    <p> {product.unitPrice} </p>
+                                </div>
+                            )
+                        })
+                        :
 
-                    null
-                       
-           }
+                        null
+                        
+            }
         </div>    
     )
 }
