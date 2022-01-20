@@ -10,6 +10,7 @@ import { CompanyContext, CompanyOptions } from '../../../context/companies/compa
 import ProductCard from '../../UI/productCard';
 import EditPopup from './editPopup';
 import { FbQuery } from '../../../types';
+import { BiEdit } from 'react-icons/bi';
 
 type Alternatives = "show" | "add"
 
@@ -62,8 +63,7 @@ export default function DashForCompanyProducts(props: Props) {
             return ( //Productcard with edit and delete button
                 <ProductCard key={index} product={product} direction='row' height='12.5vh'>
                     <div style={{display: "flex"}}>
-                        <Button buttonText='edit' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
-                        <Button buttonText='delete'/>
+                        <Button icon={<BiEdit size="1.5em"/>} onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
                     </div>
                 </ProductCard>
             )
