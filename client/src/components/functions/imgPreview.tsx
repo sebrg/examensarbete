@@ -3,20 +3,26 @@ import React, { CSSProperties, useContext } from 'react';
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
 import { AiOutlineFileImage } from 'react-icons/ai';
 type Props = {
-    imgArr: any[] | undefined
+    imgArr: string[] | Blob[] | MediaSource[] | object[] | undefined
     removeFunc: any
 }
 
 export default function ImgPreview(props: Props) {
     
 
-    const renderImgPreview = (imgArr: any) => {
+    const renderImgPreview = (imgArr: string[] | Blob[] | MediaSource[] | object[]) => {
 
-        return imgArr.map((img: any, i: number) => {
-            let previewSrc = URL.createObjectURL(img)
+        return imgArr.map((img: string | Blob | MediaSource | object, i: number) => {
+            let previewSrc
+            if(typeof(img) === "string") {
+                previewSrc = img
+            } else {
+                previewSrc = URL.createObjectURL(img as Blob)
+            }
+
             return (
                 <div key={i} id="uploadPreviewImgWrap" style={{...uploadPreviewImgWrapStyle, }}>
-                    <img className='previewImg' style={imgStyle} src={previewSrc} />
+                    <img className='previewImg' style={imgStyle} src={previewSrc as string} />
                     <span onClick={() => props.removeFunc(img)} style={removeIconStyle} >    
                          <IoMdRemoveCircleOutline /> 
                     </span>
