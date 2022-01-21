@@ -1,7 +1,7 @@
 export class Product { 
     name: string; 
     price: number;
-    images: any[];
+    images: any[]; //FIXME: this is very very bad
     quantity?: number
     company?: string
 
