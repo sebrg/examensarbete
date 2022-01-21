@@ -26,7 +26,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             addOrder: this.addOrder.bind(this),
             getAllOrders: this.getAllOrders.bind(this),
             deleteProduct: this.deleteProduct.bind(this),
-            updateProduct: this.updateProduct.bind(this)
+            updateProduct: this.updateProduct.bind(this),
             updateQuantityOnPurchase: this.updateQuantityOnPurchase.bind(this),
             addPendingOrder: this.addPendingOrder.bind(this),
             addQuantityOnExpiredOrder: this.addQuantityOnExpiredOrder.bind(this),
@@ -303,7 +303,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         await updateDoc(productRef, 
             {...updatedProduct}
         );    
-        
+    }   
 
 
     async updateQuantityOnPurchase(productId: string, QuantityToRemove: number) { 
