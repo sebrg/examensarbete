@@ -18,7 +18,7 @@ export interface ProductFunctions {
     addOrder: (sessionId: string, data: any) => void
     getAllOrders: () =>  Promise<DocumentData[]>
     deleteProduct: (product: Product) => void
-    updateProduct: (updatedProduct: Product) => void
+    updateProduct: (oldProduct: Product, newProduct: Product) => void
 }
 
 
@@ -33,7 +33,7 @@ export const ProductContext = createContext({
         addOrder: (sessionId: string, data: any) => {},
         getAllOrders: () => {},
         deleteProduct: (product: Product) => {},
-        updateProduct: (updatedProduct: Product) => {},
+        updateProduct: (oldProduct: Product, newProduct: Product) => {},
     },
     allProducts: []
         
