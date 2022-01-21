@@ -5,6 +5,7 @@ import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import { Product } from '../../models';
 import Button from '../UI/button';
 import CheckoutStripe from './checkoutStripe';
+import ResumeStripe from './resumeStripe';
 
 type Cart = {
     companyId: string
@@ -22,10 +23,6 @@ type Props = {
 export default function ToCheckout(props: Props) {
 
     const stripePK = 'pk_test_51KCOmfFKFGHIBqJeuHe27RBjAFluqc1kaOArTwLHDQ6H1rIrSPE4HBYMz6O3eHD2V5rqOkR4xBmumJlBdGj04l7J00azQB7MR5'
-/* 	const stripePromise = loadStripe(stripePK, {
-		stripeAccount: props.stripeAccountId
-	}) 
- */
 
     const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
     const [stripePromise, setStripePromise] = useState(() => loadStripe(stripePK, {stripeAccount: props.stripeAccountId}))
@@ -34,8 +31,8 @@ export default function ToCheckout(props: Props) {
 
 		<div onClick={() => props.setCheckoutOpen(false)} id='checkout-wrap' style={checkoutWrapper}>
             <div onClick={(event) => event.stopPropagation()} id='checkout-content' style={checkoutContent}>
-                {currentView === "start"?   
-                    <Button onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Stripe'></Button>
+                {currentView === "start"?
+                    <Button onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>      
                     : currentView === "stripe"? 
                     <Elements stripe={stripePromise} key={props.stripeAccountId}>
                         <CheckoutStripe stripeAccountId={props.stripeAccountId} cartItem={props.cartItem} />
