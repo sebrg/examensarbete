@@ -36,7 +36,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
     const stripeId = match?.params.stripeId
 
     async function verifySession() {
-       const getOrders = await productContext.functions.getAllOrders()
+       const getOrders = await productContext.functions.getAllOrders("orders")
 
         const response = await fetch("http://localhost:3001/verifySession", {
             method: "POST",
@@ -52,10 +52,12 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
             console.log(response)
            
         } else if(response.status === 200 && sessionId){
-            // sätter order i databas om godkänd, uppdaterar cart i local & quantity i db.    
+            // flyttar order från pending till orders i db & rensar cart   
             setIfOrderExist(true)
             console.log(response)
-            productContext.functions.addOrder(sessionId, data.order)
+            
+            productContext.functions.addOrder(sessionId, data.customer) //NOTE: Hämta sessionId från pendingOrders och uppdatera
+            
             setOrder(data.order)
 
             let localst = localStorage.getItem('cart')
@@ -65,12 +67,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
 
                 const productIds: string[] = data.cartItemIds
 
-                productIds.forEach(id => {
-                    const filteredIds = parsedLocal.find((item: any) => item.id == id)
-                    productContext.functions.updateQuantityOnPurchase(id, filteredIds.quantity)
-                })
-
-                let newCart = parsedLocal.filter((item: any) => productIds.indexOf(item.id) === -1); //NOTE: hmm?
+                let newCart = parsedLocal.filter((item: any) => productIds.indexOf(item.id) === -1);
                
                 console.log("newCart:", newCart);
                 localStorage.setItem('cart', JSON.stringify(newCart))
@@ -104,7 +101,6 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
                     :
                     order?
                         order.products.map((product, i) => {
-                            console.log(product)
                             return (
                                 <div key={i}>
                                     <p> {product.name + '' + 'x' + product.quantity} </p>
