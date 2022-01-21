@@ -1,15 +1,18 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, updateDoc, documentId } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, documentId, updateDoc } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
 import { Company, Product } from "../../models"
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { FirebaseContext } from "../firebaseContext";
+import { CompanyContext } from "../companies/companyContext";
+import { StatusObject } from '../../types'
+
+//import { match } from "react-router-dom";
 
 interface Props{}
 export default class ProductProvider extends Component<Props, ProductOptions>   {
-    static contextType = FirebaseContext
+    static contextType = CompanyContext
 
     state: ProductOptions = {
         functions: {
@@ -22,6 +25,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             getProducts: this.getProducts.bind(this),
             addOrder: this.addOrder.bind(this),
             getAllOrders: this.getAllOrders.bind(this),
+            deleteProduct: this.deleteProduct.bind(this),
+            updateProduct: this.updateProduct.bind(this)
             updateQuantityOnPurchase: this.updateQuantityOnPurchase.bind(this),
             addPendingOrder: this.addPendingOrder.bind(this),
             addQuantityOnExpiredOrder: this.addQuantityOnExpiredOrder.bind(this),
@@ -29,32 +34,46 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         },
         allProducts: []
     }
-
-
     async addProduct(product: Product) {
+        try {
+            let currentCompany = await this.context.getCurrentUserCompany()
+            //const imgTest = await this.upLoadImg(product.img)
+    
+            let productData = {
+                name: product.name as string,
+                price: product.price as number,
+                company: currentCompany[0].id as string,
+                images: [] as any[],
+                quantity: product.quantity as number
+            }
+    
+            if(product.images) {
+                await Promise.all(product.images.map( async (img) => {
+                    const imgUrl = await this.upLoadImg(img)
+                    productData.images.push(imgUrl)
+                }))
+            }
+    
+            //Failsafe, require atleast one image
+            if(!productData.images.length) {
+                return {status: 400, message: "Your product requires atleast one image" } as StatusObject
+            }
+    
+            await addDoc(collection(firebaseCollection.db, "products"), {
+                ...productData
+            })
+                
+            return {status: 202, message: "Product added" } as StatusObject
+            
 
-        let currentCompany = await this.context.getCurrentUserCompany()
-        //const imgTest = await this.upLoadImg(product.img)
-
-        let productData = {
-            name: product.name as string,
-            price: product.price as number,
-            company: currentCompany[0].id as string,
-            images: [] as any[],
-            quantity: product.quantity as number
+        } catch(err) {
+            return {status: 400, message: err } as StatusObject
         }
-        
-        await Promise.all(product.images.map( async (img) => {
-            const imgTest = await this.upLoadImg(img)
-            productData.images.push(imgTest)
-        }))
-
-        await addDoc(collection(firebaseCollection.db, "products"), {
-            ...productData
-        }).then(()=> {
-            console.log("product added")
-        });
+ 
     }
+
+
+
 
        /** Param description: 
         ** dbCollection: From what collection to fetch
@@ -90,7 +109,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             //console.log({id: doc.id, data: doc.data()});
             result.push({id: doc.id, ...doc.data()} as Product)
        });
-       console.log("test: ", result)
+       //console.log("test: ", result)
        return result
     }
 
@@ -119,7 +138,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         const storage = getStorage();
         const imgName = file.name.split(".")[0]
         const imgEnding = file.name.split(".")[1]
-        const storageRef = ref(storage, `${currentCompany[0].data.name}/productImages/${imgName + new Date().getTime()}.${imgEnding}`);
+        const storageRef = ref(storage, `${currentCompany[0].name}/productImages/${imgName + new Date().getTime()}.${imgEnding}`);
         const uploadTask = await uploadBytesResumable(storageRef, file);
 
         let imgUrl = await getDownloadURL(uploadTask.ref)
@@ -214,24 +233,78 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
           });
           this.state.allProducts = result as Product[]
     }
+    async deleteImg(imgName: string) {
 
-    async deleteImg() {
+        //const currentCompany = await this.context.getCurrentUserCompany()
         const storage = getStorage();
-
+        //`${currentCompany[0].name}/productImages/${imgName}`
         // Create a reference to the file to delete
-        const desertRef = ref(storage, 'images/desert.jpg');
-
+        const desertRef = ref(storage, imgName);
         // Delete the file
         deleteObject(desertRef).then(() => {
         // File deleted successfully
+        console.log(imgName, " has been deleted from DB")
         }).catch((error) => {
         // Uh-oh, an error occurred!
+        console.log("Uh Oh something went wrong in the process of deleting ", imgName)
         });
     }
-    async deleteProduct(id: string) {
-        await deleteDoc(doc(firebaseCollection.db, "pendingCompanies", id));
+    async deleteProduct(product: Product) {
+        
+        if(product.images) {
+            await Promise.all(product.images.map( async (img) => {
+                await this.deleteImg(img as string)
+            }))
+        }
+
+        await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
         console.log("Product deleted")
     }
+
+    async updateProduct(oldProduct: Product, newProduct: Product) {
+       
+        const updatedProduct: Product = {
+            name: newProduct.name? newProduct.name : oldProduct.name,
+            price: newProduct.price? newProduct.price : oldProduct.price,
+            info: newProduct.info? newProduct.info : oldProduct.info != undefined? oldProduct.info : "",
+            quantity: newProduct.quantity? newProduct.quantity : oldProduct.quantity,
+            images: [] as string[] /* | Blob[] | MediaSource[] | object[] */
+        }
+
+        //Failsafe, require atleast one image
+        if(!newProduct.images) {
+            console.log("Your product requires atleast one image")
+            return
+        }
+       
+
+        const imagesToKeep = newProduct.images.filter(image => image == oldProduct.images.find(img => img === image))
+        const imagesToAdd = newProduct.images.filter(image => image !== oldProduct.images.find(img => img === image))
+        const imagesToRemove = oldProduct.images.filter(image => image !== newProduct.images.find(img => img === image)  )
+
+        if(imagesToKeep.length) {
+            updatedProduct.images = [...imagesToKeep]
+        }
+
+        if(imagesToAdd.length) {
+            await Promise.all(imagesToAdd.map( async (img) => {
+                const imgUrl = await this.upLoadImg(img)
+                updatedProduct.images.push(imgUrl as string)
+            }))
+        }
+
+        if(imagesToRemove.length) {
+            await Promise.all(imagesToRemove.map( async (img) => {
+                await this.deleteImg(img as string)
+            }))
+        } 
+
+        const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)
+        await updateDoc(productRef, 
+            {...updatedProduct}
+        );    
+        
+
 
     async updateQuantityOnPurchase(productId: string, QuantityToRemove: number) { 
         let getProduct = await this.getProducts("products", documentId(), "==", productId)
@@ -256,6 +329,4 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         )
     }
 }
-
-
 

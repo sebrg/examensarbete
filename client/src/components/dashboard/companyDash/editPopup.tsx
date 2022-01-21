@@ -1,7 +1,10 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { AiOutlineClose, AiOutlineFileAdd } from 'react-icons/ai';
+import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import { Product } from '../../../models';
 import ImgPreview from '../../functions/imgPreview';
+import ImgUpload from '../../functions/imgUpload';
+import Button from '../../UI/button';
 
 type Props = {
     setEditPopupOpen: (bool: boolean) => void
@@ -11,11 +14,14 @@ type Props = {
 
 export default function EditPopup(props: Props) {
 
-    const [name, setName] = useState<string>("")
-    const [price, setPrice] = useState<number>(0)
-    const [quantity, setQuantity] = useState<number>(0)
-    const [imgArr, setImgArr] = useState<any[] | undefined>(undefined) 
-    const [info, setInfo] = useState<string>() 
+    const productContext: ProductOptions = useContext(ProductContext)
+
+
+    const [imgArr, setImgArr] = useState<string[] | Blob[] | MediaSource[] | object[] /* | undefined */>(/* undefined */) //NOTE: any type, no good!
+    const [name, setName] = useState<string | undefined>()
+    const [price, setPrice] = useState<number | undefined>()
+    const [quantity, setQuantity] = useState<number | undefined>()
+    const [info, setInfo] = useState<string | undefined>() 
 
     const updateName = (event: any) => {
         event? setName(event.target.value) : setName("")
@@ -32,6 +38,41 @@ export default function EditPopup(props: Props) {
     const updateInfo = (event: any) => {
         event? setInfo(event.target.value) : setInfo("") 
     }
+    
+    const newProduct = () => {
+        const product = {
+            images: imgArr,
+            name: name,
+            price: price,
+            id: props.product.id,
+            info: info,
+            quantity: quantity 
+        } as Product
+        
+        return product
+    }
+
+    const oldProduct = () => {
+        const product = {
+            images: props.product.images,
+            name: props.product.name,
+            price: props.product.price,
+            id: props.product.id,
+            info: props.product.info,
+            quantity: props.product.quantity 
+        } as Product
+        
+        return product
+    }
+
+/*  NOTE: Maybe not needed   
+    const syncImages = () => {
+    setImgArr(props.product.images)
+} */ 
+
+    useEffect(() => {
+        setImgArr(props.product.images)
+    }, [])
 
     return (
         <div id="editPopupWrapper" onClick={() => props.setEditPopupOpen(false)} style={editPopupWrapperStyle}>
@@ -65,11 +106,13 @@ export default function EditPopup(props: Props) {
                         onChange={(event) => updateInfo(event)}
                     />
 
-                </div>
-                {/*FIXME: Img buttons goes here. take "imgUploadInput" from "dashForCompanyAddProducts" and create new component. */}
+                    <ImgUpload style={imgUploadWrappStyle} imgArr={imgArr} setImgArr={(newArr: string[] | Blob[] | MediaSource[] | object[] | undefined) => setImgArr(newArr)}/>
                 
-                <div id="editSubmitWrap">
-
+                </div>
+                
+                <div id="editSubmitWrap" style={editSubmitWrapStyle}>
+                    <Button buttonText='Uppdatera' onClick={() => productContext.functions.updateProduct(oldProduct(), newProduct())}/>
+                    <Button buttonText='Ta bort' onClick={() => productContext.functions.deleteProduct(props.product)}/>
                 </div>
             </div>
 
@@ -93,7 +136,7 @@ const editPopupWrapperStyle: CSSProperties = {
 
 const editPopupContentStyle: CSSProperties = {
     width: "50%",
-    height: "70%",
+    height: "80%",
     backgroundColor: "rgb(239, 225, 206)",
     borderRadius: "10px",
     position: "relative",
@@ -108,7 +151,7 @@ const editInputWrapStyle: CSSProperties = {
     width: "100%",
     flexDirection: "column",
     padding: "0 2em",
-    margin: "1em 0 0 0"
+    margin: "1em 0 2em 0"
 }
 
 const editProductInputStyle: CSSProperties = {
@@ -118,4 +161,17 @@ const editProductInputStyle: CSSProperties = {
     border: "none",
     padding: "0.5em",
     fontSize: "1.2em"
+}
+
+const imgUploadWrappStyle: CSSProperties = {
+    width: "100%",
+    height: "10vh",
+    display: "flex",    
+}
+
+const editSubmitWrapStyle: CSSProperties = {
+    display: "flex",
+    width: "100%",
+    padding: "0 2em",
+    justifyContent: "space-between"
 }

@@ -30,7 +30,7 @@ export default function Layout() {
     }
 
     useEffect(() => {
-        fbFuncs.userAuth(setIsLoggedIn)
+        fbFuncs.userAuth(setIsLoggedIn) //FIXME: Should be userprovider instead of fb provider
         scrollContentIntoView(false)
     }, [])
     

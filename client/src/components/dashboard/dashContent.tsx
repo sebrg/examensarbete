@@ -29,7 +29,7 @@ export default function DashContent(props: Props) {
                             path="/:companyId/*" 
                             element={
                                 <ReqCompanyAuth currentCompany={props.currentCompany} companyLoaded={props.companyLoaded}>
-                                    <DashForCompany/>
+                                    <DashForCompany currentCompany={props.currentCompany}/>
                                 </ReqCompanyAuth>
                             } 
                         />
