@@ -103,6 +103,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         const currentPendingCompany: Company[] = await this.getCompany("pendingCompanies", {fieldPath: documentId(), opStr: "==", value: id})
         console.log(currentPendingCompany)
         
+        //FIXME: make to object as company as param instead
         await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false}, undefined, currentPendingCompany[0].creator), "companies")
         await this.removeCompany(id)
         console.log("company aproved")
