@@ -22,7 +22,10 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             getProducts: this.getProducts.bind(this),
             addOrder: this.addOrder.bind(this),
             getAllOrders: this.getAllOrders.bind(this),
-            updateQuantityOnPurchase: this.updateQuantityOnPurchase.bind(this)
+            updateQuantityOnPurchase: this.updateQuantityOnPurchase.bind(this),
+            addPendingOrder: this.addPendingOrder.bind(this),
+            addQuantityOnExpiredOrder: this.addQuantityOnExpiredOrder.bind(this),
+            verifyCheckoutSession: this.verifyCheckoutSession.bind(this)
         },
         allProducts: []
     }
@@ -124,20 +127,80 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
     }
 
-
-    async addOrder(sessionId: string, data: any) {
-        await setDoc(doc(firebaseCollection.db, "orders", sessionId), data);
-        console.log('order added')
-    }
-
-    async getAllOrders() {
+    async getAllOrders(fieldPath: string) {
         const result: DocumentData[] = []
-        const get = await getDocs(collection(firebaseCollection.db, "orders"));
+        const get = await getDocs(collection(firebaseCollection.db, fieldPath));
         get.forEach((doc) => {
-            result.push({id: doc.id, ...doc.data()})
+            result.push({id: doc.id, ...doc.data()}) //NOTE: Ta bort doc.id för att inte sätta id i fields
           });
           
           return result
+    }
+
+    async addOrder(sessionId: string, stripeCustomer: string) {
+        const getAllPendingOrders = await this.getAllOrders("pendingOrders")
+        const foundOrder = getAllPendingOrders.find(order => order.id === sessionId) //NOTE: Sätter ett extra id som är samma som doc id.. ?
+        console.log(foundOrder," den hittade ")
+        if(foundOrder) {
+            const pendingOrderRef = doc(firebaseCollection.db, "pendingOrders", sessionId as string);
+            foundOrder.payment_status = "paid"
+            foundOrder.session_status = "done"
+            foundOrder.stripeCustomerId = stripeCustomer
+            await updateDoc(pendingOrderRef, {
+                ...foundOrder
+            });     
+
+            await setDoc(doc(firebaseCollection.db, "orders", sessionId), foundOrder);
+            await deleteDoc(doc(firebaseCollection.db, "pendingOrders", sessionId));
+        }
+    }
+
+    async addPendingOrder(sessionId: string, data: any) {
+        await setDoc(doc(firebaseCollection.db, "pendingOrders", sessionId), data);
+        console.log('order added')
+    }
+
+
+    async addQuantityOnExpiredOrder(sessionId: string, productId: string, QuantityToAdd: number) {
+        let getProduct = await this.getProducts("products", documentId(), "==", productId)
+        const productClone = getProduct[0] as Product
+    
+        const productRef = doc(firebaseCollection.db, "products", productId as string);
+        if(productClone.quantity) { 
+            let quantity = productClone.quantity + QuantityToAdd
+            productClone.quantity = quantity
+            await updateDoc(productRef, {
+            ...productClone as Product
+            });     
+            console.log("Added", QuantityToAdd, "on product:", productId)   
+
+            await deleteDoc(doc(firebaseCollection.db, "pendingOrders", sessionId));
+        }
+    }
+
+    async verifyCheckoutSession() {
+        //Failsafe, verifierar session status
+        //Tar bort utgångna checkout sessions och skickar tillbaka produkt quantity
+        const pendingOrders = await this.getAllOrders("pendingOrders")
+		const response = await fetch("http://localhost:3001/checkSession", {
+			method: "POST",
+			headers: {"content-type": "application/json"},
+			credentials: 'include',
+			body: JSON.stringify({pendingOrders})
+		})
+		
+		const data = await response.json()
+        const sessionItems: any[] = data.cartItems
+
+        if(data.status === 410) {
+            console.log(data)
+                sessionItems.forEach(items => {                     
+                    this.addQuantityOnExpiredOrder(data.sessionId , items.productId, items.quantity)
+                })
+	    }
+        if(data.status === 200) {
+            console.log(data, "denna order är betalad och klar.")
+        }
     }
 
 
@@ -149,6 +212,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
           });
           this.state.allProducts = result as Product[]
     }
+
     async deleteImg() {
         const storage = getStorage();
 
