@@ -1,11 +1,12 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, documentId } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, documentId, updateDoc } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
 import { Company, Product } from "../../models"
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { CompanyContext } from "../companies/companyContext";
+//import { match } from "react-router-dom";
 
 interface Props{}
 export default class ProductProvider extends Component<Props, ProductOptions>   {
@@ -41,11 +42,19 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             images: [] as any[],
             quantity: product.quantity as number
         }
-        
-        await Promise.all(product.images.map( async (img) => {
-            const imgTest = await this.upLoadImg(img)
-            productData.images.push(imgTest)
-        }))
+
+        if(product.images) {
+            await Promise.all(product.images.map( async (img) => {
+                const imgUrl = await this.upLoadImg(img)
+                productData.images.push(imgUrl)
+            }))
+        }
+
+        //Failsafe, require atleast one image
+        if(!productData.images.length) {
+            console.log("Your product requires atleast one image")
+            return
+        }
 
         await addDoc(collection(firebaseCollection.db, "products"), {
             ...productData
@@ -53,6 +62,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             console.log("product added")
         });
     }
+
 
        /** Param description: 
         ** dbCollection: From what collection to fetch
@@ -88,7 +98,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             //console.log({id: doc.id, data: doc.data()});
             result.push({id: doc.id, ...doc.data()} as Product)
        });
-       console.log("test: ", result)
+       //console.log("test: ", result)
        return result
     }
 
@@ -168,20 +178,59 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     }
     async deleteProduct(product: Product) {
         
-        await Promise.all(product.images.map( async (img) => {
-            await this.deleteImg(img)
-        }))
+        if(product.images) {
+            await Promise.all(product.images.map( async (img) => {
+                await this.deleteImg(img as string)
+            }))
+        }
 
         await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
         console.log("Product deleted")
     }
 
-    async updateProduct(updatedProduct: Product) {
-        let product = await this.getProducts("products", documentId(), "==", updatedProduct.id as string)
-        console.log("old product: ", product)
-        console.log("new product: ", updatedProduct)
+    async updateProduct(oldProduct: Product, newProduct: Product) {
+       
+        const updatedProduct: Product = {
+            name: newProduct.name? newProduct.name : oldProduct.name,
+            price: newProduct.price? newProduct.price : oldProduct.price,
+            info: newProduct.info? newProduct.info : oldProduct.info != undefined? oldProduct.info : "",
+            quantity: newProduct.quantity? newProduct.quantity : oldProduct.quantity,
+            images: [] as string[] /* | Blob[] | MediaSource[] | object[] */
+        }
 
-        //FIXME: Continue here with update function
+        //Failsafe, require atleast one image
+        if(!newProduct.images) {
+            console.log("Your product requires atleast one image")
+            return
+        }
+       
+
+        const imagesToKeep = newProduct.images.filter(image => image == oldProduct.images.find(img => img === image))
+        const imagesToAdd = newProduct.images.filter(image => image !== oldProduct.images.find(img => img === image))
+        const imagesToRemove = oldProduct.images.filter(image => image !== newProduct.images.find(img => img === image)  )
+
+        if(imagesToKeep.length) {
+            updatedProduct.images = [...imagesToKeep]
+        }
+
+        if(imagesToAdd.length) {
+            await Promise.all(imagesToAdd.map( async (img) => {
+                const imgUrl = await this.upLoadImg(img)
+                updatedProduct.images.push(imgUrl as string)
+            }))
+        }
+
+        if(imagesToRemove.length) {
+            await Promise.all(imagesToRemove.map( async (img) => {
+                await this.deleteImg(img as string)
+            }))
+        } 
+
+        const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)
+        await updateDoc(productRef, 
+            {...updatedProduct}
+        );    
+        
 
     }
 
@@ -193,6 +242,4 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         )
     }
 }
-
-
 
