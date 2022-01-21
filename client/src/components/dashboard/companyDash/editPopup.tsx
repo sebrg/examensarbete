@@ -17,11 +17,11 @@ export default function EditPopup(props: Props) {
     const productContext: ProductOptions = useContext(ProductContext)
 
 
-    const [imgArr, setImgArr] = useState<string[] | Blob[] | MediaSource[] | object[] | undefined>(undefined) //NOTE: any type, no good!
-    const [name, setName] = useState<string>("")
-    const [price, setPrice] = useState<number>(0)
-    const [quantity, setQuantity] = useState<number>(0)
-    const [info, setInfo] = useState<string>() 
+    const [imgArr, setImgArr] = useState<string[] | Blob[] | MediaSource[] | object[] /* | undefined */>(/* undefined */) //NOTE: any type, no good!
+    const [name, setName] = useState<string | undefined>()
+    const [price, setPrice] = useState<number | undefined>()
+    const [quantity, setQuantity] = useState<number | undefined>()
+    const [info, setInfo] = useState<string | undefined>() 
 
     const updateName = (event: any) => {
         event? setName(event.target.value) : setName("")
@@ -38,6 +38,32 @@ export default function EditPopup(props: Props) {
     const updateInfo = (event: any) => {
         event? setInfo(event.target.value) : setInfo("") 
     }
+    
+    const newProduct = () => {
+        const product = {
+            images: imgArr,
+            name: name,
+            price: price,
+            id: props.product.id,
+            info: info,
+            quantity: quantity 
+        } as Product
+        
+        return product
+    }
+
+    const oldProduct = () => {
+        const product = {
+            images: props.product.images,
+            name: props.product.name,
+            price: props.product.price,
+            id: props.product.id,
+            info: props.product.info,
+            quantity: props.product.quantity 
+        } as Product
+        
+        return product
+    }
 
 /*  NOTE: Maybe not needed   
     const syncImages = () => {
@@ -45,7 +71,6 @@ export default function EditPopup(props: Props) {
 } */ 
 
     useEffect(() => {
-        console.log(props.product)
         setImgArr(props.product.images)
     }, [])
 
@@ -86,7 +111,7 @@ export default function EditPopup(props: Props) {
                 </div>
                 
                 <div id="editSubmitWrap" style={editSubmitWrapStyle}>
-                    <Button buttonText='Uppdatera' onClick={() => productContext.functions.updateProduct(props.product)}/>
+                    <Button buttonText='Uppdatera' onClick={() => productContext.functions.updateProduct(oldProduct(), newProduct())}/>
                     <Button buttonText='Ta bort' onClick={() => productContext.functions.deleteProduct(props.product)}/>
                 </div>
             </div>
