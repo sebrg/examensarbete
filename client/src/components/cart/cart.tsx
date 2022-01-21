@@ -86,10 +86,15 @@ export default function Cart() {
         }
     }
 
+	 useEffect(() => {
+        productContext.functions.verifyCheckoutSession() 
+    }, [])
+
 
     useEffect(() => {
         syncCart()  
     }, [])
+
 
     useEffect(() => {
         console.log("productsInCart: ", productsInCart)

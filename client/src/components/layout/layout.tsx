@@ -6,17 +6,11 @@ import Main from './main';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import Hero from './hero';
 import { useLocation } from 'react-router-dom';
+import { ProductContext, ProductOptions } from '../../context/products/productContext';
 
-type stripeAcc = {
-    stripeAccount: string,
-    setStripeAccount: (param: string) => void
-}
 
-type Props = {
-   /*  stripeOptions: stripeAcc */
-}
 
-export default function Layout(props: Props) {
+export default function Layout() {
 
     const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const mainRef = useRef() as React.MutableRefObject<HTMLInputElement>
