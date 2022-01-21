@@ -6,6 +6,8 @@ import { ProductContext, ProductOptions, } from "./productContext"
 import { Company, Product } from "../../models"
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { CompanyContext } from "../companies/companyContext";
+import { StatusObject } from '../../types'
+
 //import { match } from "react-router-dom";
 
 interface Props{}
@@ -28,40 +30,45 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         },
         allProducts: []
     }
-
-
     async addProduct(product: Product) {
+        try {
+            let currentCompany = await this.context.getCurrentUserCompany()
+            //const imgTest = await this.upLoadImg(product.img)
+    
+            let productData = {
+                name: product.name as string,
+                price: product.price as number,
+                company: currentCompany[0].id as string,
+                images: [] as any[],
+                quantity: product.quantity as number
+            }
+    
+            if(product.images) {
+                await Promise.all(product.images.map( async (img) => {
+                    const imgUrl = await this.upLoadImg(img)
+                    productData.images.push(imgUrl)
+                }))
+            }
+    
+            //Failsafe, require atleast one image
+            if(!productData.images.length) {
+                return {status: 400, message: "Your product requires atleast one image" } as StatusObject
+            }
+    
+            await addDoc(collection(firebaseCollection.db, "products"), {
+                ...productData
+            })
+                
+            return {status: 202, message: "Product added" } as StatusObject
+            
 
-        let currentCompany = await this.context.getCurrentUserCompany()
-        //const imgTest = await this.upLoadImg(product.img)
-
-        let productData = {
-            name: product.name as string,
-            price: product.price as number,
-            company: currentCompany[0].id as string,
-            images: [] as any[],
-            quantity: product.quantity as number
+        } catch(err) {
+            return {status: 400, message: err } as StatusObject
         }
-
-        if(product.images) {
-            await Promise.all(product.images.map( async (img) => {
-                const imgUrl = await this.upLoadImg(img)
-                productData.images.push(imgUrl)
-            }))
-        }
-
-        //Failsafe, require atleast one image
-        if(!productData.images.length) {
-            console.log("Your product requires atleast one image")
-            return
-        }
-
-        await addDoc(collection(firebaseCollection.db, "products"), {
-            ...productData
-        }).then(()=> {
-            console.log("product added")
-        });
+ 
     }
+
+
 
 
        /** Param description: 
