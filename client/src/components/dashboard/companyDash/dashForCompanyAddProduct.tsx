@@ -5,6 +5,8 @@ import Button from "../../UI/button";
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import ImgUpload from "../../functions/imgUpload";
+import SpinnerModal from "../../functions/spinnerModal";
+//import * as spinners from "react-spinners";
 
 export default function DashForCompanyAddProducts(/* props: Props */) {
 
@@ -14,6 +16,8 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
     const [price, setPrice] = useState<number>(0)
     const [quantity, setQuantity] = useState<number>(0)
     const [imgArr, setImgArr] = useState<string[] | Blob[] | MediaSource[] | object[] | undefined>(undefined) //NOTE: any type, no good!
+    const [loading, setIsLoading] =  useState<boolean>(false)
+    const [statusMsg, setStatusMsg] = useState<string | undefined>(undefined)
 
     const updateName = (event: any) => {
         event? setName(event.target.value) : setName("")
@@ -28,48 +32,72 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
     }
 
 
-/*     useEffect(() => {
-        console.log("arr in state: ", imgArr)
-    }, [imgArr]) */
+
+    const addProductAndSetState = ( async () => {
+        setIsLoading(true)
+        const status = await productContext.functions.addProduct(new Product(name, price, imgArr, undefined, undefined, quantity))
+        //const status = await Promise.all([addProductAndGetStatus]) 
+        if(status) {
+            setIsLoading(false) 
+            setStatusMsg(status.message) 
+            setTimeout(() => {
+                setStatusMsg(undefined)
+            }, 3000);
+        }
+    })
+
 
 
     return (
-		  
-        <div id="dashAddProducts" style={dashAddProductsStyle}>
-            <input 
-                style={addProductInputStyle} 
-                placeholder='Product name' 
-                onChange={(event) => updateName(event)}
-            />
-            <input 
-                style={addProductInputStyle} 
-                placeholder='Product price'
-                type="number"
-                onChange={(event) => updatePrice(event)}
-            />
-            <input 
-                style={addProductInputStyle} 
-                placeholder='Quantity'
-                type="number"
-                onChange={(event) => updateQuantity(event)}
-            />
-
-
-        
-            <ImgUpload style={uploadWrappStyle} imgArr={imgArr} setImgArr={(newArr: string[] | Blob[] | MediaSource[] | object[] | undefined) => setImgArr(newArr)}/>
-    
-
-            <div style={{marginTop: "auto", width: "50%"}}>
-                <Button 
-                    buttonText='Add product'
-                    width="100%" 
-                    onClick={() => {
-                        productContext.functions.addProduct(new Product(name, price, imgArr, undefined, undefined, quantity))
-                        //FIXME: Get all products after product added
-                    }}
+            <div id="dashAddProducts" style={dashAddProductsStyle}>
+            
+                <input 
+                    style={addProductInputStyle} 
+                    placeholder='Product name' 
+                    onChange={(event) => updateName(event)}
                 />
+                <input 
+                    style={addProductInputStyle} 
+                    placeholder='Product price'
+                    type="number"
+                    onChange={(event) => updatePrice(event)}
+                />
+                <input 
+                    style={addProductInputStyle} 
+                    placeholder='Quantity'
+                    type="number"
+                    onChange={(event) => updateQuantity(event)}
+                />
+
+
+            
+                <ImgUpload style={uploadWrappStyle} imgArr={imgArr} setImgArr={(newArr: string[] | Blob[] | MediaSource[] | object[] | undefined) => setImgArr(newArr)}/>
+                
+                {statusMsg !== undefined?
+                    <p style={{marginTop: "1em", fontSize: "1.5em"}}>{statusMsg}</p>
+                    : null
+                }
+
+                <div style={{marginTop: "auto", width: "50%"}}>
+                    <Button 
+                        buttonText='Add product'
+                        width="100%" 
+                        onClick={ () => {
+                            
+                            addProductAndSetState()
+                            
+                    
+                    
+                        }}
+                    />
+                </div>
+
+                {loading? 
+                    <SpinnerModal />
+                    : null
+                }
+
             </div>
-        </div>
     );
 }
 
@@ -96,3 +124,4 @@ const uploadWrappStyle: CSSProperties = {
     display: "flex",
     
 }
+
