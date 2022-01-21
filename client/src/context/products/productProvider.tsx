@@ -198,7 +198,9 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
                     this.addQuantityOnExpiredOrder(data.sessionId , items.productId, items.quantity)
                 })
 	    }
-        if(data.status === 200) {
+        if(data.status === 200) { 
+            //Failsafe om en order ej har blivit flyttad från pending till orders..
+            this.addOrder(data.sessionId, data.stripeCustomer)
             console.log(data, "denna order är betalad och klar.")
         }
     }

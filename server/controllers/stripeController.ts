@@ -205,7 +205,9 @@ export const checkSession = async (req: any, res: any, next: any) => {
         }
         if(element.status === 'complete' && element.payment_status === "paid") {
             res.status(200).json({
-                status: 200, sessionId: element.id, 
+                status: 200, 
+                sessionId: element.id,
+                stripeCustomer: element.customer, 
                 message: "Session is complete, should move to orders."
             })
         }
@@ -220,7 +222,7 @@ export const expireSession = async (req: any, res: any, next: any) => {
     const session = await stripe.checkout.sessions.expire(sessionId, {
         stripeAccount: stripeAcc
     });
-    
+
       res.status(200).json({
         status: 200, 
         message: "Session expired"
