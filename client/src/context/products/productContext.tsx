@@ -16,7 +16,7 @@ export interface ProductFunctions {
     //getSingleProduct: (docId: string) => Promise<Product | undefined> //FIXME: should not be allowed to be undefined
     getAllProducts: () => void//Promise<DocumentData[]>
     getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Product[]>
-    deleteProduct: (product: Product) => void
+    deleteProduct: (product: Product) => Promise<StatusObject>
     updateProduct: (oldProduct: Product, newProduct: Product) => void
     addOrder: (sessionId: string, stripeCustomer: string) => void
     getAllOrders: (fieldPath: string) =>  Promise<DocumentData[]>
