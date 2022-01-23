@@ -4,11 +4,13 @@ import { ProductContext, ProductOptions } from '../../../context/products/produc
 import { Product } from '../../../models';
 import ImgPreview from '../../functions/imgPreview';
 import ImgUpload from '../../functions/imgUpload';
+import SpinnerModal from '../../functions/spinnerModal';
 import Button from '../../UI/button';
 
 type Props = {
     setEditPopupOpen: (bool: boolean) => void
     product: Product
+    getAndSetProducts: () => void
 }
 
 
@@ -22,7 +24,8 @@ export default function EditPopup(props: Props) {
     const [price, setPrice] = useState<number | undefined>()
     const [quantity, setQuantity] = useState<number | undefined>()
     const [info, setInfo] = useState<string | undefined>() 
-
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [statusMsg, setStatusMsg ] = useState<string | undefined>(undefined)
     const updateName = (event: any) => {
         event? setName(event.target.value) : setName("")
     }
@@ -112,10 +115,28 @@ export default function EditPopup(props: Props) {
                 
                 <div id="editSubmitWrap" style={editSubmitWrapStyle}>
                     <Button buttonText='Uppdatera' onClick={() => productContext.functions.updateProduct(oldProduct(), newProduct())}/>
-                    <Button buttonText='Ta bort' onClick={() => productContext.functions.deleteProduct(props.product)}/>
+                    <Button buttonText='Ta bort' onClick={ async () => {
+                        setIsLoading(true)
+                        const result = await productContext.functions.deleteProduct(props.product)
+                        if(result.status === 200) {
+                            setStatusMsg(result.message)
+                            setTimeout(() => {
+                                props.getAndSetProducts()
+                                props.setEditPopupOpen(false)
+                                setStatusMsg(undefined)
+                                setIsLoading(false)
+                            }, 2000);
+                        }
+                        
+                      
+                    }}/>
                 </div>
-            </div>
+                {isLoading? 
+                    <SpinnerModal fullScreen={true} message={statusMsg} />
+                    : null
+                }
 
+            </div>
         </div>
     );
 }
