@@ -250,15 +250,22 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         });
     }
     async deleteProduct(product: Product) {
-        
-        if(product.images) {
-            await Promise.all(product.images.map( async (img) => {
-                await this.deleteImg(img as string)
-            }))
-        }
+        try {
+            if(product.images) {
+                await Promise.all(product.images.map( async (img) => {
+                    await this.deleteImg(img as string)
+                }))
+            }
+    
+            await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
+            console.log("Product deleted")
+            return {status: 200, message: `${product.name} has been deleted` } as StatusObject    
+            
+        } catch(err) {
 
-        await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
-        console.log("Product deleted")
+            return {status: 400, message: err } as StatusObject
+        }
+        
     }
 
     async updateProduct(oldProduct: Product, newProduct: Product) {
