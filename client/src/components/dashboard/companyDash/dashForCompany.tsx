@@ -14,8 +14,8 @@ type Props = {
 
 export default function DashForCompany(props: Props) {
 
-    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
-    const [testState, setTestState] = useState<DocumentData[]>()
+    //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    //const [testState, setTestState] = useState<DocumentData[]>()
 
 
     return (
