@@ -17,7 +17,7 @@ export default function DashUserInfo(props: Props) {
     return (
         <div>
             {!props.currentCompany?
-                <spinners.CircleLoader/>
+                null//<spinners.CircleLoader/>
                 : 
                 props.currentCompany === undefined?
                     <Button buttonText="Ansök om att registrera ditt företag" linkTo={"registerCompany"} />
