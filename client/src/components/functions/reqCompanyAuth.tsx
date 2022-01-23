@@ -1,6 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import { Navigate, useLocation, useMatch } from 'react-router-dom';
 import { Company } from '../../models';
+import SpinnerModal from './spinnerModal';
 
 type CurrentCompany = {
     name: string
@@ -22,7 +23,7 @@ export default function ReqCompanyAuth(props: Props) {
 
     if (props.companyLoaded === false) {
     
-        return <p>Spinner</p>     
+        return <SpinnerModal />   
     }
     else if(props.currentCompany?.id === match?.params.companyId   ) {
         console.log("Company authenticated")
