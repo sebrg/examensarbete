@@ -83,7 +83,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                     : null
                 } */}
 
-                <div style={{marginTop: "auto", width: "50%"}}>
+                <div style={{marginTop: "1.5em", width: "50%"}}>
                     <Button 
                         buttonText='Add product'
                         width="100%" 
