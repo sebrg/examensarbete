@@ -16,7 +16,7 @@ export default function DashUserInfo(props: Props) {
 
     return (
         <div>
-            {!props.currentCompany?
+            {props.currentCompany?
                 null//<spinners.CircleLoader/>
                 : 
                 props.currentCompany === undefined?
