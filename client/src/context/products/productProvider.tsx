@@ -30,7 +30,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             updateQuantityOnPurchase: this.updateQuantityOnPurchase.bind(this),
             addPendingOrder: this.addPendingOrder.bind(this),
             addQuantityOnExpiredOrder: this.addQuantityOnExpiredOrder.bind(this),
-            verifyCheckoutSession: this.verifyCheckoutSession.bind(this)
+            verifyCheckoutSession: this.verifyCheckoutSession.bind(this),
+            getOrdersByUser: this.getOrdersByUser.bind(this)
         },
         allProducts: []
     }
@@ -222,6 +223,21 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             this.addOrder(data.sessionId, data.stripeCustomer)
             console.log(data, "denna order är betalad och klar.")
         }
+    }
+
+    async getOrdersByUser(userId: string) {
+       
+        const q = query(collection(firebaseCollection.db, "orders"), where("customerId", "==", userId));
+        const querySnapshot = await getDocs(q);
+        const result: any = []
+
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots  
+            //console.log({id: doc.id, data: doc.data()});
+            result.push({id: doc.id, ...doc.data()})
+       });
+       //console.log("test: ", result)
+       return result
     }
 
 
