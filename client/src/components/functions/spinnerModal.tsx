@@ -32,7 +32,7 @@ const spinnerWrapFullScreen: CSSProperties = {
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     zIndex: 99,
     display: "flex",
     justifyContent: "center",
@@ -40,7 +40,7 @@ const spinnerWrapFullScreen: CSSProperties = {
 }
 
 const spinnerWrapFullElement: CSSProperties = {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     zIndex: 99,
     display: "flex",
     justifyContent: "center",
