@@ -17,7 +17,7 @@ export interface ProductFunctions {
     getAllProducts: () => void//Promise<DocumentData[]>
     getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Product[]>
     deleteProduct: (product: Product) => Promise<StatusObject>
-    updateProduct: (oldProduct: Product, newProduct: Product) => void
+    updateProduct: (oldProduct: Product, newProduct: Product) => Promise<StatusObject>
     addOrder: (sessionId: string, stripeCustomer: string) => void
     getAllOrders: (fieldPath: string) =>  Promise<DocumentData[]>
     updateQuantityOnPurchase: (productId: string, QuantityToRemove: number) => void
