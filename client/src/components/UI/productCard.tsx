@@ -36,14 +36,28 @@ export default function ProductCard(props: Props) {
                     </Link>}
                 </div>
                 <div className='productInfoWrapper' style={props.direction == "row"? productInfoWrapperRowStyle : productInfoWrapperColumnStyle }>
-                    {props.product.info? <p>{props.product.info}</p> : null}
-                    <h3 style={{flexGrow: 1, textAlign: "center"}}>
-                        {props.product.name}
-                    </h3>
+                    <div>
+                        <p style={{fontSize: "1.5em", textAlign: "center"}}> 
+                            {props.product.name}
+                        </p>
+                        {props.product.quantity?
+                            <p style={{padding: "0 0 0 1em"}}>
+                                x {props.product.quantity}
+                            </p> 
+                        : null
+                        }
+                    </div>
 
-                    <h4 style={{flexGrow: 1, textAlign: "center"}}>
-                        {props.product.price + " " + currency}
-                    </h4>
+                    <div style={{margin: "0 0 0 1em"}}>
+                        <p style={{fontSize: "1.5em", textAlign: "center"}}> 
+                            Pris: 
+                        </p>
+                        <p style={{padding: "0 0 0 0.5em", textAlign: "center"}}>
+                            {props.product.price + " " + currency}
+                        </p>
+                        
+                    </div>
+
                 </div>
                 {props.children}
             </div>
@@ -57,14 +71,28 @@ export default function ProductCard(props: Props) {
                     </div>
                 </div>
                 <div className='productInfoWrapper' style={props.direction == "row"? productInfoWrapperRowStyle : productInfoWrapperColumnStyle }>
-                    {props.product.info? <p>{props.product.info}</p> : null}
-                    <h3 style={{flexGrow: 1, textAlign: "center"}}>
-                        {props.product.name}
-                    </h3>
+{/*                     {props.product.info? <p>{props.product.info}</p> : null}
+ */}                    
+                    <div>
+                        <p style={{fontSize: "1.5em", textAlign: "center"}}> 
+                            {props.product.name}
+                        </p>
+                        <p style={{padding: "0 0 0 1em"}}>
+                            x {props.product.quantity}
+                        </p>
+                        
+                    </div>
 
-                    <h4 style={{flexGrow: 1, textAlign: "center"}}>
-                        {props.product.price + " " + currency}
-                    </h4>
+                    <div style={{margin: "0 0 0 1em"}}>
+                        <p style={{fontSize: "1.5em", textAlign: "center"}}> 
+                            Pris: 
+                        </p>
+                        <p style={{padding: "0 0 0 0.5em", textAlign: "center"}}>
+                            {props.product.price + " " + currency}
+                        </p>
+                        
+                    </div>
+
                 </div>
                 {props.children}
             </div>
@@ -95,8 +123,8 @@ const productCardImgWrapperRowStyle: CSSProperties = {
 const productInfoWrapperRowStyle: CSSProperties = {
     flexGrow: 10,
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around"
+    //justifyContent: "space-around",
+    //alignItems: "center"
 }
 
 //IMG COLUMM
@@ -111,5 +139,5 @@ const productCardImgWrapperColumnStyle: CSSProperties = {
 
 //INFO COLUMN
 const productInfoWrapperColumnStyle: CSSProperties = {
-    width: "100%"
+    width: "100%",    
 }
