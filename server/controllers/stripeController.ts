@@ -46,8 +46,7 @@ export const createStripeLink = async (req: any, res: any, next: any) => {
 export const checkOut = async (req: any, res: any, next: any) => {
 
     const stripeId = req.body.stripeId
-    console.log(req.body)
-
+    const purchaseTerms = req.body.purchaseTerms
     const cartItems = req.body.products
     const companyId = req.body.companyId
     const userId = req.body.userId
@@ -122,7 +121,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
         currency: session.currency,
         payment_status: session.payment_status,
         session_status: session.status,
-        stripe_acc_id: stripeId
+        stripe_acc_id: stripeId,
+        purchaseTerms: purchaseTerms
     }
 
     res.status(200).json({ id: session.id, pendingOrder: pendingOrder, cartItemIds: cartItemIds })
