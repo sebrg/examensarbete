@@ -7,6 +7,7 @@ import ProductCard from '../UI/productCard';
 import CartProductController from './cartProductController';
 import Button from '../UI/button';
 import ToCheckout from './toCheckout';
+import SpinnerModal from '../functions/spinnerModal';
 
 
 type Cart = {
@@ -29,6 +30,7 @@ export default function Cart() {
     const [stripeAccountId, setStripeAccountId] = useState<string>("")
     const [checkoutOpen, setCheckoutOpen] = useState<boolean>(false)
     const [checkoutItems, setCheckoutItems] = useState<any>()
+    const [loading, setLoading] = useState<boolean>(true)
  
     const syncCart = async () => {
         //Get products from DB
@@ -98,18 +100,28 @@ export default function Cart() {
 
     useEffect(() => {
         console.log("productsInCart: ", productsInCart)
+        console.log(productsInCart?.length)
+        if(productsInCart !== undefined) {
+            setLoading(false)
+        }
     }, [productsInCart])
 
 
     return (
         
         <div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
+            {loading? 
+                <SpinnerModal fullScreen={true} />
+                :
+                null
+            }
+            
             {checkoutOpen?      
                     <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
                 : null
             }
-            { 
-                productsInCart?    
+            
+            {productsInCart?.length && productsInCart?.length  !== 0?   
                 productsInCart.map((cartItem, i) => {
                         /* const findId = (cartItem: any) => { return productsInCart?.find((productInArray) => productInArray === cartItem) } */
                         return (
@@ -134,18 +146,21 @@ export default function Cart() {
                                             })
                                         }
                                     </div>
-                               {/*  </div> */}
+                            {/*  </div> */}
                                 <div className='paymentSection' style={paymentSectionStyle}>
                                     <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
                                     <Button onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
-                                  
+                                
                                 </div>
                             </div>
                         )
                     })
-                :
-                <p>Din varukorg är tom</p>
+                :   productsInCart?.length && productsInCart.length !> 0?
+                        <p>Din varukorg är tom</p>
+                        : null
             }
+            
+
         </div>
     );
 }
@@ -156,7 +171,8 @@ const cartWrapperStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
     padding: "2em",
-    overflow: "auto"
+    overflow: "auto",
+    position: "relative"
 }
 
 const cartSectionStyle: CSSProperties = { //FIXME: CSS lastchild margin 0
