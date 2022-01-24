@@ -114,11 +114,31 @@ export default function EditPopup(props: Props) {
                 </div>
                 
                 <div id="editSubmitWrap" style={editSubmitWrapStyle}>
-                    <Button buttonText='Uppdatera' onClick={() => productContext.functions.updateProduct(oldProduct(), newProduct())}/>
+                    <Button buttonText='Uppdatera' onClick={ async () => {
+                        setIsLoading(true)
+                        let result = await productContext.functions.updateProduct(oldProduct(), newProduct())
+                        if(result.status) {
+                            setStatusMsg(result.message)
+                            setTimeout(() => {
+                                if(result.status === 200) {
+                                    props.getAndSetProducts()
+                                    props.setEditPopupOpen(false)
+                                    setStatusMsg(undefined)
+                                    setIsLoading(false)
+                                } else {
+                                    props.getAndSetProducts()
+                                    setStatusMsg(undefined)
+                                    setIsLoading(false)
+                                }
+                            }, 2000);
+                        }
+
+                    }}/>
+                    
                     <Button buttonText='Ta bort' onClick={ async () => {
                         setIsLoading(true)
                         const result = await productContext.functions.deleteProduct(props.product)
-                        if(result.status === 200) {
+                        if(result.status = 200) {
                             setStatusMsg(result.message)
                             setTimeout(() => {
                                 props.getAndSetProducts()
@@ -126,6 +146,8 @@ export default function EditPopup(props: Props) {
                                 setStatusMsg(undefined)
                                 setIsLoading(false)
                             }, 2000);
+                        } else {
+
                         }
                         
                       
