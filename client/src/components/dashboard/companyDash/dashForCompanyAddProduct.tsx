@@ -6,8 +6,10 @@ import { AiOutlineFileAdd } from 'react-icons/ai';
 import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import ImgUpload from "../../functions/imgUpload";
 import SpinnerModal from "../../functions/spinnerModal";
-//import * as spinners from "react-spinners";
 
+/* type Props = {
+    getAndSetProducts: () => void
+} */
 export default function DashForCompanyAddProducts(/* props: Props */) {
 
     const productContext: ProductOptions = useContext(ProductContext)
@@ -33,20 +35,23 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
 
 
 
-    const addProductAndSetState = ( async () => {
+    const addProductAndSetLoading = ( async () => {
         setIsLoading(true)
         const status = await productContext.functions.addProduct(new Product(name, price, imgArr, undefined, undefined, quantity))
         //const status = await Promise.all([addProductAndGetStatus]) 
         if(status) {
-            setIsLoading(false) 
             setStatusMsg(status.message) 
             setTimeout(() => {
+                setIsLoading(false) 
                 setStatusMsg(undefined)
-            }, 3000);
+            }, 2000);
         }
     })
+    
+    //FIXME: listen to status message, and update products and close popup when msg is ok
+    useEffect(() => {
 
-
+    }, [statusMsg])
 
     return (
             <div id="dashAddProducts" style={dashAddProductsStyle}>
@@ -73,27 +78,26 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
             
                 <ImgUpload style={uploadWrappStyle} imgArr={imgArr} setImgArr={(newArr: string[] | Blob[] | MediaSource[] | object[] | undefined) => setImgArr(newArr)}/>
                 
-                {statusMsg !== undefined?
-                    <p style={{marginTop: "1em", fontSize: "1.5em"}}>{statusMsg}</p>
+                {/* {statusMsg !== undefined?
+                    <p style={{marginTop: "1em", fontSize: "2em"}}>{statusMsg}</p>
                     : null
-                }
+                } */}
 
-                <div style={{marginTop: "auto", width: "50%"}}>
+                <div style={{marginTop: "1.5em", width: "50%"}}>
                     <Button 
                         buttonText='Add product'
                         width="100%" 
                         onClick={ () => {
                             
-                            addProductAndSetState()
-                            
-                    
+                            addProductAndSetLoading();
+                            // FIXME: add update product
                     
                         }}
                     />
                 </div>
 
                 {loading? 
-                    <SpinnerModal />
+                    <SpinnerModal fullScreen={true} message={statusMsg} />
                     : null
                 }
 

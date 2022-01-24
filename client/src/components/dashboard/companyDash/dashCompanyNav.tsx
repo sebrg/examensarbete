@@ -35,7 +35,7 @@ export default function DashCompanyNav() {
 const dashCompanyNavStyle: CSSProperties = {
     width: "100%",
     height: "15%",
-    backgroundColor: "rgb(239, 225, 206)",
+    backgroundColor: "rgb(131, 159, 105)",
     display: "flex",
     padding: "1em",
     borderBottom: "0.5em solid rgb(49, 52, 68)"

@@ -1,5 +1,5 @@
 import { relative } from 'node:path/win32';
-import React, { CSSProperties, useContext } from 'react';
+import React, { CSSProperties, useContext, useEffect } from 'react';
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
 import { AiOutlineFileImage } from 'react-icons/ai';
 type Props = {
@@ -26,24 +26,48 @@ export default function ImgPreview(props: Props) {
                     <span onClick={() => props.removeFunc(img)} style={removeIconStyle} >    
                          <IoMdRemoveCircleOutline /> 
                     </span>
-                    {/* <IoMdRemoveCircleOutline onClick={() => props.removeFunc(img)} style={closeIconStyle} /> */}
                 </div>
             )
         })
     }
 
+    const renderImgPlaceholders = () => {
+        const nrOfImages = props.imgArr === undefined? 0 : props.imgArr.length
+        const totalNrOfPlaceholders = [ 1, 2, 3, 4]
+
+        for (let index = 0; index < nrOfImages; index++) {
+            totalNrOfPlaceholders.pop()
+        }
+  
+    
+        return totalNrOfPlaceholders.map((placeholder) => {
+            return (
+                <div key={placeholder} className="imgPlaceholder" style={imgPlaceholderStyle}>
+                    <AiOutlineFileImage fontSize={"4em"}/>
+                </div>
+            )
+        })
+
+    }
+
+    useEffect(() => {
+        
+    }, [props.imgArr])
+
     return (
- 
+        
         props.imgArr?
             <div id="imgPreview" style={imgPreviewStyle}>
                 {renderImgPreview(props.imgArr)}
+                {renderImgPlaceholders()}
             </div>
             :
             <div className='noImgPrev' style={{...imgPreviewStyle }}>
-                <div className="imgPlaceholder" style={imgPlaceholderStyle}>
-                    <AiOutlineFileImage fontSize={"4em"}/>
-                </div>
-            </div>   
+                {renderImgPlaceholders()}
+            </div>
+
+            
+     
     );
 }
 

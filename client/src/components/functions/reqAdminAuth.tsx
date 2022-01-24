@@ -2,6 +2,7 @@ import { getAuth } from 'firebase/auth';
 import { useContext, useEffect, useState } from 'react';
 import { Navigate, useLocation, useMatch } from 'react-router-dom';
 import { UserContext, UserOptions } from '../../context/users/userContext';
+import SpinnerModal from './spinnerModal';
 
 
 type Props = {
@@ -31,7 +32,7 @@ export default function ReqAdminAuth(props: Props) {
     }, [auth])
       
     if(loadingComplete === false) {
-        return <p>SPINNER.....</p>
+        return <SpinnerModal />
     }
     else if(loadingComplete === true && auth === true ) {
         console.log("Admin authenticated")

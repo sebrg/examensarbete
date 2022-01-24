@@ -250,59 +250,75 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         });
     }
     async deleteProduct(product: Product) {
-        
-        if(product.images) {
-            await Promise.all(product.images.map( async (img) => {
-                await this.deleteImg(img as string)
-            }))
-        }
+        try {
+            if(product.images) {
+                await Promise.all(product.images.map( async (img) => {
+                    await this.deleteImg(img as string)
+                }))
+            }
+    
+            await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
+            console.log("Product deleted")
+            return {status: 200, message: `${product.name} has been deleted` } as StatusObject    
+            
+        } catch(err) {
 
-        await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
-        console.log("Product deleted")
+            return {status: 400, message: err } as StatusObject
+        }
+        
     }
 
     async updateProduct(oldProduct: Product, newProduct: Product) {
-       
-        const updatedProduct: Product = {
-            name: newProduct.name? newProduct.name : oldProduct.name,
-            price: newProduct.price? newProduct.price : oldProduct.price,
-            info: newProduct.info? newProduct.info : oldProduct.info != undefined? oldProduct.info : "",
-            quantity: newProduct.quantity? newProduct.quantity : oldProduct.quantity,
-            images: [] as string[] /* | Blob[] | MediaSource[] | object[] */
+        try {
+            const updatedProduct: Product = {
+                name: newProduct.name? newProduct.name : oldProduct.name,
+                price: newProduct.price? newProduct.price : oldProduct.price,
+                info: newProduct.info? newProduct.info : oldProduct.info != undefined? oldProduct.info : "",
+                quantity: newProduct.quantity? newProduct.quantity : oldProduct.quantity,
+                images: [] as string[] /* | Blob[] | MediaSource[] | object[] */
+            }
+    
+            //Failsafe, require atleast one image
+            if(!newProduct.images) {
+                console.log("Your product requires atleast one image")
+                return {status: 400, message: "Your product requires atleast one image" } as StatusObject
+
+            }
+           
+    
+            const imagesToKeep = newProduct.images.filter(image => image == oldProduct.images.find(img => img === image))
+            const imagesToAdd = newProduct.images.filter(image => image !== oldProduct.images.find(img => img === image))
+            const imagesToRemove = oldProduct.images.filter(image => image !== newProduct.images.find(img => img === image)  )
+    
+            if(imagesToKeep.length) {
+                updatedProduct.images = [...imagesToKeep]
+            }
+    
+            if(imagesToAdd.length) {
+                await Promise.all(imagesToAdd.map( async (img) => {
+                    const imgUrl = await this.upLoadImg(img)
+                    updatedProduct.images.push(imgUrl as string)
+                }))
+            }
+    
+            if(imagesToRemove.length) {
+                await Promise.all(imagesToRemove.map( async (img) => {
+                    await this.deleteImg(img as string)
+                }))
+            } 
+    
+            const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)
+            await updateDoc(productRef, 
+                {...updatedProduct}
+            ); 
+            
+
+            return {status: 200, message: `Uppdateringen lyckades` } as StatusObject    
+
+        }   catch(err) {
+                return {status: 400, message: err } as StatusObject
         }
-
-        //Failsafe, require atleast one image
-        if(!newProduct.images) {
-            console.log("Your product requires atleast one image")
-            return
-        }
-       
-
-        const imagesToKeep = newProduct.images.filter(image => image == oldProduct.images.find(img => img === image))
-        const imagesToAdd = newProduct.images.filter(image => image !== oldProduct.images.find(img => img === image))
-        const imagesToRemove = oldProduct.images.filter(image => image !== newProduct.images.find(img => img === image)  )
-
-        if(imagesToKeep.length) {
-            updatedProduct.images = [...imagesToKeep]
-        }
-
-        if(imagesToAdd.length) {
-            await Promise.all(imagesToAdd.map( async (img) => {
-                const imgUrl = await this.upLoadImg(img)
-                updatedProduct.images.push(imgUrl as string)
-            }))
-        }
-
-        if(imagesToRemove.length) {
-            await Promise.all(imagesToRemove.map( async (img) => {
-                await this.deleteImg(img as string)
-            }))
-        } 
-
-        const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)
-        await updateDoc(productRef, 
-            {...updatedProduct}
-        );    
+   
     }   
 
 

@@ -11,6 +11,7 @@ import ProductCard from '../../UI/productCard';
 import EditPopup from './editPopup';
 import { FbQuery } from '../../../types';
 import { BiEdit } from 'react-icons/bi';
+import SpinnerModal from '../../functions/spinnerModal';
 
 type Alternatives = "show" | "add"
 
@@ -51,7 +52,7 @@ export default function DashForCompanyProducts(props: Props) {
     }
 
 
-    const getProducts = async () => {
+    const getAndSetProducts = async () => {
         //const currentUserCompany = await companyContext.getCurrentUserCompany()
         const products = await productContext.functions.getProductsFromCompany(props.currentCompany?.id as string)
         setProducts(products)
@@ -75,17 +76,18 @@ export default function DashForCompanyProducts(props: Props) {
     }, [])
 
     useEffect(() => {
-        if(currentCompanyEnabled) {
-            getProducts()
+        if(currentCompanyEnabled && productAlternativ === "show") {
+            getAndSetProducts()
         }
-    }, [currentCompanyEnabled])
+    }, [currentCompanyEnabled, productAlternativ])
 
 
     return (
         currentCompanyEnabled === undefined?
-            <p>....Spinner....</p>
+            <SpinnerModal />
             : currentCompanyEnabled?
                 <div id="dashProducts" style={dashProductsStyle}>
+                    {/* A state navigation for add/show products */}
                     <div id="dashProductsBtnDiv" style={{width: "30%"}}>
                         <Button 
                             margin='0 0 0.5em 0' 
@@ -111,14 +113,14 @@ export default function DashForCompanyProducts(props: Props) {
                         <div id="dashShowProducts" className='noScrollBar' style={dashShowProductsStyle}>
                             { renderProducts() }
                             { editPopupOpen?
-                                <EditPopup product={editProductTarget as Product} setEditPopupOpen={(bool: boolean) => setEditPopupOpen(bool)} />
+                                <EditPopup product={editProductTarget as Product} getAndSetProducts={() => getAndSetProducts()} setEditPopupOpen={(bool: boolean) => setEditPopupOpen(bool)} />
                                 : null
                             }
                         </div>
 
                         : productAlternativ === "add"?
                             
-                            <DashForCompanyAddProducts />
+                            <DashForCompanyAddProducts/>
                             : null
                     }
                 </div>

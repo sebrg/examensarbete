@@ -44,7 +44,7 @@ export default function DashNav(props: Props) {
             } 
             else {
                 return (
-                    <Link key={index} to={link.to} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%"}}>
+                    <Link key={index} to={link.to} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "250%"}}>
                         {link.name}
                     </Link>
                 )  
@@ -64,14 +64,14 @@ export default function DashNav(props: Props) {
                             {props.currentCompany.name}
                         </Link>
                         : //Not sure row beneth works
-                        <Link to={props.currentCompany.id as string} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%"}}>
+                        <Link to={props.currentCompany.id as string} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "250%"}}>
                             {props.currentCompany.name}
                         </Link>
                     :
                     null
                 }
 
-                <Link to={"/"} onClick={() => fbFuncs.logOut()} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "200%"}}>
+                <Link to={"/"} onClick={() => fbFuncs.logOut()} className='dashLink' style={{...dashLinkStyle, background: linearBg, backgroundSize: "250%"}}>
                     Logga ut
                 </Link>
             </div>

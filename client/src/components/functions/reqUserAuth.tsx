@@ -1,6 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useState } from 'react';
 import { Navigate, useLocation, useMatch } from 'react-router-dom';
+import SpinnerModal from './spinnerModal';
 
 type Props = {
     children: JSX.Element
@@ -18,7 +19,7 @@ export default function ReqUserAuth(props: Props) {
 
     if (props.isLoggedIn === undefined) {
     
-        return <p>Spinner</p>        
+        return <SpinnerModal />       
     }
     else if(props.isLoggedIn === true && auth.currentUser?.uid === match?.params.userId) {
         console.log("User authenticated")
