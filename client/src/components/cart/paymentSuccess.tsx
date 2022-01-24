@@ -2,6 +2,7 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
+import SpinnerModal from '../functions/spinnerModal';
 
 interface orderInterface {
     totalPrice: number
@@ -94,7 +95,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
         <div>
             {    
                 !isLoading?
-                    <p>spinner.... stäng inte ner fliken..</p>
+                    <SpinnerModal fullScreen={true}/>
                     :
                     !ifOrderExist?
                     <p>Din order är redan lagd</p>

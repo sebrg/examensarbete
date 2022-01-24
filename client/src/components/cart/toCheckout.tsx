@@ -2,6 +2,8 @@
 import { Elements, useStripe } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
+import { JsxElement } from 'typescript';
+import { InputType } from 'zlib';
 import { Product } from '../../models';
 import Button from '../UI/button';
 import CheckoutStripe from './checkoutStripe';
@@ -26,18 +28,37 @@ export default function ToCheckout(props: Props) {
 
     const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
     const [stripePromise, setStripePromise] = useState(() => loadStripe(stripePK, {stripeAccount: props.stripeAccountId}))
+    const [purchaseTerms, setPurchaseTerms] = useState<boolean>(false)
+
+    const termsIsChecked = (element: any) => {
+        if(element.target.checked) {
+            setPurchaseTerms(true)
+        }
+        else {
+            setPurchaseTerms(false)
+        }
+    }
+
+    useEffect(() => {
+        console.log(purchaseTerms)
+    },[purchaseTerms])
 	
     return (
 
 		<div onClick={() => props.setCheckoutOpen(false)} id='checkout-wrap' style={checkoutWrapper}>
             <div onClick={(event) => event.stopPropagation()} id='checkout-content' style={checkoutContent}>
                 {currentView === "start"?
-                    <Button onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>      
-                    : currentView === "stripe"? 
+                    <div> 
+                        <p style={{marginBottom: '1.5em', fontSize: '1.5em'}}>Betalningsmetod:</p>
+                        <p style={{fontSize: '1.5em'}}><input onChange={(event) => termsIsChecked(event)} style={{width: '3vw', height: '3vh'}} type="checkbox"/> Godkänn köpvillkor </p>
+                        <Button onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
+                    </div>
+                    : currentView === "stripe" && purchaseTerms? 
                     <Elements stripe={stripePromise} key={props.stripeAccountId}>
-                        <CheckoutStripe stripeAccountId={props.stripeAccountId} cartItem={props.cartItem} />
+                        <CheckoutStripe stripeAccountId={props.stripeAccountId} cartItem={props.cartItem} purchaseTerms={purchaseTerms} />
                     </Elements>    
-                    : null
+                    :
+                    null //NOTE: Sätt en alert om villkor ej godkänt..
                 }
         
             </div>
