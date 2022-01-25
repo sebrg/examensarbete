@@ -1,6 +1,7 @@
 import { DocumentData } from 'firebase/firestore'
 import { createContext } from 'react'
 import { Company, Product } from "../../models"
+import { StatusObject, UserInfo } from '../../types'
 
 
 export interface UserOptions {
@@ -12,6 +13,8 @@ export interface UserOptions {
     logOut: () => void
     userAuth: (state?: (bool: boolean) => void) => void
     checkAdmin: () => Promise<Boolean> 
+    addOrUpdateUserInfo: (newUserInfo: UserInfo, oldUserInfo: UserInfo, id: string) => Promise<StatusObject>
+    getUserInfo: (id: string) => Promise<UserInfo[]>
 }
 
 
@@ -23,7 +26,8 @@ export const UserContext = createContext({
     createUserWithEmail: (email: string | undefined, password: string | undefined) => {},
     logOut: () => {},
     userAuth: (state?: (bool: boolean) => void) => {},
-    checkAdmin: () => {}
-
+    checkAdmin: () => {},
+    addOrUpdateUserInfo: (newUserInfo: UserInfo, oldUserInfo: UserInfo, id: string) => {},
+    getUserInfo: (id: string) => {}
         
 } as UserOptions)
