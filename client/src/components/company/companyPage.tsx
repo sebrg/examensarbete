@@ -70,7 +70,7 @@ export default function CompanyPage() {
         <React.Fragment>
             <div style={companyPageHeader}> 
                 <h3>
-                    UF NAMN
+                    {companyName}
                 </h3>
             </div>
 
