@@ -1,4 +1,3 @@
-import { FieldPath, WhereFilterOp } from "firebase/firestore";
 
 export type StatusObject = {
     /**

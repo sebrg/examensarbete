@@ -2,7 +2,7 @@ import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import marungTestBackground from "./../../assets/cartLogoDarker.png"
 import ClipLoader from "react-spinners/ClipLoader";
-
+//MoonLoader
 
 type Props = {
     fullScreen?: boolean
