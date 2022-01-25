@@ -1,10 +1,11 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, documentId, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, documentId, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { UserContext, UserOptions, } from "./userContext"
 import { Company, Product } from "../../models"
 import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable, uploadString } from "firebase/storage";
+import { StatusObject, UserInfo } from "../../types";
 interface Props{}
 export default class UserProvider extends Component<Props, UserOptions>   {
 
@@ -16,7 +17,9 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         createUserWithEmail: this.createUserWithEmail.bind(this),
         logOut: this.logOut.bind(this),
         userAuth: this.userAuth.bind(this),
-        checkAdmin: this.checkAdmin.bind(this)
+        checkAdmin: this.checkAdmin.bind(this),
+        addOrUpdateUserInfo: this.addOrUpdateUserInfo.bind(this),
+        getUserInfo: this.getUserInfo.bind(this)
     }
 
     addUser() {
@@ -160,7 +163,114 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         }
     }
 
+    async addOrUpdateUserInfo(newUserInfo: UserInfo, oldUserInfo: UserInfo, id: string) { 
+        try {
 
+            const userCollectionRef = collection(firebaseCollection.db, "userInfo")
+            const data = await getDocs(userCollectionRef);
+            const userList = data.docs.map(doc => (doc.id));
+            const foundUser = userList.find((user) => user === id)
+
+            if(foundUser) {
+
+                const clonedUserInfo = {...oldUserInfo}
+
+                if(newUserInfo.firstName !== undefined) {
+                    clonedUserInfo.firstName = newUserInfo.firstName
+                }
+
+                if(newUserInfo.surName !== undefined) {
+                    clonedUserInfo.surName = newUserInfo.surName
+                }
+
+                if(newUserInfo.city !== undefined) {
+                    clonedUserInfo.city = newUserInfo.city
+                }
+
+                if(newUserInfo.municipality !== undefined) {
+                    clonedUserInfo.municipality = newUserInfo.municipality
+                }
+
+                if(newUserInfo.zipCode !== undefined) {
+                    clonedUserInfo.zipCode = newUserInfo.zipCode
+                }
+
+                if(newUserInfo.adress !== undefined) {
+                    clonedUserInfo.adress = newUserInfo.adress
+                }
+
+                if(newUserInfo.phoneNr !== null || undefined) {
+                    clonedUserInfo.phoneNr = newUserInfo.phoneNr
+                }
+
+                if(newUserInfo.co !== null || undefined) {
+                    clonedUserInfo.co = newUserInfo.co
+                }
+
+                //Update userInfo
+                await setDoc(doc(firebaseCollection.db, "userInfo", foundUser), {
+                    firstName: clonedUserInfo.firstName,
+                    surName: clonedUserInfo.surName,
+                    city: clonedUserInfo.city,
+                    municipality: clonedUserInfo.municipality,
+                    zipCode: clonedUserInfo.zipCode,
+                    adress: clonedUserInfo.adress,
+                    phoneNr: clonedUserInfo.phoneNr,
+                    co: clonedUserInfo.co
+                });
+
+                return {status: 200, message: `UserInfo has been updated` } as StatusObject    
+            } 
+            else {
+
+                const clonedUserInfo = {...newUserInfo}
+
+                if(clonedUserInfo.firstName === undefined || clonedUserInfo.surName === undefined || clonedUserInfo.city === undefined || clonedUserInfo.municipality === undefined || clonedUserInfo.zipCode === undefined || clonedUserInfo.adress === undefined) {
+                    return {status: 400, message: "Du måste fylla i alla uppgifter som krävs" } as StatusObject
+                } 
+    
+                if(clonedUserInfo.phoneNr === undefined) {
+                    clonedUserInfo.phoneNr = null
+                } 
+    
+                if(clonedUserInfo.co === undefined) {
+                    clonedUserInfo.co = null
+                } 
+
+                //Add userInfo
+                await setDoc(doc(firebaseCollection.db, "userInfo", id as string), {
+                    firstName: clonedUserInfo.firstName,
+                    surName: clonedUserInfo.surName,
+                    city: clonedUserInfo.city,
+                    municipality: clonedUserInfo.municipality,
+                    zipCode: clonedUserInfo.zipCode,
+                    adress: clonedUserInfo.adress,
+                    phoneNr: clonedUserInfo.phoneNr,
+                    co: clonedUserInfo.co
+                });
+
+                return {status: 200, message: `UserInfo has been added` } as StatusObject
+            }
+
+        } catch(err) {
+
+            return {status: 400, message: err } as StatusObject
+        }
+        
+
+    }
+
+    async getUserInfo(id: string) {
+        const q = query(collection(firebaseCollection.db, "userInfo"), where(documentId(), "==", id));
+        const querySnapshot = await getDocs(q);
+        const result: UserInfo[] = []
+
+        querySnapshot.forEach((doc) => {
+            result.push({id: doc.id, ...doc.data()} as UserInfo)
+       });
+
+       return result
+    }
 
 
 
@@ -172,4 +282,3 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         )
     }
 }
-
