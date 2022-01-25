@@ -17,16 +17,40 @@ export default function DashForCompanySettings() {
   
 
     return (
-        <div> 
-        <p>this is DashForCompanySettings</p>
-        
-        <Button onClick={() => setActivatePaymentsOpen(!activatePaymentsOpen)} buttonText='Betalningsalternativ'/>
-        {activatePaymentsOpen?
-            <ActivatePayments />
-            : null
-        }
+        <div style={dashSettings}> 
+        {/* <h1 style={{fontSize: '1.5em'}}>this is DashForCompanySettings</h1> */}
 
-        </div>    
+            <div style={settingsDiv}>
+                Nånting annat ...
+            </div>
+
+            <div style={stripeDiv}>   
+                <Button width='50%' onClick={() => setActivatePaymentsOpen(!activatePaymentsOpen)} buttonText='Betalningsalternativ'/>
+                {activatePaymentsOpen?
+                    <ActivatePayments />
+                    : null
+                }
+            </div>  
+        </div>   
     );
 }
 
+const dashSettings: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    height: '85%',
+    flexDirection: 'column',
+}
+
+const stripeDiv: CSSProperties = {
+    width: '100%',
+    height: '50%',
+    backgroundColor: '#34568B',
+}
+
+const settingsDiv: CSSProperties = {
+    width: '100%',
+    height: '50%',
+    backgroundColor: '#92A8D1'
+} 

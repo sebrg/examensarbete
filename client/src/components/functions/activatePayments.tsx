@@ -4,6 +4,7 @@ import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import Button from '../UI/button';
 import ActivateStripe from './activateStripe';
+import SpinnerModal from './spinnerModal';
 
 type Status = {
     status: number,
@@ -25,12 +26,11 @@ export default function ActivatePayments() {
     //const stripePromise = loadStripe(stripePK) 
 
     const syncIdAndStatus = async () => {
-        console.log("running syncIdAndStatus")
         let currentCompany = await companyContext.getCurrentUserCompany()
         if(currentCompany[0].payments.stripe_acc_id) {
             setStripeId(currentCompany[0].payments.stripe_acc_id)
         } 
-        if(currentCompany[0].payments.enabled === false) { //NOTE: Ska den ligga här?? 
+        if(currentCompany[0].payments.enabled === false) { 
             if(stripeAccountStatus?.status === 200) {
                 companyContext.setPaymentEnabled(true)
             }
@@ -67,13 +67,13 @@ export default function ActivatePayments() {
        <div id='activate-payments'>
 
            {currentView === 'start'?
-                loading? 
-                    <p>spinner..</p>
+                loading || stripeAccountStatus?.status == undefined? 
+                    <SpinnerModal/>
                     :
                     stripeAccountStatus?.status === 200? 
-                        <p>Du har aktiverat Stripe</p>
+                        <p style={{textAlign: 'center', marginTop: '1.5em'}}>Du har aktiverat Stripe</p>
                         :
-                        <Button onClick={() => setCurrentView("stripe")} buttonText='stripe'/>
+                        <Button color='black' width='50%' onClick={() => setCurrentView("stripe")} buttonText='Ta emot betalningar med Stripe'/>
                         : currentView === 'stripe'? 
                             <Elements stripe={stripePromise}> 
                                 <ActivateStripe stripeAccountStatus={stripeAccountStatus} setStripeAccountStatus={(status: Status) => setStripeAccountStatus(status)} stripeId={stripeId as string} syncIdAndStatus={() => syncIdAndStatus()}/>
@@ -85,4 +85,5 @@ export default function ActivatePayments() {
             
     );
 }
+
 

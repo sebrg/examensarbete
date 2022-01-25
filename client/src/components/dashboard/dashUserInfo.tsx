@@ -115,6 +115,7 @@ export default function DashUserInfo(props: Props) {
 
 
     return (
+
         loading? 
             <SpinnerModal message={statusMsg}/>
             : //Else !loading
@@ -254,6 +255,7 @@ export default function DashUserInfo(props: Props) {
                             </div>
                         : null}   
             </div> 
+
     );
 }
 

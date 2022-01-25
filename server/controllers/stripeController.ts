@@ -46,8 +46,7 @@ export const createStripeLink = async (req: any, res: any, next: any) => {
 export const checkOut = async (req: any, res: any, next: any) => {
 
     const stripeId = req.body.stripeId
-    console.log(req.body)
-
+    const purchaseTerms = req.body.purchaseTerms
     const cartItems = req.body.products
     const companyId = req.body.companyId
     const userId = req.body.userId
@@ -72,8 +71,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
         }
         return orderProduct
     })
- 
 
+  
     const lineItems = await cartItems.map(product => {
     //Map genom cart som tas emot i body å sätt lineitems
         const lineItem = {
@@ -99,7 +98,7 @@ export const checkOut = async (req: any, res: any, next: any) => {
         mode: 'payment',
         payment_method_types: ['card'],
         payment_intent_data: {
-            application_fee_amount: 2000, //NOTE: avgift vi tar per betalning, sätt den procentuell
+            application_fee_amount: 1500, //NOTE: avgift vi tar per betalning, sätt den procentuell, behöver amount total..
         },
         expires_at: Math.floor(new Date().getTime()/1000.0) + 3600, //Checkout session blir expired efter 1h
         metadata: {'company_id': companyId, 'user_id': userId, 'cartItem_ids': JSON.stringify(cartItemIds)}
@@ -122,7 +121,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
         currency: session.currency,
         payment_status: session.payment_status,
         session_status: session.status,
-        stripe_acc_id: stripeId
+        stripe_acc_id: stripeId,
+        purchaseTerms: purchaseTerms
     }
 
     res.status(200).json({ id: session.id, pendingOrder: pendingOrder, cartItemIds: cartItemIds })

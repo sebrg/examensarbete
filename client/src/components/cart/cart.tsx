@@ -101,7 +101,7 @@ export default function Cart() {
     useEffect(() => {
         console.log("productsInCart: ", productsInCart)
         console.log(productsInCart?.length)
-        if(productsInCart !== undefined) {
+        if(productsInCart !== null) {
             setLoading(false)
         }
     }, [productsInCart])
@@ -155,7 +155,7 @@ export default function Cart() {
                             </div>
                         )
                     })
-                :   productsInCart?.length && productsInCart.length !> 0?
+                :   productsInCart === undefined? /* productsInCart?.length && productsInCart.length !> 0? */
                         <p>Din varukorg är tom</p>
                         : null
             }

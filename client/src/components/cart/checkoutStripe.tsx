@@ -4,6 +4,7 @@ import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import { useMatch } from 'react-router-dom';
 import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
+import SpinnerModal from '../functions/spinnerModal';
 
 type Cart = {
     companyId: string
@@ -14,7 +15,8 @@ type Cart = {
 
 type Props = {
     stripeAccountId: string,
-    cartItem: Cart
+    cartItem: Cart,
+    purchaseTerms: boolean
 }
 
 
@@ -37,7 +39,7 @@ export default function CheckoutStripe(props: Props) {
           		method: "POST",
           		headers: {"content-type": "application/json"},
           		credentials: 'include',
-                body: JSON.stringify({products: props.cartItem.products, companyId: props.cartItem.companyId, userId: userId, stripeId: props.stripeAccountId})
+                body: JSON.stringify({products: props.cartItem.products, companyId: props.cartItem.companyId, userId: userId, stripeId: props.stripeAccountId, purchaseTerms: props.purchaseTerms})
       		})
 
 			const data = await response.json()
@@ -68,6 +70,6 @@ export default function CheckoutStripe(props: Props) {
 
 	
     return (
-            <p>..spinner</p>
+        <SpinnerModal fullScreen={true}/>
     );
 }

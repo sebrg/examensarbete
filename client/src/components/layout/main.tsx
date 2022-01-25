@@ -13,6 +13,7 @@ import AdminView from '../admin/adminView';
 import ReqAdminAuth from '../functions/reqAdminAuth';
 import { UserContext, UserOptions } from '../../context/users/userContext';
 import PaymentCancel from '../cart/paymentCancel';
+import Policy from './policy';
 
 
 type Props = {
@@ -40,7 +41,8 @@ export default function Main(props: Props) {
 				<Route path='/:companyName-:companyId/*' element={<CompanyContent />} />
 				<Route path='/cart/:userId' element={<Cart/>} />
 				<Route path={"/success/:stripeId/:sessionId/"} element={<PaymentSuccess />} />
-				<Route path={"/cancel/:stripeId/:sessionId/"} element={<PaymentCancel />} />  			
+				<Route path={"/cancel/:stripeId/:sessionId/"} element={<PaymentCancel />} />
+				<Route path={"/policy"} element={<Policy/>} />  	  			
 				<Route path='/admin/*' element={
 					<ReqAdminAuth >
 						<AdminView />

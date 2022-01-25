@@ -24,27 +24,6 @@ export default function ActivateStripe(props: Props) {
        
     let stripe = useStripe()
    
-   
-
-    
-    //const [accountStatus, setAccountStatus] = useState<Status>(props.stripeAccountStatus as Status)
-
-   /*  async function getAccount() {
-        if(stripe) {
-            const response = await fetch("http://localhost:3001/getStripeAcc", {
-                method: "POST",
-                headers: {"content-type": "application/json"},
-                credentials: 'include',
-                body: JSON.stringify({stripeId: props.stripeId})
-            })
-            
-            const status = await response.json()
-            props.setStripeAccountStatus(status)
-        }
-        
-    } */
-
-
 
     
     async function createStripeAcc() {
@@ -114,5 +93,8 @@ export default function ActivateStripe(props: Props) {
 }
 
 const StripeActivation: CSSProperties = {
-    backgroundColor: 'black'
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '1em',
 }
+
