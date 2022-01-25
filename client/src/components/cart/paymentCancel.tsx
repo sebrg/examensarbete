@@ -1,10 +1,12 @@
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js';
-import React, { useContext, useState } from 'react'
-import { useMatch } from 'react-router-dom';
+import React, { CSSProperties, useContext, useState } from 'react'
+import { Navigate, useMatch } from 'react-router-dom';
 import Button from '../UI/button';
 import ResumeStripe from './resumeStripe';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
+import SpinnerModal from '../functions/spinnerModal';
+
 
 
 export default function PaymentCancel() {
@@ -21,6 +23,8 @@ export default function PaymentCancel() {
     const [stripePromise, setStripePromise] = useState(() => loadStripe(stripePK, {stripeAccount: stripeId}))
 
     const [currentView, setCurrentView] = useState<"start" | "resumeStripe">("start")
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [redirect, setRedirect] = useState<boolean>(false)
 
     async function expireCheckoutSession() {
       		const response = await fetch("http://localhost:3001/expireSession", {
@@ -32,28 +36,52 @@ export default function PaymentCancel() {
 
 			const data = await response.json()
             console.log(data)
-            productContext.functions.verifyCheckoutSession() 
+            const result = await productContext.functions.verifyCheckoutSession() 
+            return result
     }
 
-
+   
     return (
+        
+        redirect?
+            <Navigate to={"/"} replace />
+            :
+            isLoading?
+                <SpinnerModal fullScreen={true}/>
+            :
+                 
+            <div style={cancelDiv}>
+    
+                {currentView === "start"?
+                    <div style={{marginTop: '2em', padding: '1em'}}>
+                        <h1 style={{marginBottom: '1em'}}>Oj.. ser ut som att du avbröt ditt köp</h1>
+                        <Button margin='0 0 1em 0' bgColor='#88B04B' onClick={() => setCurrentView("resumeStripe")} width="100%" minWidth='50%' height='5vh' buttonText='Återuppta köp'></Button>      
+                        <Button bgColor='#BC243C' width="100%" minWidth='50%' height='5vh' buttonText='Gå tillbaka till start' onClick={ async () => {  
+                            setIsLoading(true) 
+                            const test = await expireCheckoutSession()
+                            if(test) { 
+                                setIsLoading(false)
+                                setRedirect(true)
+                                
+                            }
+                            }}/>
+                    </div>
+                        : currentView === "resumeStripe" && sessionId?     
+                            <Elements stripe={stripePromise} key={stripeId}>
+                                <ResumeStripe sessionId={sessionId}/> 
+                            </Elements>
+                            : null            
+                }
 
-		<div>
-     
-            {currentView === "start"?
-                <div>
-                    <Button linkTo={'/'} onClick={expireCheckoutSession} width="25vw" minWidth='50%' height='5vh' buttonText='Gå tillbaka till start'></Button> 
-                    <Button onClick={() => setCurrentView("resumeStripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Återuppta köp'></Button>      
-                </div>
-                    : currentView === "resumeStripe" && sessionId?     
-                        <Elements stripe={stripePromise} key={stripeId}>
-                            <ResumeStripe sessionId={sessionId}/> 
-                        </Elements>
-                        : null            
-            }
-
-        </div>
+            </div>
 
   
     );
+}
+
+const cancelDiv: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
 }
