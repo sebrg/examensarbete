@@ -23,7 +23,7 @@ export interface ProductFunctions {
     updateQuantityOnPurchase: (productId: string, QuantityToRemove: number) => void
     addPendingOrder: (sessionId: string, data: any) => void
     addQuantityOnExpiredOrder: (sessionId: string, productId: string, QuantityToAdd: number) => void
-    verifyCheckoutSession: () => void,
+    verifyCheckoutSession: () => Promise<StatusObject>,
     getOrdersByUser: (userId: string) => Promise<DocumentData>
 }
 

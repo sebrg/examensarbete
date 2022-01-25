@@ -217,12 +217,15 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
                 sessionItems.forEach(items => {                     
                     this.addQuantityOnExpiredOrder(data.sessionId , items.productId, items.quantity)
                 })
+            return {status: 410} as StatusObject    
 	    }
         if(data.status === 200) { 
             //Failsafe om en order ej har blivit flyttad från pending till orders..
             this.addOrder(data.sessionId, data.stripeCustomer)
             console.log(data, "denna order är betalad och klar.")
         }
+
+        return {status: 200} as StatusObject 
     }
 
     async getOrdersByUser(userId: string) {

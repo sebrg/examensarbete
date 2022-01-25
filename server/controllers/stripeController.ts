@@ -71,8 +71,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
         }
         return orderProduct
     })
- 
 
+  
     const lineItems = await cartItems.map(product => {
     //Map genom cart som tas emot i body å sätt lineitems
         const lineItem = {
@@ -98,7 +98,7 @@ export const checkOut = async (req: any, res: any, next: any) => {
         mode: 'payment',
         payment_method_types: ['card'],
         payment_intent_data: {
-            application_fee_amount: 2000, //NOTE: avgift vi tar per betalning, sätt den procentuell
+            application_fee_amount: 1500, //NOTE: avgift vi tar per betalning, sätt den procentuell, behöver amount total..
         },
         expires_at: Math.floor(new Date().getTime()/1000.0) + 3600, //Checkout session blir expired efter 1h
         metadata: {'company_id': companyId, 'user_id': userId, 'cartItem_ids': JSON.stringify(cartItemIds)}
