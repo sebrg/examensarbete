@@ -57,7 +57,7 @@ export default function DashOldOrders() {
 
 
     return (      
-        <div>
+        <div className='noScrollBar' style={{height: '100%', overflow: 'auto'}}>
             <FoldableOrderCard order={oldOrders}/>
 
         </div>
