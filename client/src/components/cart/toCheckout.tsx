@@ -2,6 +2,7 @@
 import { Elements, useStripe } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import { JsxElement } from 'typescript';
 import { InputType } from 'zlib';
 import { Product } from '../../models';
@@ -50,10 +51,15 @@ export default function ToCheckout(props: Props) {
                 {currentView === "start"?
                     <div> 
                         <p style={{marginBottom: '1.5em', fontSize: '1.5em'}}>Betalningsmetod:</p>
-                        <p style={{fontSize: '1.5em'}}><input onChange={(event) => termsIsChecked(event)} style={{width: '3vw', height: '3vh'}} type="checkbox"/> Godkänn köpvillkor </p>
-                        <Button onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
+                        <p style={{fontSize: '1.5em', marginBottom: '1em'}}><input onChange={(event) => termsIsChecked(event)} style={{width: '3vw', height: '3vh'}} type="checkbox"/> Godkänn <Link style={{textDecoration: 'underline', color: 'purple', cursor: 'pointer'}} to={'/Policy'}> köpvillkor </Link> </p>
+                        {
+                            purchaseTerms?
+                                <Button onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
+                                :
+                                <Button onClick={() => alert('Du måste godkänna köpvillkoren')} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
+                        }
                     </div>
-                    : currentView === "stripe" && purchaseTerms? 
+                    : currentView === "stripe"? 
                     <Elements stripe={stripePromise} key={props.stripeAccountId}>
                         <CheckoutStripe stripeAccountId={props.stripeAccountId} cartItem={props.cartItem} purchaseTerms={purchaseTerms} />
                     </Elements>    
