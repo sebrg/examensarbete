@@ -8,6 +8,7 @@ import CartProductController from './cartProductController';
 import Button from '../UI/button';
 import ToCheckout from './toCheckout';
 import SpinnerModal from '../functions/spinnerModal';
+import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 
 
 type Cart = {
@@ -25,6 +26,9 @@ export default function Cart() {
 
     const productContext: ProductOptions = useContext(ProductContext)
     const companyContext: CompanyOptions = useContext(CompanyContext)
+    const general: GeneralOptions = useContext(GeneralContext)
+   
+    console.log(window.location)
 
     const [productsInCart, setProductsInCart] = useState<Cart[]>()
     const [stripeAccountId, setStripeAccountId] = useState<string>("")
@@ -90,7 +94,7 @@ export default function Cart() {
     }
 
 	 useEffect(() => {
-        productContext.functions.verifyCheckoutSession() 
+        productContext.functions.verifyCheckoutSession(general.path as string) 
     }, [])
 
 

@@ -6,6 +6,7 @@ import { ProductContext, ProductOptions, } from "./productContext"
 import { Company, Product } from "../../models"
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { CompanyContext } from "../companies/companyContext";
+import { GeneralContext } from "../general/generalContext";
 import { StatusObject } from '../../types'
 
 //import { match } from "react-router-dom";
@@ -13,6 +14,8 @@ import { StatusObject } from '../../types'
 interface Props{}
 export default class ProductProvider extends Component<Props, ProductOptions>   {
     static contextType = CompanyContext
+
+    /* static contextType =  */
 
     state: ProductOptions = {
         functions: {
@@ -197,12 +200,13 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             await deleteDoc(doc(firebaseCollection.db, "pendingOrders", sessionId));
         }
     }
-
-    async verifyCheckoutSession() {
+    
+    async verifyCheckoutSession(param: string) {
         //Failsafe, verifierar session status
         //Tar bort utgångna checkout sessions och skickar tillbaka produkt quantity
+        console.log(param)
         const pendingOrders = await this.getAllOrders("pendingOrders")
-		const response = await fetch("http://localhost:3001/checkSession", {
+		const response = await fetch(`${param}/checkSession`, {
 			method: "POST",
 			headers: {"content-type": "application/json"},
 			credentials: 'include',

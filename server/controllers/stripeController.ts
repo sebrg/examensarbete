@@ -32,11 +32,12 @@ export const createStripeAcc = async (req: any, res: any, next: any) => {
 
 export const createStripeLink = async (req: any, res: any, next: any) => {
     const stripeId = await req.body.stripeId
+    const path = await req.body.path
 
      const accountLink = await stripe.accountLinks.create({
         account: stripeId,
-        refresh_url: 'http://localhost:3000',
-        return_url: 'http://localhost:3000',
+        refresh_url: `${path}`,
+        return_url: `${path}`,
         type: 'account_onboarding',
     }); 
     res.status(200).json({ url: accountLink.url })
@@ -50,6 +51,9 @@ export const checkOut = async (req: any, res: any, next: any) => {
     const cartItems = req.body.products
     const companyId = req.body.companyId
     const userId = req.body.userId
+    const path = req.body.path
+
+    console.log(path, "pataaththwhtawh")
 
     
     const cartItemIds = await cartItems.map(product => {
@@ -92,8 +96,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
 
 
     const session = await stripe.checkout.sessions.create({
-        success_url: `http://localhost:3000/success/${stripeId}/{CHECKOUT_SESSION_ID}`,
-        cancel_url: `http://localhost:3000/cancel/${stripeId}/{CHECKOUT_SESSION_ID}`,
+        success_url: `${path}/success/${stripeId}/{CHECKOUT_SESSION_ID}`,
+        cancel_url: `${path}/cancel/${stripeId}/{CHECKOUT_SESSION_ID}`,
         line_items: lineItems,
         mode: 'payment',
         payment_method_types: ['card'],

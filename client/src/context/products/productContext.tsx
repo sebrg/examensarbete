@@ -23,7 +23,7 @@ export interface ProductFunctions {
     updateQuantityOnPurchase: (productId: string, QuantityToRemove: number) => void
     addPendingOrder: (sessionId: string, data: any) => void
     addQuantityOnExpiredOrder: (sessionId: string, productId: string, QuantityToAdd: number) => void
-    verifyCheckoutSession: () => Promise<StatusObject>,
+    verifyCheckoutSession: (param: string) => Promise<StatusObject>,
     getOrdersByUser: (userId: string) => Promise<DocumentData>
 }
 
@@ -43,7 +43,7 @@ export const ProductContext = createContext({
         updateQuantityOnPurchase: (productId: string, QuantityToRemove: number) => {},
         addPendingOrder: (sessionId: string, data: any) => {},
         addQuantityOnExpiredOrder: (sessionId: string, productId: string, QuantityToAdd: number) => {},
-        verifyCheckoutSession: () => {},
+        verifyCheckoutSession: (param: string) => {},
         getOrdersByUser: (userId: string) => {}    
  
     },
