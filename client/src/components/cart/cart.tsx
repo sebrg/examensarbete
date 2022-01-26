@@ -31,10 +31,10 @@ export default function Cart() {
     const [checkoutOpen, setCheckoutOpen] = useState<boolean>(false)
     const [checkoutItems, setCheckoutItems] = useState<any>()
     const [loading, setLoading] = useState<boolean>(true)
- 
+    const localst: string | null = localStorage.getItem('cart')
+   
     const syncCart = async () => {
-        //Get products from DB
-        let localst: string | null = localStorage.getItem('cart')
+        //Get products from DB     
         if(localst) {
             let parsedLocal = JSON.parse(localst)
             if(parsedLocal.length) {
@@ -70,7 +70,8 @@ export default function Cart() {
                 setProductsInCart(arrayWithCompanyNames)
             } 
             else {
-                setProductsInCart(undefined)
+                console.log("elseee")
+                setProductsInCart([])
             }
         }
     }
@@ -101,67 +102,64 @@ export default function Cart() {
     useEffect(() => {
         console.log("productsInCart: ", productsInCart)
         console.log(productsInCart?.length)
-        if(productsInCart !== null) {
+        if(productsInCart !== undefined || localst === null) {
             setLoading(false)
         }
+ 
     }, [productsInCart])
 
 
     return (
+        loading? 
+            <SpinnerModal fullScreen={true} />
+            : <div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
         
-        <div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
-            {loading? 
-                <SpinnerModal fullScreen={true} />
-                :
-                null
-            }
-            
-            {checkoutOpen?      
-                    <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
-                : null
-            }
-            
-            {productsInCart?.length && productsInCart?.length  !== 0?   
-                productsInCart.map((cartItem, i) => {
-                        /* const findId = (cartItem: any) => { return productsInCart?.find((productInArray) => productInArray === cartItem) } */
-                        return (
-                            <div key={i} className="cartSection" style={cartSectionStyle}> 
-                                <h1 style={{width: "100%", textAlign: "center", marginBottom: "1em"}}>{cartItem.companyName}</h1>
-                                {/* <div className='cartSectionContent' style={cartSectionContentStyle}> */}
-                                    <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
-                                        {
-                                            cartItem.products.map((product, i) => {
-                                            
-                                                return(
-                                                    <ProductCard key={i} 
-                                                        product={product}
-                                                        direction='row'
-                                                        linkTo="asd"
-                                                        height='10vh' //NOTE: Vh istället för procent kan skapa problem. Procent skapar dock stretch problem här då närmsta parent inte har en height
-                                                        width='100%'
-                                                    >     
-                                                        <CartProductController product={product} syncCart={syncCart}/>
-                                                    </ProductCard>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                            {/*  </div> */}
-                                <div className='paymentSection' style={paymentSectionStyle}>
-                                    <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
-                                    <Button onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
-                                
-                                </div>
-                            </div>
-                        )
-                    })
-                :   productsInCart === undefined? /* productsInCart?.length && productsInCart.length !> 0? */
-                        <p>Din varukorg är tom</p>
+                    {checkoutOpen?      
+                        <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
                         : null
-            }
-            
+                    }
+                    
+                    {productsInCart !== undefined && productsInCart.length > 0?   
+                        productsInCart.map((cartItem, i) => {
+                                /* const findId = (cartItem: any) => { return productsInCart?.find((productInArray) => productInArray === cartItem) } */
+                                return (
+                                    <div key={i} className="cartSection" style={cartSectionStyle}> 
+                                        <h1 style={{width: "100%", textAlign: "center", marginBottom: "1em"}}>{cartItem.companyName}</h1>
+                                        {/* <div className='cartSectionContent' style={cartSectionContentStyle}> */}
+                                            <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
+                                                {
+                                                    cartItem.products.map((product, i) => {
+                                                    
+                                                        return(
+                                                            <ProductCard key={i} 
+                                                                product={product}
+                                                                direction='row'
+                                                                linkTo={`/company/${cartItem.companyName}/${cartItem.companyId}/product/${product.name}/${product.id}`}
+                                                                height='10vh' //NOTE: Vh istället för procent kan skapa problem. Procent skapar dock stretch problem här då närmsta parent inte har en height
+                                                                width='100%'
+                                                            >     
+                                                                <CartProductController product={product} syncCart={syncCart}/>
+                                                            </ProductCard>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                    {/*  </div> */}
+                                        <div className='paymentSection' style={paymentSectionStyle}>
+                                            <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
+                                            <Button onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
+                                        
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        :   productsInCart !== undefined && productsInCart?.length < 1 || localst === null?
+                                <p>Din varukorg är tom</p>
+                                : null
+                    }
+                    
 
-        </div>
+                </div>
     );
 }
 
