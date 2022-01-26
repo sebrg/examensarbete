@@ -85,6 +85,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
 
                 <div style={{marginTop: "1.5em", width: "50%"}}>
                     <Button 
+                        border='1px solid black'
                         buttonText='Add product'
                         width="100%" 
                         onClick={ () => {

@@ -69,6 +69,7 @@ export default function SingleProduct() {
                             <h3> {product.price + " " + 'kr'} </h3>
                             <p style={marginBottom}> Product info goes here </p>
                             <Button
+                                border='1px solid black'
                                 width='100%' 
                                 buttonText='Lägg till i kundvagn'
                                 icon={<FaCartPlus fontSize={"1.2em"}/>}

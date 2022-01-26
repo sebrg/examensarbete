@@ -24,6 +24,11 @@
     box-shadow:         inset 0 0 2.5px #000000;
 }
 
+.loginAlternativeBtn:hover {
+    border-radius: 25px !important;
+    transition: 0.5s;
+}
+
 /* .foldableCompanyCard {
     transition: height 0.05s ease-in-out;
     

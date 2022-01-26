@@ -33,6 +33,6 @@ export default function AddToCartBtn(props: Props) {
     }
     
     return (
-		<Button width='100%' onClick={() => addToLocal(props.product)} buttonText='Lägg till i kundvagn'/>
+		<Button border='1px solid black' width='100%' onClick={() => addToLocal(props.product)} buttonText='Lägg till i kundvagn'/>
     );
 }

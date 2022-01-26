@@ -29,25 +29,25 @@ export default function DashCompanyNav() {
             <Button 
                 buttonText='Start'
                 linkTo={" "}
-                color='white'
-                bgColor={page === "start"? "rgb(146, 168, 209)" : "none"}
-                border='2.5px solid rgb(146, 168, 209)'
+                color={page === "start"? "black" : "white"}
+                bgColor={page === "start"? "white" : "none"}
+                border='2.5px solid white'
                 margin='0 0.5em 0 0'
             />
             <Button 
                 buttonText='Inställningar'
                 linkTo={"settings"}
-                color='white'
-                bgColor={page === "settings"? "rgb(146, 168, 209)" : "none"}
-                border='2.5px solid rgb(146, 168, 209)'
+                color={page === "settings"? "black" : "white"}
+                bgColor={page === "settings"? "white" : "none"}
+                border='2.5px solid white'
                 margin='0 0.5em 0 0'
             />
             <Button 
                 buttonText='Produkter'
                 linkTo={"products"}
-                color='white'
-                bgColor={page === "products"? "rgb(146, 168, 209)" : "none"}
-                border='2.5px solid rgb(146, 168, 209)'
+                color={page === "products"? "black" : "white"}
+                bgColor={page === "products"? "white" : "none"}
+                border='2.5px solid white'
             />
         </nav>
     );

@@ -1,7 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import "../../animations.css"
+//import "../../animations.css"
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 import { Company } from '../../models';

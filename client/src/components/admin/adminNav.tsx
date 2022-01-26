@@ -12,7 +12,7 @@ export default function AdminNav() {
 
     return (
         <div id="adminNav" style={adminNavStyle}>
-            <Button buttonText='pending' linkTo={"pendingCompanies"}/> {/* FIXME: pending ska va på svenska */}
+            <Button border='1px solid black' buttonText='pending' linkTo={"pendingCompanies"}/> {/* FIXME: pending ska va på svenska */}
         </div>
     );
 }

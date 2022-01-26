@@ -72,13 +72,13 @@ export default function ActivateStripe(props: Props) {
             {!props.stripeId? 
                 <div>
                     <p>Steg 1: Skapa ditt stripe konto för att ta emot kortbetalningar</p>
-                    <Button onClick={createStripeAcc} buttonText='Skapa stripe konto'/>
+                    <Button border='1px solid black' onClick={createStripeAcc} buttonText='Skapa stripe konto'/>
                     <p> {props.stripeAccountStatus?.message} </p>
                 </div>
                 : props.stripeAccountStatus?.status === 201?
                     <div>
                         <p>Steg 2: Länka ditt stripe konto till oss för att ta betalt</p>
-                        <Button onClick={createStripeLink} buttonText='Länka konto'/>
+                        <Button border='1px solid black' onClick={createStripeLink} buttonText='Länka konto'/>
                         <p> {props.stripeAccountStatus.message} </p>
                     </div>
                     : props.stripeAccountStatus?.status === 202?

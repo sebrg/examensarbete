@@ -54,9 +54,9 @@ export default function ToCheckout(props: Props) {
                         <p style={{fontSize: '1.5em', marginBottom: '1em'}}><input onChange={(event) => termsIsChecked(event)} style={{width: '3vw', height: '3vh'}} type="checkbox"/> Godkänn <Link style={{textDecoration: 'underline', color: 'purple', cursor: 'pointer'}} to={'/Policy'}> köpvillkor </Link> </p>
                         {
                             purchaseTerms?
-                                <Button onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
+                                <Button  border='1px solid black' onClick={() => setCurrentView("stripe")} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
                                 :
-                                <Button onClick={() => alert('Du måste godkänna köpvillkoren')} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
+                                <Button  border='1px solid black' onClick={() => alert('Du måste godkänna köpvillkoren')} width="25vw" minWidth='50%' height='5vh' buttonText='Betala med Stripe'></Button>
                         }
                     </div>
                     : currentView === "stripe"? 

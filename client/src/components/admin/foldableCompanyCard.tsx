@@ -65,12 +65,12 @@ export default function FoldableCompanyCard(props: Props) {
                         })}
                         <div style={{display: "flex", width: "100%", marginTop: "0.5em"}}>
                             
-                            <Button width='50%' buttonText='Godkänn' bgColor='#9cf99c' onClick={ async () => {
+                            <Button  border='1px solid black' width='50%' buttonText='Godkänn' bgColor='#9cf99c' onClick={ async () => {
                                 await Promise.all([companyContext.aproveCompany(props.company.id as string)]) // NOTE: might go bonkers if props.company.id !== string
                                 props.updateCompanies()
                             }}/> 
                            
-                            <Button width="50%" buttonText='Neka' bgColor='#ff555ced' onClick={ async () => {
+                            <Button  border='1px solid black' width="50%" buttonText='Neka' bgColor='#ff555ced' onClick={ async () => {
                                 await Promise.all([companyContext.removeCompany(props.company.id as string)]) // NOTE: might go bonkers if props.company.id !== string
                                 props.updateCompanies()
                             }}/>

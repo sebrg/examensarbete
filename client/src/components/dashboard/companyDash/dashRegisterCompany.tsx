@@ -55,7 +55,7 @@ export default function DashRegisterCompany() {
                 onChange={(event) => updateCategory(event)}
             />
 
-            <Button onClick={() => companyContext.addCompany(new Company(name, school, region, category, {enabled: false}), "pendingCompanies")} buttonText='UF' width='30%' bgColor='black'/>
+            <Button  border='1px solid black' onClick={() => companyContext.addCompany(new Company(name, school, region, category, {enabled: false}), "pendingCompanies")} buttonText='UF' width='30%' bgColor='black'/>
 
             {/* <Button onClick={() => fbFuncs.addProduct(new Product("produkt", 20))} buttonText='PRODUKT' width='30%' bgColor='black'/> */}
         </div>

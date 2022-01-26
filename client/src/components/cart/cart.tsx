@@ -147,7 +147,7 @@ export default function Cart() {
                                     {/*  </div> */}
                                         <div className='paymentSection' style={paymentSectionStyle}>
                                             <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
-                                            <Button onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
+                                            <Button border='1px solid black' onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
                                         
                                         </div>
                                     </div>
