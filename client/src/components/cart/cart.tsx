@@ -96,7 +96,7 @@ export default function Cart() {
 
     useEffect(() => {
         syncCart()  
-    }, [])
+    }, [localst])
 
 
     useEffect(() => {
