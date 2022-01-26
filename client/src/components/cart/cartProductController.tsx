@@ -44,12 +44,12 @@ export default function CartProductController(props: Props) {
 
     return (
         <div style={cartProductControllerStyle}>
-            <Button height="100%" width='25%' icon={<FaPlus />} onClick={() => {changeQuantity("plus")}}/>
+            <Button  border='1px solid black' height="100%" width='25%' icon={<FaPlus />} onClick={() => {changeQuantity("plus")}}/>
             <div style={{minWidth: "25%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <p>{props.product.quantity}</p>
             </div>
-            <Button height="100%" width="25%" icon={<FaMinus />} onClick={() => {changeQuantity("minus")}}/>
-            <Button height="100%" width='25%' bgColor='red' icon={<RiDeleteBin5Fill/>} onClick={() => {changeQuantity("remove")}}/>
+            <Button border='1px solid black' height="100%" width="25%" icon={<FaMinus />} onClick={() => {changeQuantity("minus")}}/>
+            <Button border='1px solid black' height="100%" width='25%' bgColor='red' icon={<RiDeleteBin5Fill/>} onClick={() => {changeQuantity("remove")}}/>
         </div>
     );
 }

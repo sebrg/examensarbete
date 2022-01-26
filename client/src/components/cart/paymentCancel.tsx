@@ -55,8 +55,8 @@ export default function PaymentCancel() {
                 {currentView === "start"?
                     <div style={{marginTop: '2em', padding: '1em'}}>
                         <h1 style={{marginBottom: '1em'}}>Oj.. ser ut som att du avbröt ditt köp</h1>
-                        <Button margin='0 0 1em 0' bgColor='#88B04B' onClick={() => setCurrentView("resumeStripe")} width="100%" minWidth='50%' height='5vh' buttonText='Återuppta köp'></Button>      
-                        <Button bgColor='#BC243C' width="100%" minWidth='50%' height='5vh' buttonText='Gå tillbaka till start' onClick={ async () => {  
+                        <Button  border='1px solid black' margin='0 0 1em 0' bgColor='#88B04B' onClick={() => setCurrentView("resumeStripe")} width="100%" minWidth='50%' height='5vh' buttonText='Återuppta köp'></Button>      
+                        <Button  border='1px solid black' bgColor='#BC243C' width="100%" minWidth='50%' height='5vh' buttonText='Gå tillbaka till start' onClick={ async () => {  
                             setIsLoading(true) 
                             const test = await expireCheckoutSession()
                             if(test) { 

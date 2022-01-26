@@ -21,7 +21,7 @@ export default function DashUserInfo(props: Props) {
     const [loading, setLoading] = useState<boolean>(true)
     const [statusMsg, setStatusMsg] =useState<string | undefined>(undefined)
     const [showOrEdit, setShowOrEdit] = useState<"show" | "edit">("show")
-    const [infoAvailable, setInfoAvailable] = useState<boolean | undefined>(true)
+    const [infoAvailable, setInfoAvailable] = useState<boolean | undefined>()
     const [currentUserInfo, setCurrentUserInfo] = useState<UserInfo>()
 
     const [firstName, setFirstName] = useState<string>(currentUserInfo?.firstName as string)
@@ -94,11 +94,11 @@ export default function DashUserInfo(props: Props) {
     const checkCurrentUserInfo = () => {
         if(currentUserInfo) {
             setInfoAvailable(true)
-            setLoading(false)
+            //setLoading(false)
         } 
         else {
             setInfoAvailable(false)
-            setLoading(false)
+            //setLoading(false)
             //FIXME: skapa någon form va check på uppgifter
         }
     }
@@ -113,7 +113,12 @@ export default function DashUserInfo(props: Props) {
         checkCurrentUserInfo()
     }, [currentUserInfo])
 
+    useEffect(() => {
+        console.log(infoAvailable)
+        setLoading(false)
+    }, [infoAvailable])
 
+    
     return (
 
         loading? 
@@ -124,7 +129,7 @@ export default function DashUserInfo(props: Props) {
                     
                     <div id="userInfo" style={userInfoStyle}>
                         <h1 style={{margin: "1em 0 2em 0"}}>Uppgifter saknas</h1>
-                        <Button buttonText='Lägg till uppgifter' icon={<BiEdit />} height='10%' onClick={() => setShowOrEdit("edit")}/>
+                        <Button border='1px solid black' buttonText='Lägg till uppgifter' icon={<BiEdit />} height='10%' onClick={() => setShowOrEdit("edit")}/>
 
                     </div>
                     : showOrEdit === "show" && infoAvailable === true?
@@ -149,7 +154,7 @@ export default function DashUserInfo(props: Props) {
                             }
                             <p style={infoTextStyle}></p> {/* NOTE: keeping this for proportions */}
                             <div className='btnWrap' style={{display: "flex", width: "100%", justifyContent: "flex-end", margin: "0.5em 0 0 0" }}>
-                                <Button icon={<BiEdit />} width='10%' onClick={() => setShowOrEdit("edit")}/>
+                                <Button  border='1px solid black' icon={<BiEdit />} width='10%' onClick={() => setShowOrEdit("edit")}/>
                             </div>
                         </div>
                         : showOrEdit === "edit"?
@@ -231,8 +236,8 @@ export default function DashUserInfo(props: Props) {
                                 }
 
                                 <div className='btnWrap' style={{display: "flex", width: "100%", justifyContent: "flex-end", margin: "1em 0 0 0" }}>
-                                    <Button buttonText='Tillbaka' onClick={() => setShowOrEdit("show")}/>
-                                    <Button buttonText={infoAvailable? "Uppdatera" : "Lägg till"} onClick={ async () => {
+                                    <Button  border='1px solid black' buttonText='Tillbaka' onClick={() => setShowOrEdit("show")}/>
+                                    <Button  border='1px solid black' buttonText={infoAvailable? "Uppdatera" : "Lägg till"} onClick={ async () => {
                                         setLoading(true)
                                         const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), currentUserInfo as UserInfo, idFromUrl as string)
                                         if(result.status === 200) {
@@ -256,7 +261,7 @@ export default function DashUserInfo(props: Props) {
                         : null} 
                         {props.currentCompany === undefined && showOrEdit === "show" && infoAvailable === true?
                             <div className='btnWrapper' style={{marginBottom: "1.5em"}}>
-                                <Button buttonText="registrera UF" linkTo={"registerCompany"} />
+                                <Button  border='1px solid black' buttonText="registrera UF" linkTo={"registerCompany"} />
                             </div>
                             : null
                         }  

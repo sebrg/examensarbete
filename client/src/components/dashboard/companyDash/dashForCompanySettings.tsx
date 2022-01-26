@@ -25,7 +25,7 @@ export default function DashForCompanySettings() {
             </div>
 
             <div style={stripeDiv}>   
-                <Button width='50%' onClick={() => setActivatePaymentsOpen(!activatePaymentsOpen)} buttonText='Betalningsalternativ'/>
+                <Button border='1px solid black' width='50%' onClick={() => setActivatePaymentsOpen(!activatePaymentsOpen)} buttonText='Betalningsalternativ'/>
                 {activatePaymentsOpen?
                     <ActivatePayments />
                     : null

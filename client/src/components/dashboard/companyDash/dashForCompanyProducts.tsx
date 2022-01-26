@@ -62,9 +62,9 @@ export default function DashForCompanyProducts(props: Props) {
         const findId = (product: Product) => { return products?.find((productInArray) => productInArray === product as Product) }
         return products?.map((product, index) => {
             return ( //Productcard with edit and delete button
-                <ProductCard key={index} product={product} direction='row' height='12.5vh' border="5px solid rgb(146, 168, 209)">
+                <ProductCard key={index} product={product} direction='row' height='12.5vh' border="2.5px solid white">
                     <div style={{display: "flex"}}>
-                        <Button icon={<BiEdit size="1.5em"/>} border='2.5px solid rgb(146, 168, 209)' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
+                        <Button icon={<BiEdit size="1.5em"/>} border='2.5px solid white' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
                     </div>
                 </ProductCard>
             )
@@ -92,9 +92,10 @@ export default function DashForCompanyProducts(props: Props) {
                         <Button 
                             margin='0 0 0.5em 0' 
                             /* width="30%" */ 
-                            border={productAlternativ === "show"? "none" : "2.5px solid rgb(146, 168, 209)"}
+                            border="2.5px solid white"
                             buttonText='Se alla produkter' 
-                            bgColor={productAlternativ === "show"? "rgb(146, 168, 209)" : ""}
+                            bgColor={productAlternativ === "show"? "white" : ""}
+                            color={productAlternativ === "show"?  "black" : "white"}
                             onClick={() => setProductAlternativ('show')} 
                             
                         />
@@ -103,9 +104,10 @@ export default function DashForCompanyProducts(props: Props) {
                             onClick={() => setProductAlternativ('add')} 
                             margin='0 0 0.5em 0' 
                             /* width="30%"  */
-                            border={productAlternativ === "add"? "none" : "2.5px solid rgb(146, 168, 209)"}
+                            border="2.5px solid white"
                             buttonText='Lägg till produkt'
-                            bgColor={productAlternativ === "add"? "rgb(146, 168, 209)" : ""}
+                            bgColor={productAlternativ === "add"? "white" : ""}
+                            color={productAlternativ === "add"?  "black" : "white"}
 
                         />
                     </div>

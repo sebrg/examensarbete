@@ -34,6 +34,7 @@ export default function AddToCartBtn(props: Props) {
     }
     
     return (
+
 		<Button 
         width='100%' 
         onClick={() => addToLocal(props.product)} 
@@ -42,6 +43,7 @@ export default function AddToCartBtn(props: Props) {
         bgColor='#363945'
         iconMargin='0 0 0 0.5em'
         color='white'
+        border='1px solid black'
         />
     );
 }

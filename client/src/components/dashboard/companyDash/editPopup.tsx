@@ -114,7 +114,7 @@ export default function EditPopup(props: Props) {
                 </div>
                 
                 <div id="editSubmitWrap" style={editSubmitWrapStyle}>
-                    <Button buttonText='Uppdatera' onClick={ async () => {
+                    <Button border='1px solid black' buttonText='Uppdatera' onClick={ async () => {
                         setIsLoading(true)
                         let result = await productContext.functions.updateProduct(oldProduct(), newProduct())
                         if(result.status) {
@@ -135,7 +135,7 @@ export default function EditPopup(props: Props) {
 
                     }}/>
                     
-                    <Button buttonText='Ta bort' onClick={ async () => {
+                    <Button border='1px solid black' buttonText='Ta bort' onClick={ async () => {
                         setIsLoading(true)
                         const result = await productContext.functions.deleteProduct(props.product)
                         if(result.status = 200) {

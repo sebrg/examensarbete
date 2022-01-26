@@ -73,7 +73,7 @@ export default function ActivatePayments() {
                     stripeAccountStatus?.status === 200? 
                         <p style={{textAlign: 'center', marginTop: '1.5em'}}>Du har aktiverat Stripe</p>
                         :
-                        <Button color='black' width='50%' onClick={() => setCurrentView("stripe")} buttonText='Ta emot betalningar med Stripe'/>
+                        <Button border='1px solid black' color='black' width='50%' onClick={() => setCurrentView("stripe")} buttonText='Ta emot betalningar med Stripe'/>
                         : currentView === 'stripe'? 
                             <Elements stripe={stripePromise}> 
                                 <ActivateStripe stripeAccountStatus={stripeAccountStatus} setStripeAccountStatus={(status: Status) => setStripeAccountStatus(status)} stripeId={stripeId as string} syncIdAndStatus={() => syncIdAndStatus()}/>

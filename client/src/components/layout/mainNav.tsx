@@ -22,21 +22,21 @@ export default function MainNav(props: Props) {
     return (
         props.isLoggedIn?
             <nav id="mainNav" style={mainNavStyle}>
-                <Button linkTo={"/"} buttonText='Start' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
+                <Button border='1px solid black' linkTo={"/"} buttonText='Start' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
                 
   
-                <Button linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
+                <Button border='1px solid black' linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
                 {/* <Button linkTo={"/"} buttonText='Logout' onClick={() => fbFuncs.logOut()} /> */}
-                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null}/>
+                <Button border='1px solid black' buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null}/>
 
             </nav>
             :
             <nav id="mainNav" style={mainNavStyle}>
-                <Button linkTo={"/"} buttonText='Start' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
+                <Button border='1px solid black' linkTo={"/"} buttonText='Start' onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null} />
                 {/*TODO: Remove the mypages row beneth. Only here for testing */}
                 {/* <Button onClick={() =>  navigate(`/myPages/${auth.currentUser?.uid}`)} buttonText='Mina sidor' /> */} 
-                <Button onClick={() => props.setLoginToggle(true)} buttonText='Login' />
-                <Button buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null}/>
+                <Button border='1px solid black' onClick={() => props.setLoginToggle(true)} buttonText='Login' />
+                <Button border='1px solid black' buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => props.scrollContentIntoView? props.scrollContentIntoView(true) : null}/>
                 
             </nav>
     );
