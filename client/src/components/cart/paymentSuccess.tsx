@@ -4,10 +4,11 @@ import { parse } from 'node:path/win32';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
+import { Order } from '../../types';
 import FoldableOrderCard from '../dashboard/foldableOrderCard';
 import SpinnerModal from '../functions/spinnerModal';
 
-interface orderInterface {
+/* interface orderInterface {
     totalPrice: number
     customerId: string,
     stripeCustomerId: string, 
@@ -15,14 +16,14 @@ interface orderInterface {
     orderDate: string,
     currency: string,
     companyId: string
-}
+} */
 
-interface productInterface {
+/* interface productInterface {
     description: string
     name: string
     quantity: number
     unitPrice: number
-}
+} */
 
 
 export default function PaymentSuccess() { //NOTE: Customers may not always reach the success_url after a successful payment. It is possible they close their browser tab before the redirect occurs.
@@ -30,7 +31,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
     const productContext: ProductOptions = useContext(ProductContext)
     
     const [ifOrderExist, setIfOrderExist] = useState(false)
-    const [order, setOrder] = useState<orderInterface>()
+    const [order, setOrder] = useState<Order>()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     let match = useMatch({

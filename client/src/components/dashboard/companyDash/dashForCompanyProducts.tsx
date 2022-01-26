@@ -62,9 +62,9 @@ export default function DashForCompanyProducts(props: Props) {
         const findId = (product: Product) => { return products?.find((productInArray) => productInArray === product as Product) }
         return products?.map((product, index) => {
             return ( //Productcard with edit and delete button
-                <ProductCard key={index} product={product} direction='row' height='12.5vh'>
+                <ProductCard key={index} product={product} direction='row' height='12.5vh' border="5px solid rgb(146, 168, 209)">
                     <div style={{display: "flex"}}>
-                        <Button icon={<BiEdit size="1.5em"/>} onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
+                        <Button icon={<BiEdit size="1.5em"/>} border='2.5px solid rgb(146, 168, 209)' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
                     </div>
                 </ProductCard>
             )
@@ -92,8 +92,9 @@ export default function DashForCompanyProducts(props: Props) {
                         <Button 
                             margin='0 0 0.5em 0' 
                             /* width="30%" */ 
+                            border={productAlternativ === "show"? "none" : "2.5px solid rgb(146, 168, 209)"}
                             buttonText='Se alla produkter' 
-                            bgColor={productAlternativ === "show"? "rgb(49, 52, 68)" : ""}
+                            bgColor={productAlternativ === "show"? "rgb(146, 168, 209)" : ""}
                             onClick={() => setProductAlternativ('show')} 
                             
                         />
@@ -102,8 +103,9 @@ export default function DashForCompanyProducts(props: Props) {
                             onClick={() => setProductAlternativ('add')} 
                             margin='0 0 0.5em 0' 
                             /* width="30%"  */
+                            border={productAlternativ === "add"? "none" : "2.5px solid rgb(146, 168, 209)"}
                             buttonText='Lägg till produkt'
-                            bgColor={productAlternativ === "add"? "rgb(49, 52, 68)" : ""}
+                            bgColor={productAlternativ === "add"? "rgb(146, 168, 209)" : ""}
 
                         />
                     </div>

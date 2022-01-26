@@ -2,36 +2,15 @@ import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Route, Routes, useMatch } from 'react-router-dom';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
+import { Order } from '../../types';
+import SpinnerModal from '../functions/spinnerModal';
 import FoldableOrderCard from './foldableOrderCard';
-
-
-interface ProductInOrder {
-    name: string,
-    quantity: number,
-    unitPrice: string
-}
-
-interface Order {
-    companyId: string,
-    currency: string,
-    customerId: string,
-    id: string,
-    orderDate: Date,
-    payment_status: string,
-    products: ProductInOrder[],
-    session_status: string,
-    stripeCustomerId: string,
-    stripe_acc_id: string,
-    totalPrice: number
-}
-
-
 
 export default function DashOldOrders() {
 
     
     const productContext: ProductOptions = useContext(ProductContext)
-    const [oldOrders, setOldOrders] = useState<Order[] | null>(null)
+    const [oldOrders, setOldOrders] = useState<Order[] | null>()
 
     let match = useMatch({
         path: "/myPages/:userId/oldOrders"
@@ -57,9 +36,19 @@ export default function DashOldOrders() {
 
 
     return (      
-        <div className='noScrollBar' style={{height: '100%', overflow: 'auto'}}>
-            <FoldableOrderCard order={oldOrders}/>
+        oldOrders === undefined? 
+            <SpinnerModal/>
+                : oldOrders?.length?
+                <div id="orderWrapp" className='noScrollBar' style={{height: '100%', overflow: 'auto', padding: "1em"}}>
+                    {oldOrders?.map((order, key) => {
+                        return <FoldableOrderCard key={key} order={order}/>
+                    })}
 
-        </div>
+                </div>
+                : !oldOrders?.length? 
+                    <div style={{display: "flex"}}>
+                        <p style={{margin: "2em", fontSize: "1.3em"}}>Du har inga gamla ordrar.</p>
+                    </div>
+                    : null
     );
 }
