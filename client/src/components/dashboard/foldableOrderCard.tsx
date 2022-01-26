@@ -3,44 +3,171 @@ import { Company } from '../../models';
 import Button from '../UI/button';
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
+import { FbQuery, Order } from '../../types';
+import { documentId } from 'firebase/firestore';
 
 //FIXME: fix styling and closing function. event.propago....
 
-interface ProductInOrder {
-    name: string,
-    quantity: number,
-    unitPrice: string
-}
 
-interface Order {
-    companyId: string,
-    currency: string,
-    customerId: string,
-    id: string,
-    orderDate: Date,
-    payment_status: string,
-    products: ProductInOrder[],
-    session_status: string,
-    stripeCustomerId: string,
-    stripe_acc_id: string,
-    totalPrice: number
-}
+
+
 
 type Props = {
-    order: Order[] | null
+    order: Order | null
 }
 
 
 export default function FoldableOrderCard(props: Props) {
     
+    const companyContext: CompanyOptions = useContext(CompanyContext)
+
+    const [companyName, setCompanyName] = useState<string>()
+
     const [open, setOpen] = useState<boolean>(false)
 
- 
+    const getCompanyName = async (id: string) => { //FIXME: This one should not be neccessary. Get company name in "order" in DB.
+
+        const q: FbQuery = {
+            fieldPath: documentId(),
+            opStr: "==",
+            value: id
+        } 
+
+        const company = await companyContext.getCompany("companies", q)
+        setCompanyName(company[0].name)
+    }
+
+    useEffect(() => {
+        if(props.order) {
+            getCompanyName(props.order?.companyId)
+        }
+    }, [props.order])
+
     return (
-        <div style={orderDiv}> 
-            {props.order?.map((data, i) => {
-               //NOTE: Sort array efter datum ... 
-                return (
+        <div className='foldableOrderCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
+            <div className='foldCardHeader' style={foldCardHeader} onClick={() => setOpen(!open)}>
+                <h1 style={{fontSize: "1.5em", marginTop: "auto", marginBottom: "auto"}}>{props.order?.orderDate} </h1>
+                <p style={{display: "flex", alignItems: "center"}}>datum: 01/01/22</p>
+                {open? 
+                    <BsFillArrowUpCircleFill style={{color: "white", fontSize: "2rem", position: "absolute", /* top: 0, */ right: 0, cursor: "pointer"}} onClick={() => setOpen(!open)}/>
+                    :
+                    <BsFillArrowDownCircleFill style={{color: "white", fontSize: "2rem", position: "absolute", /* top: 0, */ right: 0, cursor: "pointer"}} onClick={() => setOpen(!open)}/>
+                }
+            </div>
+            {open? 
+                <div className="foldableCardContent noScrollBar" style={open? foldableCardContentOpen : foldableCardContentClosed}>
+                
+                        
+                    <div className='orderProductWrapper' style={{backgroundColor: "lightgray", borderRadius: "10px", padding: "1em", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+                        {props.order?.products.map((product, key) => {
+                            return (
+                                <div key={key} className='orderProduct' style={{color: "black", backgroundColor: "rgb(221 221 221)", padding: "0.5em", borderRadius: "10px", minWidth: "250px", maxWidth: "500px", /* width: "30%", */ flexGrow: "1", display: "flex", flexWrap: "wrap", justifyContent: "space-between", margin: "1em"}}>
+                                    
+                                    <div style={{}}>
+                                        <p style={{fontSize: "1em"}}>Namn: </p>
+                                        <p style={{fontSize: "1.2em"}}>{product.name}</p>
+                                    </div>
+                                    <div>
+                                        <p style={{fontSize: "1em"}}>Pris: </p>
+                                        <p style={{fontSize: "1.2em"}}>{product.unitPrice} st</p>
+                                    </div>
+                                    <div style={{display: "flex", alignItems: "center", fontSize: "1.5em"}}>
+                                        <p style={{fontSize: "1em"}}>{"x" + product.quantity} </p>
+                                    </div>
+
+                                </div>
+                            )
+                        })}        
+                        <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "1em", fontSize: "1.5em"}}>
+                            <p>{"Köpt av: " + companyName}</p>
+                            <p>{"Totalpris: " + props.order?.totalPrice + " SEK"}</p>
+                        </div>
+                    </div>
+                        
+                 
+                </div>
+                   
+  
+
+            
+            : null}
+            
+        </div>
+    )
+}
+
+const orderDiv: CSSProperties = {
+
+}
+
+const foldableCompanyCardOpen: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",  
+    backgroundColor: "rgb(146, 168, 209)",
+    borderRadius: "10px",
+    padding: "0.5em 0.5em 0em 0.5em",
+    width: "100%",
+    //height: "100%",
+    marginBottom: "1em",
+    
+}
+
+const foldableCompanyCardClosed: CSSProperties = {
+    display: "flex", 
+    flexDirection: "column",  
+    backgroundColor: "rgb(146, 168, 209)",
+    borderRadius: "10px",
+    padding: "0 0.5em",
+    width: "100%",
+    height: "10%",
+    cursor: "pointer",
+    textAlign: "center",
+    justifyContent: "center",
+    marginBottom: "1em",
+}
+
+const foldCardHeader: CSSProperties = {
+    display: "flex", 
+    width: "100%", 
+    maxHeight: "100%",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    position: "relative",
+    padding: "0 5em 0 0",
+    cursor: "pointer"
+}
+
+const foldableCardContentOpen: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    height: "80%",
+    padding: "1em",
+    alignContent: "flex-start",
+    overflow: "scroll",
+    width: "100%"
+}
+
+const foldableCardContentClosed: CSSProperties = {
+}
+    
+
+/*     <div key={i} style={{display: "flex", flexGrow: 1, flexDirection: "column", borderRadius: "10px", padding: "0.5em", margin: "0 1em 1em 1em"}}>
+    <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}>
+        {data.title}
+    </p>
+    <div style={{fontSize: "1.2em", minWidth: "300px"}}>
+        {data.info}
+    </div>
+</div>  */
+
+
+
+
+
+
+
+ 
+/*                 return (
                     <div key={i} id="foldableCompanyCard" className='foldableCompanyCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
                         <div className='foldCardHeader' style={foldCardHeader}>
                         <h1 style={{fontSize: "1.5em", marginTop: "auto", marginBottom: "auto"}}> Order </h1>
@@ -69,70 +196,9 @@ export default function FoldableOrderCard(props: Props) {
                         </div>
                     :
                     null
-                }
-                </div>
+                
+                </div> */
 
                         
-                       
-                )             
-                        
-
-            })}
-
-        </div>
-                      
-)}
-
-const orderDiv: CSSProperties = {
-
-}
-
-const foldableCompanyCardOpen: CSSProperties = {
-    display: "flex",
-    flexDirection: "column",  
-    backgroundColor: "rgb(146, 168, 209)",
-    borderRadius: "10px",
-    padding: "0.5em 0.5em 0em 0.5em",
-    width: "100%",
-    height: "100%",
-    marginBottom: "1em",
     
-}
 
-const foldableCompanyCardClosed: CSSProperties = {
-    display: "flex", 
-    flexDirection: "column",  
-    backgroundColor: "rgb(146, 168, 209)",
-    borderRadius: "10px",
-    padding: "0 0.5em",
-    width: "100%",
-    height: "10%",
-    cursor: "pointer",
-    textAlign: "center",
-    justifyContent: "center",
-    marginBottom: "1em",
-}
-
-const foldCardHeader: CSSProperties = {
-    display: "flex", 
-    width: "100%", 
-    maxHeight: "100%",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    position: "relative",
-    padding: "0 5em 0 0",
-}
-
-const foldableCardContentOpen: CSSProperties = {
-    display: "flex",
-    flexWrap: "wrap",
-    height: "80%",
-    padding: "1em",
-    alignContent: "flex-start",
-    justifyContent: "center",
-    overflow: "scroll",
-
-}
-
-const foldableCardContentClosed: CSSProperties = {
-}
