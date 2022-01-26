@@ -20,6 +20,7 @@ type Props = {
     id?: string
     displayProductInfo?: boolean
     children?: JSX.Element
+    border?: string
 }
 
 
@@ -29,7 +30,7 @@ export default function ProductCard(props: Props) {
     
     return (
         props.linkTo?
-            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor}}>
+            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor, border: props.border? props.border : "1px solid black"}}>
                 <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
                  {   <Link style={{width: "100%", height: "100%", display: "flex", alignItems: "center"}} to={props.linkTo}> 
                         <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
@@ -64,7 +65,7 @@ export default function ProductCard(props: Props) {
 
             :
 
-            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor}}>
+            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor,  border: props.border? props.border : "1px solid black"}}>
                 <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
                     <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center"}}> 
                         <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
@@ -105,7 +106,7 @@ const productCardWrapperStyle: CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    border: '1px solid gray',
+    //border: '1px solid gray',
     borderRadius: "10px",
     marginBottom: "1em",
     padding: '0.5em',
