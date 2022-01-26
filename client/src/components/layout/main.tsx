@@ -7,13 +7,14 @@ import MyPages from './myPages';
 import UserNotFound from './userNotFound';
 import ReqUserAuth from '../functions/reqUserAuth';
 import Cart from '../cart/cart';
-import CompanyContent from '../company/companyContent';
 import PaymentSuccess from '../cart/paymentSuccess';
 import AdminView from '../admin/adminView';
 import ReqAdminAuth from '../functions/reqAdminAuth';
 import { UserContext, UserOptions } from '../../context/users/userContext';
 import PaymentCancel from '../cart/paymentCancel';
 import Policy from './policy';
+import SingleProduct from '../company/singleProduct';
+import CompanyPage from '../company/companyPage';
 
 
 type Props = {
@@ -38,11 +39,12 @@ export default function Main(props: Props) {
 					} 
 				/>
 				<Route path='/userNotFound' element={<UserNotFound/>} />
-				<Route path='/:companyName-:companyId/*' element={<CompanyContent />} />
 				<Route path='/cart/:userId' element={<Cart/>} />
 				<Route path={"/success/:stripeId/:sessionId/"} element={<PaymentSuccess />} />
 				<Route path={"/cancel/:stripeId/:sessionId/"} element={<PaymentCancel />} />
-				<Route path={"/policy"} element={<Policy/>} />  	  			
+				<Route path={"/policy"} element={<Policy/>} />  
+				<Route path='/company/:companyName/:companyId/product/:productName/:productId' element={<SingleProduct/>} />	  	
+				<Route path='/company/:companyName/:companyId' element={<CompanyPage/>} />		
 				<Route path='/admin/*' element={
 					<ReqAdminAuth >
 						<AdminView />
