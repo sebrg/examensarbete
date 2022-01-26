@@ -5,6 +5,7 @@ import { useMatch } from 'react-router-dom';
 import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import SpinnerModal from '../functions/spinnerModal';
+import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 
 type Cart = {
     companyId: string
@@ -23,6 +24,7 @@ type Props = {
 export default function CheckoutStripe(props: Props) {
 
     const productContext: ProductOptions = useContext(ProductContext)
+    const general: GeneralOptions = useContext(GeneralContext)
 
     const stripe = useStripe()
    
@@ -35,11 +37,11 @@ export default function CheckoutStripe(props: Props) {
     async function toCheckOut() {
         // Går til stripe checkout å skickar upp en pendingOrder till db
 		if(stripe) {
-      		const response = await fetch("http://localhost:3001/checkout", {
+      		const response = await fetch(`${general.path}/checkout` , {
           		method: "POST",
           		headers: {"content-type": "application/json"},
           		credentials: 'include',
-                body: JSON.stringify({products: props.cartItem.products, companyId: props.cartItem.companyId, userId: userId, stripeId: props.stripeAccountId, purchaseTerms: props.purchaseTerms})
+                body: JSON.stringify({products: props.cartItem.products, companyId: props.cartItem.companyId, userId: userId, stripeId: props.stripeAccountId, purchaseTerms: props.purchaseTerms, path: window.location.origin})
       		})
 
 			const data = await response.json()

@@ -3,6 +3,7 @@ import { loadStripe, Stripe } from '@stripe/stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { RiContactsBookLine } from 'react-icons/ri';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
+import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 import Button from '../UI/button';
 
 type Status = {
@@ -21,6 +22,7 @@ export default function ActivateStripe(props: Props) {
 
     
     const companyContext: CompanyOptions = useContext(CompanyContext)
+    const general: GeneralOptions = useContext(GeneralContext)
        
     let stripe = useStripe()
    
@@ -28,7 +30,7 @@ export default function ActivateStripe(props: Props) {
     
     async function createStripeAcc() {
         if(stripe) {
-            const response = await fetch("http://localhost:3001/createStripe", {
+            const response = await fetch(`${general.path}/createStripe`, {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 credentials: 'include',
@@ -44,11 +46,11 @@ export default function ActivateStripe(props: Props) {
     
     async function createStripeLink() {
         if(stripe && props.stripeId) {
-            const response = await fetch("http://localhost:3001/createStripeLink", {
+            const response = await fetch(`${general.path}/createStripeLink`, {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 credentials: 'include',
-                body: JSON.stringify({stripeId: props.stripeId})
+                body: JSON.stringify({stripeId: props.stripeId, path: window.location.origin})
             })
 			const { url } = await response.json()
             window.location.href = url

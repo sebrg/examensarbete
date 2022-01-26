@@ -2,6 +2,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
+import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 import Button from '../UI/button';
 import ActivateStripe from './activateStripe';
 import SpinnerModal from './spinnerModal';
@@ -16,6 +17,7 @@ export default function ActivatePayments() {
 
     const stripePK = 'pk_test_51KCOmfFKFGHIBqJeuHe27RBjAFluqc1kaOArTwLHDQ6H1rIrSPE4HBYMz6O3eHD2V5rqOkR4xBmumJlBdGj04l7J00azQB7MR5'	
 
+    const general: GeneralOptions = useContext(GeneralContext)
     const companyContext: CompanyOptions = useContext(CompanyContext)
     const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
     const [stripeId, setStripeId] = useState<string>()
@@ -39,7 +41,7 @@ export default function ActivatePayments() {
 
     async function getAccount() {
         if(stripeId) {
-            const response = await fetch("http://localhost:3001/getStripeAcc", {
+            const response = await fetch(`${general.path}/getStripeAcc` , {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 credentials: 'include',

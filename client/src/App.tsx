@@ -10,6 +10,7 @@ import CompanyProvider from './context/companies/companyProvider';
 import UserProvider from './context/users/userProvider';
 import { ProductContext, ProductOptions } from './context/products/productContext';
 import "./responsive.css"
+import GeneralProvider from './context/general/generalProvider';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
 	
 
 	return (
+		<GeneralProvider> 
 			<FirebaseProvider>
 				<UserProvider>
 					<CompanyProvider>
@@ -28,6 +30,7 @@ function App() {
 					</CompanyProvider>
 				</UserProvider>
 			</FirebaseProvider>
+		</GeneralProvider>
   );
 }
 
