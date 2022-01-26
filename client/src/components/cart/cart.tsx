@@ -170,7 +170,7 @@ const cartWrapperStyle: CSSProperties = {
     flexDirection: "column",
     padding: "2em",
     overflow: "auto",
-    position: "relative"
+    //position: "relative"
 }
 
 const cartSectionStyle: CSSProperties = { //FIXME: CSS lastchild margin 0
