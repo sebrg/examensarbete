@@ -253,7 +253,13 @@ export default function DashUserInfo(props: Props) {
                                     }}/>
                                 </div>
                             </div>
-                        : null}   
+                        : null} 
+                        {props.currentCompany === undefined && showOrEdit === "show" && infoAvailable === true?
+                            <div className='btnWrapper' style={{marginBottom: "1.5em"}}>
+                                <Button buttonText="registrera UF" linkTo={"registerCompany"} />
+                            </div>
+                            : null
+                        }  
             </div> 
 
     );
@@ -270,6 +276,7 @@ const userInfoStyle: CSSProperties = {
 const showInfoStyle: CSSProperties = {
     display: "flex",
     width: "100%",
+    height: "100%",
     flexWrap: "wrap",
     alignContent: "flex-start",
     padding: "1em",
