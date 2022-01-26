@@ -1,0 +1,33 @@
+
+/* Phone  */
+@media only screen and (max-width: 500px)  {
+      
+    #product-reel {
+        display: none !important;
+    }
+    #singleProductDiv {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+    #img-slide {
+        width: 80vw !important;
+    }
+
+}
+
+/* Pad  */
+@media only screen and (min-width: 500px) and (max-width: 1068px) {
+
+    #product-reel {
+        display: none !important;
+    }
+    #singleProductDiv {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+    #img-slide {
+        width: 80vw !important;
+        height: 100% !important;
+    }
+
+}

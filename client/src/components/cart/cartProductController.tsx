@@ -42,7 +42,6 @@ export default function CartProductController(props: Props) {
         }
     }
 
-
     return (
         <div style={cartProductControllerStyle}>
             <Button height="100%" width='25%' icon={<FaPlus />} onClick={() => {changeQuantity("plus")}}/>
