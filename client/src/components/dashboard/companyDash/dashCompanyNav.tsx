@@ -1,5 +1,5 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useMatch } from 'react-router-dom';
 import { FirebaseContext, FirebaseOptions } from '../../../context/firebaseContext';
 import Button from '../../UI/button';
 
@@ -8,7 +8,20 @@ import Button from '../../UI/button';
 
 export default function DashCompanyNav() {
 
-    const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+    //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
+
+    const params = useMatch("/myPages/:userId/:companyId/:currentPage")?.params;
+    const currentPage = params?.currentPage
+    const [page, setPage] = useState<"start" | "settings" | "products">(currentPage as "start" | "settings" | "products")
+
+    useEffect(() => {
+        if(currentPage !== undefined ) {
+            setPage(currentPage as "start" | "settings" | "products")
+        }
+        else {
+            setPage("start")
+        }
+    }, [currentPage])
 
 
     return (
@@ -17,16 +30,24 @@ export default function DashCompanyNav() {
                 buttonText='Start'
                 linkTo={" "}
                 color='white'
+                bgColor={page === "start"? "rgb(146, 168, 209)" : "none"}
+                border='2.5px solid rgb(146, 168, 209)'
+                margin='0 0.5em 0 0'
             />
             <Button 
                 buttonText='Inställningar'
                 linkTo={"settings"}
                 color='white'
+                bgColor={page === "settings"? "rgb(146, 168, 209)" : "none"}
+                border='2.5px solid rgb(146, 168, 209)'
+                margin='0 0.5em 0 0'
             />
             <Button 
                 buttonText='Produkter'
                 linkTo={"products"}
                 color='white'
+                bgColor={page === "products"? "rgb(146, 168, 209)" : "none"}
+                border='2.5px solid rgb(146, 168, 209)'
             />
         </nav>
     );
