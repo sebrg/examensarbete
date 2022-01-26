@@ -17,11 +17,14 @@ export default function SingleProduct() {
     //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
 
-    const params = useMatch(":company/:product")?.params;
-    const productName = params?.product?.split("-")[0]
-    const productId = params?.product?.split("-")[1]
-    const companyName = params?.company?.split("-")[0]
-    const companyId = params?.company?.split("-")[1]
+    const params = useMatch("/company/:companyName/:companyId/product/:productName/:productId")?.params;
+
+    console.log(params)
+
+    const productName = params?.productName
+    const productId = params?.productId
+    const companyName = params?.companyName
+    const companyId = params?.companyId
     
 
 
