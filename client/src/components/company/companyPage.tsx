@@ -15,12 +15,9 @@ export default function CompanyPage() {
 
 
     
-    const params = useMatch(":param")?.params;
-    const companyName = params?.param?.split("-")[0]
-    const companyId = params?.param?.split("-")[1]
-
-    console.log(companyId)
-
+    const params = useMatch("/company/:companyName/:companyId")?.params;
+    const companyName = params?.companyName
+    const companyId = params?.companyId
 
     const getProducts = async () => {
         if(companyId && companyId !== undefined) {
@@ -41,7 +38,7 @@ export default function CompanyPage() {
                                 product={product as Product} 
                                 direction="column"
                                 width='20vw'
-                                linkTo={`${product.name}-${product.id}`}
+                                linkTo={`/company/${companyName}/${companyId}/product/${product.name}/${product.id}`} //NOTE: maybe use replace on blank spaces
                                 //imgWidth='100%'
                                 //imgHeight='auto'
                             >   
