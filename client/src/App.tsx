@@ -9,7 +9,7 @@ import ProductProvider from './context/products/productProvider';
 import CompanyProvider from './context/companies/companyProvider';
 import UserProvider from './context/users/userProvider';
 import { ProductContext, ProductOptions } from './context/products/productContext';
-
+import "./responsive.css"
 
 
 function App() {

@@ -26,20 +26,20 @@ export default function ImageSlider(props: Props) {
 
     return (
         <div style={sliderDiv}>
-            <FaArrowAltCircleLeft style={leftArrow} onClick={prevSlide} />
+            <FaArrowAltCircleLeft id='left-arrow' style={leftArrow} onClick={prevSlide} />
                 {props.slides.map((slide: any, index: number) => {
-                    return (
-                        <div
-                        className={index === current ? 'slide active' : 'slide'}
-                        key={index}
-                        >
-                        {index === current && (
-                            <img style={img} src={slide} alt='Bilden kunde inte ladda..' />
-                            )}
-                    </div>
+                    return (   
+                          <div
+                          className={index === current ? 'slide active' : 'slide'}
+                          key={index}
+                          >
+                          {index === current && (
+                              <img id='img-slide' style={img} src={slide} alt='Bilden kunde inte ladda..' />
+                              )}
+                        </div>   
                     );
                 })}
-            <FaArrowAltCircleRight style={rightArrow} onClick={nextSlide} />
+            <FaArrowAltCircleRight id='right-arrow' style={rightArrow} onClick={nextSlide} />
         </div>
     );
 };
@@ -53,31 +53,32 @@ const sliderDiv: CSSProperties = {
 
 const img: CSSProperties = {
     width: '30vw',
-    height: '50vh',
+    height: '100%',
     position: 'absolute',
     objectFit: 'contain',
-    border: '1px solid black',
-    borderRadius: '5px'
+    border: '2px solid black',
+    borderRadius: '5px',
+    backgroundColor: 'rgb(152, 150, 164)'
 }
 
 const leftArrow: CSSProperties = {
-    color: 'white',
-    position: 'relative',
+    color: 'black',
+    /* position: 'relative', */
     top: '50%',
-    zIndex: 99,
+    zIndex: 10,
     right: '30%',
     cursor: 'pointer',
     fontSize: '48px',
-    marginTop: '8em'
+    /* marginTop: '6em' */
 }
 
 const rightArrow: CSSProperties = {
-    color: 'white',
-    position: 'relative',
+    color: 'black',
+   /*  position: 'relative', */
     top: '50%',
-    zIndex: 99,
+    zIndex: 10,
     left: '30%',
     cursor: 'pointer',
     fontSize: '48px',
-    marginTop: '8em'
+    /* marginTop: '6em' */
 }

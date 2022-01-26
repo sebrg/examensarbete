@@ -7,12 +7,14 @@ import Button from '../UI/button';
 import { FaCartPlus } from 'react-icons/fa';
 import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
+import AddToCartBtn from '../cart/addToCartBtn';
 
 
 export default function SingleProduct() {
 
     const [product, setProduct] = useState<Product>()
     const [products, setProducts] = useState<Product[]>()
+    const [productsInReel, setProductsInReel] = useState<Product[]>()
 
     //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
@@ -43,15 +45,23 @@ export default function SingleProduct() {
         }
     }
 
+    const filterAllProducts = async () => {
+        if(products) {
+            let filteredProducts = products.filter(product => product.id !== productId)
+            setProductsInReel(filteredProducts)
+        }
+    }
+
 
 
     useEffect(() => {
         getProducts()
     }, [])
-
+    
     useEffect(() => {
         console.log(products, "all products")
         getCurrentProduct()
+        filterAllProducts()
     }, [products])
     
     useEffect(() => {
@@ -68,14 +78,7 @@ export default function SingleProduct() {
                             <h1> {product.name} </h1>
                             <h3> {product.price + " " + 'kr'} </h3>
                             <p style={marginBottom}> Product info goes here </p>
-                            <Button
-                                border='1px solid black'
-                                width='100%' 
-                                buttonText='Lägg till i kundvagn'
-                                icon={<FaCartPlus fontSize={"1.2em"}/>}
-                                bgColor='#363945'
-                                iconMargin='0 0 0 0.5em'
-                            />  
+                            <AddToCartBtn product={product}/>  
                         </div>
                     </React.Fragment>          
                     :
@@ -87,10 +90,16 @@ export default function SingleProduct() {
 
     function productReel() {
         return (               
-                products?
-                    <React.Fragment>
-                        
-                    </React.Fragment>          
+                productsInReel?
+                    productsInReel.map((products, i) => {
+                        return (
+                            <div>
+                                <h1> {products.name} </h1>
+                                <h3> {products.price + " " + 'kr'} </h3>
+                                <p style={marginBottom}> Product info goes here </p>
+                            </div>
+                        )
+                    })    
                     :
                     <h1>Hämtar produkt..</h1>
         )
@@ -98,10 +107,10 @@ export default function SingleProduct() {
 
 
     return (
-        <div style={singlePage}>
-            <div style={productInfoDiv}>
+        <div className='noScrollBar' style={singlePage}>
+            <div id='singleProductDiv' style={singleProductDiv}>
                 {renderProduct()}
-                <div>
+                <div id='slider-holder' style={{width: '50%', height: '50%'}}>
                     {
                         product? 
                             <ImageSlider slides={product.images}/>
@@ -112,7 +121,7 @@ export default function SingleProduct() {
                 
             </div>
 
-            <div style={productReelStyle}>
+            <div id='product-reel' style={productReelStyle}>
                 {productReel()}
             </div> 
         </div>
@@ -132,7 +141,7 @@ const singlePage: CSSProperties = {
 } 
 
 
-const productInfoDiv: CSSProperties = {
+const singleProductDiv: CSSProperties = {
     width: '80%',
     height: '100%',
     display: 'flex',
@@ -140,8 +149,6 @@ const productInfoDiv: CSSProperties = {
     alignItems: 'center',
     color: 'white',
     flexDirection: 'row',
-    backgroundColor: '#9896A4',
-
 }
 
 const marginBottom: CSSProperties = {
@@ -152,7 +159,10 @@ const productReelStyle: CSSProperties = {
     display: 'flex',
     width: '20%',
     height: '100%',
-    backgroundColor: '#79C753'
+    backgroundColor: '#79C753',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
 }
 
 const productDetails: CSSProperties = {
