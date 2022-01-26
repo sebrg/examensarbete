@@ -17,6 +17,7 @@ type Props = {
     backgroundPosition?: string,
     icon?: ReactElement
     iconMargin?: string
+    border?: string
 }
 
 
@@ -39,8 +40,8 @@ export default function Button(props: Props) {
                         color: props.color, 
                         margin: props.margin,
                         backgroundPosition: props.backgroundPosition,
-                        justifyContent: "center"
-                        
+                        justifyContent: "center",
+                        border: props.border? props.border : "1px solid black"
                     }}
                 >
 
@@ -73,7 +74,8 @@ export default function Button(props: Props) {
                     color: props.color, 
                     margin: props.margin,
                     backgroundPosition: props.backgroundPosition,
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    border: props.border? props.border : "1px solid black",
                 }}
             >
 
@@ -97,7 +99,7 @@ export default function Button(props: Props) {
 
 const buttonStyle: CSSProperties = {
     padding: "0.5em",
-    border: "1px solid black",
+    //border: "1px solid black",
     borderRadius: "5px",
     fontSize: "1.2em",
     display: "flex",
