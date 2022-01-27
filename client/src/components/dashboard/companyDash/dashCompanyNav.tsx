@@ -8,11 +8,29 @@ import Button from '../../UI/button';
 
 export default function DashCompanyNav() {
 
-    //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
 
     const params = useMatch("/myPages/:userId/:companyId/:currentPage")?.params;
     const currentPage = params?.currentPage
     const [page, setPage] = useState<"start" | "settings" | "products">(currentPage as "start" | "settings" | "products")
+
+    const linkArray = [
+        {
+            text: "Start",
+            linkTo: "start",
+            
+        },
+        {
+            text: "Inställningar",
+            linkTo: "settings",
+
+        }, 
+        {
+            text: "Produkter",
+            linkTo: "products"
+        }
+    ]
+
+
 
     useEffect(() => {
         if(currentPage !== undefined ) {
@@ -24,31 +42,64 @@ export default function DashCompanyNav() {
     }, [currentPage])
 
 
+
     return (
         <nav id="dashCompanyNav" style={dashCompanyNavStyle}>
-            <Button 
-                buttonText='Start'
-                linkTo={" "}
-                color={page === "start"? "black" : "white"}
-                bgColor={page === "start"? "white" : "none"}
-                border='2.5px solid white'
-                margin='0 0.5em 0 0'
-            />
-            <Button 
-                buttonText='Inställningar'
-                linkTo={"settings"}
-                color={page === "settings"? "black" : "white"}
-                bgColor={page === "settings"? "white" : "none"}
-                border='2.5px solid white'
-                margin='0 0.5em 0 0'
-            />
-            <Button 
-                buttonText='Produkter'
-                linkTo={"products"}
-                color={page === "products"? "black" : "white"}
-                bgColor={page === "products"? "white" : "none"}
-                border='2.5px solid white'
-            />
+            {/* FIXME: work here! make conditional rendering for color & bg color */}
+            {linkArray.map((link, key) => {
+                if(link.linkTo === page ) {
+                    if(link.linkTo === "start") {
+                        return (
+                            <Button 
+                                key={key}
+                                buttonText={link.text}
+                                linkTo={" "}
+                                border='2.5px solid white'
+                                margin='0 0.5em 0 0'
+                                color={"black"}
+                                bgColor={"white"} 
+                            />
+                        )
+                    } else {
+                        return (
+                            <Button 
+                                key={key}
+                                buttonText={link.text}
+                                linkTo={link.linkTo}
+                                border='2.5px solid white'
+                                margin='0 0.5em 0 0'
+                                color={"black"}
+                                bgColor={"white"} 
+                            />
+                        )
+                    }
+
+                } else {
+                    if(link.linkTo === "start") {
+                        return (
+                            <Button 
+                                key={key}
+                                buttonText={link.text}
+                                linkTo={" "}
+                                border='2.5px solid white'
+                                margin='0 0.5em 0 0'
+                            />
+                        )
+                    } else {
+                        return (
+                            <Button 
+                                key={key}
+                                buttonText={link.text}
+                                linkTo={link.linkTo}
+                                border='2.5px solid white'
+                                margin='0 0.5em 0 0'
+                            />
+                        )
+                    }
+                }
+            })}
+            
+
         </nav>
     );
 }
