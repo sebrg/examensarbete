@@ -112,13 +112,13 @@ export default function Cart() {
     return (
         loading? 
             <SpinnerModal fullScreen={true} />
-            : <div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
-        
+            : <div id="cartWrapper" style={cartWrapperStyle}>
+                
                     {checkoutOpen?      
                         <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
                         : null
                     }
-                    
+                <div className="noScrollBar" style={{overflow: "auto", borderRadius: "10px"}}>    
                     {productsInCart !== undefined && productsInCart.length > 0?   
                         productsInCart.map((cartItem, i) => {
                                 /* const findId = (cartItem: any) => { return productsInCart?.find((productInArray) => productInArray === cartItem) } */
@@ -158,8 +158,8 @@ export default function Cart() {
                                 : null
                     }
                     
-
                 </div>
+            </div>
     );
 }
 
@@ -168,8 +168,8 @@ const cartWrapperStyle: CSSProperties = {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    padding: "2em",
-    overflow: "auto",
+    padding: "1em 2em",
+    //overflow: "auto",
     //position: "relative"
 }
 
