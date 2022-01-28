@@ -18,7 +18,7 @@ export default function Layout() {
 
 
     const [loginToggle, setLoginToggle] = useState(false) //NOTE: This is for loginPopup. maybe move this to App.tsx
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>() //NOTE: Maybe not needed
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>() //NOTE: Maybe not needed ??
 
     
     const scrollContentIntoView = (always: boolean) => { //NOTE: Maybe store a session value? if exists dont scroll
