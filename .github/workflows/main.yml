@@ -1,41 +1,25 @@
-name: Build and deploy main branch
+name: Firebase Deploy
+
 on:
   push:
-    branches:
-      - main  
+    branches: 
+    - main
+
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@main
-      - name: Install dependencies
-        run: npm ci
-      - name: Build dependencies
-        run: npm run build
-      - name: Archive production artifact
-        uses: actions/upload artifact@main
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          name: build
-          path: build
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@main
-      - name: Download artifact
-        uses: actions/download-artifact@main
+          node-version: '14'
+      - run: npm ci
+      - run: npm run build
+      - name: GitHub Action for Firebase
+        uses: w9jds/firebase-action@v1.5.0
         with:
-          name: build
-          path: build
-      - name: Deploy to firebase
-        uses: sebrg/firebase-action@master
-        with: 
           args: deploy --only hosting
-        env: 
+        env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 
