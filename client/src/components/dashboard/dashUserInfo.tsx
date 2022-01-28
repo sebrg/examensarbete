@@ -7,7 +7,6 @@ import { UserContext, UserOptions } from '../../context/users/userContext';
 import { UserInfo } from '../../types';
 import SpinnerModal from '../functions/spinnerModal';
 import DashEditUserInfo from './dashEditUserInfo';
-import DashAddUserInfo from './dashAddUserInfo';
 
 type Props = {
     currentCompany: Pick<Company, "name" | "id"> | undefined
