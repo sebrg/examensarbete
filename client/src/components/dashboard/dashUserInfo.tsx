@@ -7,6 +7,7 @@ import { UserContext, UserOptions } from '../../context/users/userContext';
 import { UserInfo } from '../../types';
 import SpinnerModal from '../functions/spinnerModal';
 import DashEditUserInfo from './dashEditUserInfo';
+import DashAddUserInfo from './dashAddUserInfo';
 
 type Props = {
     currentCompany: Pick<Company, "name" | "id"> | undefined
@@ -34,6 +35,7 @@ export default function DashUserInfo(props: Props) {
         if(idFromUrl !== undefined) {
             let userInfo = await userContext.getUserInfo(idFromUrl)
                 setUserInfo(userInfo[0])
+                setLoading(false)
         }
     }
 
@@ -61,7 +63,7 @@ export default function DashUserInfo(props: Props) {
 
         loading? 
             <SpinnerModal message={statusMsg}/>
-     /*        : showOrEdit === "show" && currentUserInfo === undefined?
+            : showOrEdit === "show" && userInfo === undefined?
                 <div id="userInfo" style={userInfoStyle}>
                 
                     
@@ -70,7 +72,7 @@ export default function DashUserInfo(props: Props) {
                         <Button border='1px solid black' buttonText='Lägg till uppgifter' icon={<BiEdit />} height='10%' onClick={() => setShowOrEdit("edit")}/>
 
                     </div>
-                </div> */
+                </div>
                 
                 : showOrEdit === "show"?
                     <div id="showInfo" style={showInfoStyle}>
@@ -103,14 +105,8 @@ export default function DashUserInfo(props: Props) {
                             : null}
                     </div>
                     : showOrEdit === "edit"? 
-                        <DashEditUserInfo userInfo={userInfo} />
+                        <DashEditUserInfo userInfo={userInfo} currentCompany={props.currentCompany} setShowOrEdit={(showOrEdit) => setShowOrEdit(showOrEdit)}/>
                         : null
-                    
-                          
-
-                          
-         
-
     );
 }
 
