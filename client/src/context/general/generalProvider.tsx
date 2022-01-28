@@ -14,7 +14,7 @@ export default class GeneralProvider extends Component<Props, GeneralOptions>   
             const path = `http://${window.location.hostname}:3001`  
             return path
         }else {
-            const path = 'https://examensarbete-zeta.vercel.app/'
+            const path = 'https://examensarbete-zeta.vercel.app'
             return path
         }
     }
