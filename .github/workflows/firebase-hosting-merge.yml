@@ -12,12 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EXAMENSPROJEKT_MARKET }}'
-          channelId: live
-          projectId: examensprojekt-market
+      - run: npm generate  
         env: 
           REACT_APP_fbApiKey: '${{ secrets.REACT_APP_FBAPIKEY }}'
           REACT_APP_fbAuthDomain: '${{ secrets.REACT_APP_FBAUTHDOMAIN }}'
@@ -26,3 +21,10 @@ jobs:
           REACT_APP_fbMessagingSenderId: '${{ secrets.REACT_APP_FBMESSAGINGSENDERID }}'
           REACT_APP_fbAppId: '${{secrets.REACT_APP_FBAPPID}}'
           REACT_APP_fbMeasurementId: '${{ secrets.REACT_APP_FBMEASUREMENTID }}'
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EXAMENSPROJEKT_MARKET }}'
+          channelId: live
+          projectId: examensprojekt-market
+        
