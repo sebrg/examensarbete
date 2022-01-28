@@ -13,7 +13,7 @@ export interface UserOptions {
     logOut: () => void
     userAuth: (state?: (bool: boolean) => void) => void
     checkAdmin: () => Promise<Boolean> 
-    addOrUpdateUserInfo: (newUserInfo: UserInfo, oldUserInfo: UserInfo, id: string) => Promise<StatusObject>
+    addOrUpdateUserInfo: (newUserInfo: UserInfo, oldUserInfo: UserInfo | undefined, id: string) => Promise<StatusObject>
     getUserInfo: (id: string) => Promise<UserInfo[]>
 }
 
@@ -28,6 +28,6 @@ export const UserContext = createContext({
     userAuth: (state?: (bool: boolean) => void) => {},
     checkAdmin: () => {},
     addOrUpdateUserInfo: (newUserInfo: UserInfo, oldUserInfo: UserInfo, id: string) => {},
-    getUserInfo: (id: string) => {}
+    getUserInfo: (id: string) => {},
         
 } as UserOptions)
