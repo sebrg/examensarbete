@@ -1,6 +1,6 @@
 
 {
     "scripts": {
-        "build": "cd client && npm ci && CI=false npm run build && npm generate"
+        "build": "cd client && npm ci && CI=false npm run build"
       }
 }
