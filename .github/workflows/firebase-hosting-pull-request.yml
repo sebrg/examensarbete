@@ -4,14 +4,6 @@
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
 
-env: 
-  REACT_APP_fbApiKey: '${{secrets.REACT_APP_FBAPIKEY}}'
-  REACT_APP_fbAuthDomain: '${{secrets.REACT_APP_FBAUTHDOMAIN}}'
-  REACT_APP_fbProjectId: '${{secrets.REACT_APP_FBPROJECTID}}'
-  REACT_APP_fbStorageBucket: '${{secrets.REACT_APP_FBSTORAGEBUCKET}}'
-  REACT_APP_fbMessagingSenderId: '${{secrets.REACT_APP_FBMESSAGINGSENDERID}}'
-  REACT_APP_fbAppId: '${{secrets.REACT_APP_FBAPPID}}'
-  REACT_APP_fbMeasurementId: '${{secrets.REACT_APP_FBMEASUREMENTID}}'
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
