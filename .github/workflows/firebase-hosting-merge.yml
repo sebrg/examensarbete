@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
-      - run: npm generate  
         env: 
           REACT_APP_fbApiKey: '${{ secrets.REACT_APP_FBAPIKEY }}'
           REACT_APP_fbAuthDomain: '${{ secrets.REACT_APP_FBAUTHDOMAIN }}'
