@@ -33,7 +33,7 @@ export default function Button(props: Props) {
                     onClick={props.onClick} 
                     style={{
                         ...buttonStyle, 
-                        background: props.bgColor, 
+                        backgroundColor: props.bgColor, 
                         width: props.width, 
                         minWidth: props.minWidth,
                         height: props.height, 
@@ -41,7 +41,7 @@ export default function Button(props: Props) {
                         margin: props.margin,
                         backgroundPosition: props.backgroundPosition,
                         justifyContent: "center",
-                        border: props.border/* ? props.border : "1px solid black" */
+                        border: props.border
                     }}
                 >
 
@@ -75,7 +75,7 @@ export default function Button(props: Props) {
                     margin: props.margin,
                     backgroundPosition: props.backgroundPosition,
                     justifyContent: "center",
-                    border: props.border/* ? props.border : "1px solid black", */
+                    border: props.border
                 }}
             >
 

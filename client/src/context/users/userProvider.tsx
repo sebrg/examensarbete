@@ -19,7 +19,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         userAuth: this.userAuth.bind(this),
         checkAdmin: this.checkAdmin.bind(this),
         addOrUpdateUserInfo: this.addOrUpdateUserInfo.bind(this),
-        getUserInfo: this.getUserInfo.bind(this)
+        getUserInfo: this.getUserInfo.bind(this),
     }
 
     addUser() {
@@ -163,7 +163,8 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         }
     }
 
-    async addOrUpdateUserInfo(newUserInfo: UserInfo, oldUserInfo: UserInfo, id: string) { 
+
+    async addOrUpdateUserInfo(newUserInfo: UserInfo, oldUserInfo: UserInfo | undefined, id: string) { //FIXME: split this into two functions
         try {
 
             const userCollectionRef = collection(firebaseCollection.db, "userInfo")
@@ -174,7 +175,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
             if(foundUser) {
 
                 const clonedUserInfo = {...oldUserInfo}
-
+                console.log("clonedUser", clonedUserInfo.phoneNr)
                 if(newUserInfo.firstName !== undefined) {
                     clonedUserInfo.firstName = newUserInfo.firstName
                 }
@@ -215,7 +216,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                     municipality: clonedUserInfo.municipality,
                     zipCode: clonedUserInfo.zipCode,
                     adress: clonedUserInfo.adress,
-                    phoneNr: clonedUserInfo.phoneNr,
+                    phoneNr: clonedUserInfo.phoneNr as number | null,
                     co: clonedUserInfo.co
                 });
 

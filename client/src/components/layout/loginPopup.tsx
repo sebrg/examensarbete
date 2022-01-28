@@ -20,6 +20,7 @@ export default function LoginPopup(props: Props) {
     const [toggleInputs, setToggleInputs] = useState(false)
     const [password, setPassword] = useState(undefined)
     const [email, setEmail] = useState(undefined)
+    const [loading, setLoading] = useState<boolean>(false) //FIXME: add spinner for when logging in
     
     const updatePassword = (event: any) => {
         event? setPassword(event.target.value) : setPassword(undefined)
@@ -100,11 +101,12 @@ export default function LoginPopup(props: Props) {
                             
                             
                     }
-                    
+
             
     
                 </div>
             </div>
+            
     );
 }
 
