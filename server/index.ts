@@ -14,7 +14,7 @@ const port = 3001
 
 app.use(cors({ // Required for cookies to client. 
     
-    origin: ['http://localhost:3000', "https://examensprojekt-market.web.app/"],
+    origin: ['http://localhost:3000', "https://examensprojekt-market.web.app"],
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
 }));
