@@ -12,11 +12,10 @@ const app = express();
 const port = 3001
 
 
-app.use(cors({ // Required for cookies to client. 
-    
+app.use(cors({ // Required for cookies to client.  
     origin: ['http://localhost:3000', "https://examensprojekt-market.web.app"],
     methods: ["GET", "POST", "DELETE"],
-    credentials: true,
+    credentials: true
 }));
 
 
@@ -29,5 +28,13 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('The application is listening on port 3001!');
 })
+
+app.use(function(req, res, next) {
+    console.log(req.headers.origin)
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    next();
+});
 
 app.use('/', routes)
