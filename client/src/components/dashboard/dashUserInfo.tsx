@@ -100,7 +100,7 @@ export default function DashUserInfo(props: Props) {
                             <Button  border='1px solid black' icon={<BiEdit />} width='10%' onClick={() => setShowOrEdit("edit")}/>
                         </div>
                         
-                        {props.currentCompany === undefined && showOrEdit === "show" && infoAvailable === true?
+                        {props.currentCompany === undefined && showOrEdit === "show" && infoAvailable === true && userInfo?.pendingCompany !== true && !userInfo?.company?
                             <div className='btnWrapper' style={{display: "flex", justifyContent: "center", width: "100%", marginTop: "10em"}}>
                                 <Button  border='1px solid black' buttonText="registrera UF" linkTo={"registerCompany"} />
                             </div>
