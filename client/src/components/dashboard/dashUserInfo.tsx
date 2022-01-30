@@ -46,17 +46,19 @@ export default function DashUserInfo(props: Props) {
         }
     }, [showOrEdit])
 
-/*     useEffect(() => {
-        setInfoAvailable(true)
-    }, [currentUserInfo])
-
     useEffect(() => {
+        if(userInfo !== undefined) {
+            setInfoAvailable(true)
+        }
+    }, [userInfo])
+
+/*     useEffect(() => {
         if(infoAvailable === true) {
             setLoading(false)
         } 
     }, [infoAvailable])
- */
 
+ */
     
     return (
 
@@ -97,15 +99,18 @@ export default function DashUserInfo(props: Props) {
                         <div className='btnWrap' style={{display: "flex", width: "100%", justifyContent: "flex-end", margin: "0.5em 0 0 0" }}>
                             <Button  border='1px solid black' icon={<BiEdit />} width='10%' onClick={() => setShowOrEdit("edit")}/>
                         </div>
+                        
                         {props.currentCompany === undefined && showOrEdit === "show" && infoAvailable === true?
-                            <div className='btnWrapper' style={{marginBottom: "1.5em"}}>
+                            <div className='btnWrapper' style={{display: "flex", justifyContent: "center", width: "100%", marginTop: "10em"}}>
                                 <Button  border='1px solid black' buttonText="registrera UF" linkTo={"registerCompany"} />
                             </div>
                             : null}
+                        
                     </div>
                     : showOrEdit === "edit"? 
                         <DashEditUserInfo userInfo={userInfo} currentCompany={props.currentCompany} setShowOrEdit={(showOrEdit) => setShowOrEdit(showOrEdit)}/>
                         : null
+                        
     );
 }
 
