@@ -4,8 +4,10 @@ import { Route, Routes } from 'react-router-dom';
 import { FirebaseContext, FirebaseOptions } from '../../../context/firebaseContext';
 import { Company } from '../../../models';
 import DashCompanyNav from './dashCompanyNav';
+import DashForCompanyOrders from './dashForCompanyOrders';
 import DashForCompanyProducts from './dashForCompanyProducts';
 import DashForCompanySettings from './dashForCompanySettings';
+import DashForCompanyShippedOrders from './dashForCompanyShippedOrders';
 import DashForCompanyStart from './dashForCompanyStart';
 
 type Props = {
@@ -25,6 +27,9 @@ export default function DashForCompany(props: Props) {
                 <Route index element={<DashForCompanyStart/>} />
                 <Route path="settings" element={<DashForCompanySettings/>} />
                 <Route path="products" element={<DashForCompanyProducts currentCompany={props.currentCompany}/>} />
+                <Route path="companyOrders" element={<DashForCompanyOrders/>} />
+                <Route path="shippedOrders" element={<DashForCompanyShippedOrders/>} />
+                
                 
             </Routes>
         </div>
