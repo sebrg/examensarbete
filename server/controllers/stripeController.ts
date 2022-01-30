@@ -101,6 +101,30 @@ export const checkOut = async (req: any, res: any, next: any) => {
         line_items: lineItems,
         mode: 'payment',
         payment_method_types: ['card'],
+       
+        shipping_options: [ //NOTE: Skicka upp fraktsumma vid checkout
+            {
+                shipping_rate_data: {
+                type: 'fixed_amount',
+                fixed_amount: {
+                  amount: 0,
+                  currency: 'sek',
+                },
+                display_name: 'Sebbes shipping test',
+                delivery_estimate: {
+                  minimum: {
+                    unit: 'business_day',
+                    value: 5,
+                },
+                  maximum: {
+                    unit: 'business_day',
+                    value: 7,
+                  },
+                }
+              }
+            },
+          ],
+
         payment_intent_data: {
             application_fee_amount: 1500, //NOTE: avgift vi tar per betalning, sätt den procentuell, behöver amount total..
         },
@@ -126,7 +150,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
         payment_status: session.payment_status,
         session_status: session.status,
         stripe_acc_id: stripeId,
-        purchaseTerms: purchaseTerms
+        purchaseTerms: purchaseTerms,
+        shipped: "No"
     }
 
     res.status(200).json({ id: session.id, pendingOrder: pendingOrder, cartItemIds: cartItemIds })
