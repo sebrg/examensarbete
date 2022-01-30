@@ -7,7 +7,7 @@ import { CompanyContext, CompanyOptions, } from "../companies/companyContext"
 import { Company, Product } from "../../models"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable,  } from "firebase/storage";
 //import { promises } from "stream";
-import { FbQuery } from "../../types"
+import { FbQuery, Order } from "../../types"
 interface Props{}
 export default class CompanyProvider extends Component<Props, CompanyOptions>   {
 
@@ -19,7 +19,10 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         aproveCompany: this.aproveCompany.bind(this),
         removeCompany: this.removeCompany.bind(this),
         updateCompany: this.updateCompany.bind(this),
-        setPaymentEnabled: this.setPaymentEnabled.bind(this)
+        setPaymentEnabled: this.setPaymentEnabled.bind(this),
+        getOrdersByCompany: this.getOrdersByCompany.bind(this),
+        orderIsShipped: this.orderIsShipped.bind(this),
+        getOrder: this.getOrder.bind(this)
     }
 
     async addCompany(company: Company, to: "companies" | "pendingCompanies") {
@@ -136,6 +139,43 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         ...currentCompanyClone as Company
         });     
         console.log("Enabled is set to:", enabled)   
+    }
+
+    async getOrdersByCompany(companyId: string, shippingStatus: string) {
+       
+        const q = query(collection(firebaseCollection.db, "orders"), where("companyId", "==", companyId), where("shipped", "==", shippingStatus));
+        const querySnapshot = await getDocs(q);
+        const result: any = []
+
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots  
+            //console.log({id: doc.id, data: doc.data()});
+            result.push({id: doc.id, ...doc.data()})
+       });
+       //console.log("test: ", result)
+       return result
+    }
+
+    async getOrder(orderId: string) {
+        const result: Order[] = []
+        const q = query(collection(firebaseCollection.db, "orders"), where(documentId(), "==", orderId));
+        const order = await getDocs(q);
+        order.forEach((doc) => {
+            result.push({id: doc.id, ...doc.data()} as Order) 
+          });
+          return result
+    }
+
+    async orderIsShipped(orderId: string, shipped: string) { 
+        let getOrder = await this.getOrder(orderId)
+        let clonedOrder = getOrder[0] as Order
+
+        const orderRef = doc(firebaseCollection.db, "orders", clonedOrder.id);
+        clonedOrder.shipped = shipped
+        await updateDoc(orderRef, {
+        ...clonedOrder as Order
+        });     
+        console.log("Order is set as:", shipped)   
     }
 
     
