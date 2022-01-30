@@ -193,7 +193,7 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
                     console.log("userinfo", props.userInfo) 
-                    const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), props.userInfo? props.userInfo : undefined, idFromUrl as string)
+                    const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), idFromUrl as string)
                         console.log("dashEditUserInfo: ", phoneNr)
                         if(result.status === 200) {
                             setStatusMsg(result.message)
