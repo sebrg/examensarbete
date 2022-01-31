@@ -19,7 +19,7 @@ export interface CompanyOptions {
     orderIsShipped:(orderId: string, shipped: string) => Promise<void>
     getOrder: (orderId: string) => Promise<Order[]>
     denyCompany: (companyId: string) => void
-    updateShipping: (shippingPrice: number, freeShippingOver: number) => Promise<StatusObject>
+    updateShipping: (shippingPrice: string, freeShippingOver: string) => Promise<StatusObject>
 
 }
 
@@ -37,7 +37,7 @@ export const CompanyContext = createContext({
     orderIsShipped: (orderId: string, shipped: string) => {},
     getOrder: (orderId: string) => {},
     denyCompany: (companyId: string) => {},
-    updateShipping: (shippingPrice: number, freeShippingOver: number) => {}
+    updateShipping: (shippingPrice: string, freeShippingOver: string) => {}
 
 
 

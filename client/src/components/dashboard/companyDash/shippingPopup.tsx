@@ -16,18 +16,18 @@ type Props = {
 export default function ShippingPopup(props: Props) {
 
     const companyContext: CompanyOptions = useContext(CompanyContext)
-/*     const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
- */    const [shippingPrice, setShippingPrice] = useState<number>(props.company? props.company.shipping.shippingPrice : 0)
-    const [freeShippingOver, setFreeShippingOver] = useState<number>(props.company? props.company.shipping.freeShippingOver : 0)
+    const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
+    const [shippingPrice, setShippingPrice] = useState<string>(props.company? props.company.shipping.shippingPrice.toString() : "0")
+    const [freeShippingOver, setFreeShippingOver] = useState<string>(props.company? props.company.shipping.freeShippingOver.toString() : "0")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [statusMsg, setStatusMsg ] = useState<string | undefined>(undefined)
 
     const updateShippingPrice = (event: any) => {
-        event? setShippingPrice(event.target.value) : setShippingPrice(props.company? props.company.shipping.shippingPrice : 0)
+        event? setShippingPrice(event.target.value) : setShippingPrice(props.company? props.company.shipping.shippingPrice.toString() : "0")
     }
 
     const updateFreeShippingOver = (event: any) => {
-        event? setFreeShippingOver(event.target.value) : setFreeShippingOver(props.company? props.company.shipping.freeShippingOver : 0) 
+        event? setFreeShippingOver(event.target.value) : setFreeShippingOver(props.company? props.company.shipping.freeShippingOver.toString() : "0") 
     }
 
     return (

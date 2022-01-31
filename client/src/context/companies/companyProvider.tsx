@@ -199,14 +199,14 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         console.log("Enabled is set to:", enabled)   
     }
 
-    async updateShipping(shippingPrice: number, freeShippingOver: number) { 
+    async updateShipping(shippingPrice: string, freeShippingOver: string) { 
         try {
             let getCompany = await this.getCurrentUserCompany()
             let currentCompanyClone = getCompany[0] as Company
 
             const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id as string);
-            currentCompanyClone.shipping.shippingPrice = shippingPrice
-            currentCompanyClone.shipping.freeShippingOver = freeShippingOver
+            currentCompanyClone.shipping.shippingPrice = parseInt(shippingPrice)
+            currentCompanyClone.shipping.freeShippingOver = parseInt(freeShippingOver)
             await updateDoc(companyRef, {
             ...currentCompanyClone as Company
             });     
