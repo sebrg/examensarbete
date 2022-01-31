@@ -19,7 +19,7 @@ export default function DashForCompany(props: Props) {
 
 
     return (
-        <div id="dashContentForCompany" style={{width: "100%", height: "100%"}}>
+        <div id="dashContentForCompany" className='noScrollBar' style={{width: "100%", height: "100%"}}>
             <DashCompanyNav />    
             <Routes>
                 <Route index element={<DashForCompanyStart/>} />

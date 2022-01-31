@@ -37,6 +37,15 @@ a, a:visited {
   scrollbar-width: none;  /* Firefox */
 }
 
+.removeInputOutline:focus {
+  outline:none!important;
+}
+
+.removeInputOutline {
+  outline: none !important;
+  border: none !important;
+}
+
 
 /*NOTE: Maybe put this in own css file? */
 /* React slick slider  */
