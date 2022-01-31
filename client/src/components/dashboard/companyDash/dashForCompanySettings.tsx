@@ -5,6 +5,7 @@ import { FirebaseContext, FirebaseOptions } from '../../../context/firebaseConte
 import Button from '../../UI/button';
 import ActivateStripe from '../../functions/activateStripe';
 import ActivatePayments from '../../functions/activatePayments';
+import DashForCompanyShipping from './dashForCompanyShipping';
 
 
 
@@ -21,7 +22,7 @@ export default function DashForCompanySettings() {
         {/* <h1 style={{fontSize: '1.5em'}}>this is DashForCompanySettings</h1> */}
 
             <div style={settingsDiv}>
-                Nånting annat ...
+               <DashForCompanyShipping />
             </div>
 
             <div style={stripeDiv}>   
