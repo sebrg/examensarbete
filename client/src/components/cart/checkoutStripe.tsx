@@ -10,6 +10,8 @@ import { GeneralContext, GeneralOptions } from '../../context/general/generalCon
 type Cart = {
     companyId: string
     companyName: string
+    shippingPrice: number,
+    freeShippingOver: number
     stripeId: string
     products: Product[]
 }
@@ -41,7 +43,7 @@ export default function CheckoutStripe(props: Props) {
           		method: "POST",
           		headers: {"content-type": "application/json"},
           		credentials: 'include',
-                body: JSON.stringify({products: props.cartItem.products, companyId: props.cartItem.companyId, userId: userId, stripeId: props.stripeAccountId, purchaseTerms: props.purchaseTerms, path: window.location.origin})
+                body: JSON.stringify({products: props.cartItem.products, companyId: props.cartItem.companyId, userId: userId, stripeId: props.stripeAccountId, shippingPrice: props.cartItem.shippingPrice, freeShippingOver: props.cartItem.freeShippingOver, companyName: props.cartItem.companyName, purchaseTerms: props.purchaseTerms, path: window.location.origin})
       		})
 
 			const data = await response.json()

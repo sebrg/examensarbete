@@ -96,7 +96,7 @@ export default function DashRegisterCompany() {
                             <input style={inputStyle} className='removeInputOutline' onChange={(event) => updateCategory(event)}/>
                         </div>
             
-                        <Button  border='1px solid black' onClick={() => companyContext.addCompany({name, school, region, category, payments: {enabled: false}}, "pendingCompanies")} buttonText='Registrera ansökan' width='30%' bgColor='black'/>
+                        <Button  border='1px solid black' onClick={() => companyContext.addCompany({name, school, region, category, payments: {enabled: false}, shipping: {shippingPrice: 0, freeShippingOver: 0}}, "pendingCompanies")} buttonText='Registrera ansökan' width='30%' bgColor='black'/>
         
                     </div>
                     : null

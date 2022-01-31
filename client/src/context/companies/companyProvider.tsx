@@ -24,7 +24,9 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         getOrdersByCompany: this.getOrdersByCompany.bind(this),
         orderIsShipped: this.orderIsShipped.bind(this),
         getOrder: this.getOrder.bind(this),
-        denyCompany: this.denyCompany.bind(this)
+        denyCompany: this.denyCompany.bind(this),
+        updateShipping: this.updateShipping.bind(this)
+
 
     }
 
@@ -41,6 +43,10 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
                 category: company.category,
                 payments: {
                     enabled: company.payments.enabled,
+                },
+                shipping: {
+                    shippingPrice: company.shipping.shippingPrice,
+                    freeShippingOver: company.shipping.freeShippingOver
                 },
                 creator: to == "companies"? company.creator : auth.currentUser?.uid
             }
@@ -148,7 +154,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         //FIXME: make to object as company as param instead
         //await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false}, undefined, currentPendingCompany[0].creator), "companies")
        
-        await this.addCompany({name: currentPendingCompany[0].name, category: currentPendingCompany[0].category, region: currentPendingCompany[0].region, school: currentPendingCompany[0].school, creator: currentPendingCompany[0].creator, id: id, payments: {enabled: false}}, "companies")
+        await this.addCompany({name: currentPendingCompany[0].name, category: currentPendingCompany[0].category, region: currentPendingCompany[0].region, school: currentPendingCompany[0].school, creator: currentPendingCompany[0].creator, id: id, payments: {enabled: false}, shipping: {shippingPrice: 0, freeShippingOver: 0}}, "companies")
         await this.removeCompany(id)
         console.log("company aproved")
     }
@@ -181,7 +187,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         console.log("Added stripe id:", stripeId, "to current company")   
     }
 
-    async setPaymentEnabled(enabled: boolean) { // NOTE: Kanske göra mer flexibel funktion?
+    async setPaymentEnabled(enabled: boolean) {
         let getCompany = await this.getCurrentUserCompany()
         let currentCompanyClone = getCompany[0] as Company
 
@@ -191,6 +197,24 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         ...currentCompanyClone as Company
         });     
         console.log("Enabled is set to:", enabled)   
+    }
+
+    async updateShipping(shippingPrice: number, freeShippingOver: number) { 
+        try {
+            let getCompany = await this.getCurrentUserCompany()
+            let currentCompanyClone = getCompany[0] as Company
+
+            const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id as string);
+            currentCompanyClone.shipping.shippingPrice = shippingPrice
+            currentCompanyClone.shipping.freeShippingOver = freeShippingOver
+            await updateDoc(companyRef, {
+            ...currentCompanyClone as Company
+            });     
+            return {status: 200, message: `Uppdateringen lyckades` } as StatusObject 
+        } catch(err) {
+            return {status: 400, message: err } as StatusObject
+        }
+        
     }
 
     async getOrdersByCompany(companyId: string, shippingStatus: string) {
