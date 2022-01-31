@@ -1,15 +1,16 @@
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, DocumentData, documentId, FieldPath, getDoc, getDocs, query, updateDoc, where, WhereFilterOp } from "firebase/firestore";
-
-import React, { Component } from "react"
+import { getAuth } from "firebase/auth";
+import { addDoc, collection, deleteDoc, doc, documentId, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { CompanyContext, CompanyOptions, } from "../companies/companyContext"
 import { Company, Product } from "../../models"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable,  } from "firebase/storage";
-//import { promises } from "stream";
-import { FbQuery, Order } from "../../types"
+import { FbQuery, Order, StatusObject, UserInfo } from "../../types"
+import { UserContext } from "../users/userContext";
+
 interface Props{}
 export default class CompanyProvider extends Component<Props, CompanyOptions>   {
+    static contextType = UserContext
 
     state: CompanyOptions = {
         addCompany: this.addCompany.bind(this),
@@ -23,33 +24,72 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         getOrdersByCompany: this.getOrdersByCompany.bind(this),
         orderIsShipped: this.orderIsShipped.bind(this),
         getOrder: this.getOrder.bind(this)
+        denyCompany: this.denyCompany.bind(this)
+
     }
 
     async addCompany(company: Company, to: "companies" | "pendingCompanies") {
-        //TODO: Fix better failsafe
+        try{
+            const auth = getAuth();
+            console.log(auth.currentUser?.uid)
+            console.log("creator: ", company.creator)
+            console.log("id: ", company.id)
+            let companyData: Omit<Company, "id"> = {
+                name: company.name,
+                school: company.school,
+                region: company.region, 
+                category: company.category,
+                payments: {
+                    enabled: company.payments.enabled,
+                },
+                creator: to == "companies"? company.creator : auth.currentUser?.uid
+            }
+    
+            if(!auth.currentUser) {
+                return {status: 400, message: `Behörighet saknas` } as StatusObject
+            }
 
-        const auth = getAuth();
+            
+            if(to === "pendingCompanies") {
+                await addDoc(collection(firebaseCollection.db, to), {
+                
+                    ...companyData
+                });
 
-        let companyData: Omit<Company, "id"> = {
-            name: company.name,
-            school: company.school,
-            region: company.region, 
-            category: company.category,
-            payments: {
-                enabled: company.payments.enabled,
-            },
-            creator: to == "companies"? company.creator : auth.currentUser?.uid
+                const userInfo = await this.context.getUserInfo(auth.currentUser?.uid)
+                const clonedUserInfo: UserInfo = {...userInfo[0]}
+                clonedUserInfo.pendingCompany = true
+
+
+                await this.context.addOrUpdateUserInfo({...clonedUserInfo}, auth.currentUser?.uid)
+                
+                return {status: 200, message: `Din ansökan har lagts till och väntar på att godkännas` } as StatusObject
+            }
+            else { //(to === "companies")
+                await setDoc(doc(firebaseCollection.db, "companies", company.id as string), {
+                    ...companyData
+                })
+
+                const userInfo = await this.context.getUserInfo(company.creator)
+                const clonedUserInfo: UserInfo = {...userInfo[0]}
+                clonedUserInfo.pendingCompany = false
+                clonedUserInfo.company = company.id
+
+                console.log("in to = companies: ", clonedUserInfo)
+
+
+                await this.context.addOrUpdateUserInfo(clonedUserInfo, company.creator)
+    
+                return {status: 200, message: `Din ansökan har lagts till och väntar på att godkännas` } as StatusObject
+            }
+
+         
+
+        } catch(err) {
+            return {status: 400, message: err } as StatusObject
         }
 
-        if(auth.currentUser) {
-            await addDoc(collection(firebaseCollection.db, to), {
 
-                ...companyData
-            });
-        }
-        else {
-            console.log("couldnt verify user")
-        }
     }
 
 
@@ -104,15 +144,27 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
 
     async aproveCompany(id: string) {
         const currentPendingCompany: Company[] = await this.getCompany("pendingCompanies", {fieldPath: documentId(), opStr: "==", value: id})
-        console.log(currentPendingCompany)
         
         //FIXME: make to object as company as param instead
-        await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false}, undefined, currentPendingCompany[0].creator), "companies")
+        //await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false}, undefined, currentPendingCompany[0].creator), "companies")
+       
+        await this.addCompany({name: currentPendingCompany[0].name, category: currentPendingCompany[0].category, region: currentPendingCompany[0].region, school: currentPendingCompany[0].school, creator: currentPendingCompany[0].creator, id: id, payments: {enabled: false}}, "companies")
         await this.removeCompany(id)
         console.log("company aproved")
     }
+
+    async denyCompany(companyId: string) {
+        const currentCompany: Company[] = await this.getCompany("pendingCompanies", {fieldPath: documentId(), opStr: "==", value: companyId})
+        const currentUser: UserInfo[] = await this.context.getUserInfo(currentCompany[0].creator)
+        const clonedUserInfo: UserInfo = {...currentUser[0]}
+
+        clonedUserInfo.pendingCompany = false
+
+        await this.context.addOrUpdateUserInfo(clonedUserInfo, currentCompany[0].creator)
+        await this.removeCompany(companyId)
+    }
     
-    async removeCompany(id: string) {
+    async removeCompany(id: string) { //NOTE: add param "from: 'pendingComapnies' | 'companies'"
         await deleteDoc(doc(firebaseCollection.db, "pendingCompanies", id));
         console.log("company deleted")
     }

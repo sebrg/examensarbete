@@ -5,7 +5,7 @@ import { StatusObject, UserInfo } from '../../types'
 
 
 export interface UserOptions {
-    addUser: () => void
+ /*    addUser: () => void */
     getUsers: (setState: any) => void
     signInWithGooglePopup: (callBack?: () => void) => void
     signInWithEmail: (email: string | undefined, password: string | undefined, callBack?: () => void) => void
@@ -13,13 +13,13 @@ export interface UserOptions {
     logOut: () => void
     userAuth: (state?: (bool: boolean) => void) => void
     checkAdmin: () => Promise<Boolean> 
-    addOrUpdateUserInfo: (newUserInfo: UserInfo, oldUserInfo: UserInfo | undefined, id: string) => Promise<StatusObject>
+    addOrUpdateUserInfo: (newUserInfo: UserInfo, id: string) => Promise<StatusObject>
     getUserInfo: (id: string) => Promise<UserInfo[]>
 }
 
 
 export const UserContext = createContext({
-    addUser: () => {},
+  /*   addUser: () => {}, */
     getUsers: (setState: any) => {},
     signInWithGooglePopup: (callBack?: () => void) => {},
     signInWithEmail: (email: string | undefined, password: string | undefined, callBack?: () => void) => {},
@@ -27,7 +27,7 @@ export const UserContext = createContext({
     logOut: () => {},
     userAuth: (state?: (bool: boolean) => void) => {},
     checkAdmin: () => {},
-    addOrUpdateUserInfo: (newUserInfo: UserInfo, oldUserInfo: UserInfo, id: string) => {},
+    addOrUpdateUserInfo: (newUserInfo: UserInfo, id: string) => {},
     getUserInfo: (id: string) => {},
         
 } as UserOptions)

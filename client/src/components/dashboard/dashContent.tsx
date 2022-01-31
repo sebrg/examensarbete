@@ -43,6 +43,7 @@ const userDashFrameStyle: CSSProperties = {
     width: "80%",
     height: "100%",
     padding: "0px 0.5em 0px 0px ",
+    overflow: "auto"
 }
 
 const userDashContentStyle: CSSProperties = {

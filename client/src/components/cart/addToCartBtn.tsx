@@ -36,14 +36,15 @@ export default function AddToCartBtn(props: Props) {
     return (
 
 		<Button 
-        width='100%' 
-        onClick={() => addToLocal(props.product)} 
-        buttonText='Lägg till i kundvagn'
-        icon={<FaCartPlus fontSize={"1.2em"}/>}
-        bgColor='#363945'
-        iconMargin='0 0 0 0.5em'
-        color='white'
-        border='1px solid black'
+            width='100%' 
+            onClick={() => addToLocal(props.product)} 
+            buttonText='Lägg till i kundvagn'
+            icon={<FaCartPlus fontSize={"1.2em"}/>}
+            bgColor='#363945'
+            iconMargin='0 0 0 0.5em'
+            color='white'
+            border='1px solid black'
+            
         />
     );
 }

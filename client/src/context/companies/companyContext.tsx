@@ -1,13 +1,13 @@
 import { DocumentData, FieldPath, WhereFilterOp } from 'firebase/firestore'
 import { createContext } from 'react'
 import { Company, Product } from "../../models"
-import { FbQuery, Order } from '../../types'
+import { FbQuery, StatusObject, Order } from '../../types'
 
 
 export interface CompanyOptions {
 
 
-    addCompany: (company: Company, to: "companies" | "pendingCompanies") => void
+    addCompany: (company: Company, to: "companies" | "pendingCompanies") => Promise<StatusObject>
     getCurrentUserCompany: () => Promise<Company[]>
     getAllCompanies: (company: "companies" | "pendingCompanies") => Promise<Company[]>
     updateCompany: (stripeId: string) => void,
@@ -18,6 +18,8 @@ export interface CompanyOptions {
     getOrdersByCompany: (userId: string, shippingStatus: string) => Promise<DocumentData>,
     orderIsShipped:(orderId: string, shipped: string) => Promise<void>,
     getOrder: (orderId: string) => Promise<Order[]>
+    denyCompany: (companyId: string) => void 
+
 }
 
 
@@ -33,6 +35,8 @@ export const CompanyContext = createContext({
     getOrdersByCompany: (userId: string, shippingStatus: string) => {},
     orderIsShipped: (orderId: string, shipped: string) => {},
     getOrder: (orderId: string) => {}
+    denyCompany: (companyId: string) => {}
+
 
 
 

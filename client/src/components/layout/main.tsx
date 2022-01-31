@@ -57,6 +57,6 @@ export default function Main(props: Props) {
 
 const mainStyle: CSSProperties = {
   minHeight: "85%",
-  overflowY: "auto"
+  //overflowY: "auto"
 }
 

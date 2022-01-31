@@ -114,5 +114,6 @@ const LinkStyle: CSSProperties = {
 
 const centerText: CSSProperties = {
     textAlign: 'center', 
+    fontSize: "0.8em"
 }
 
