@@ -14,6 +14,8 @@ import { GeneralContext, GeneralOptions } from '../../context/general/generalCon
 type Cart = {
     companyId: string
     companyName: string
+    shippingPrice: number,
+    freeShippingOver: number
     stripeId: string
     products: Product[]
 }
@@ -85,6 +87,8 @@ export default function Cart() {
                 const company = await companyContext.getCompany("companies", {fieldPath: documentId(), opStr: "==", value: product.companyId})
                 product.stripeId = company[0].payments.stripe_acc_id as string
                 product.companyName = company[0].name
+                product.shippingPrice = company[0].shipping.shippingPrice
+                product.freeShippingOver = company[0].shipping.freeShippingOver
                 return product
             }))
             return arrayWithNames
@@ -123,15 +127,14 @@ export default function Cart() {
                 <div className="noScrollBar" style={{overflow: "auto", borderRadius: "10px"}}>    
                     {productsInCart !== undefined && productsInCart.length > 0?   
                         productsInCart.map((cartItem, i) => {
-                                /* const findId = (cartItem: any) => { return productsInCart?.find((productInArray) => productInArray === cartItem) } */
                                 return (
                                     <div key={i} className="cartSection" style={cartSectionStyle}> 
                                         <h1 style={{width: "100%", textAlign: "center", marginBottom: "1em"}}>{cartItem.companyName}</h1>
-                                        {/* <div className='cartSectionContent' style={cartSectionContentStyle}> */}
                                             <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
                                                 {
                                                     cartItem.products.map((product, i) => {
-                                                    
+                                                        /* let total = productsInCart.reduce((sum: any,item: any) => sum + item.price * item.quantity, 0)     
+                                                        console.log(total) */ //NOTE: Totalsumma av produkter..
                                                         return(
                                                             <ProductCard key={i} 
                                                                 product={product}
@@ -146,9 +149,9 @@ export default function Cart() {
                                                     })
                                                 }
                                             </div>
-                                    {/*  </div> */}
+                                                
                                         <div className='paymentSection' style={paymentSectionStyle}>
-                                            <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: Test12345</p>
+                                            <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: total </p>
                                             <Button border='1px solid black' onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
                                         
                                         </div>

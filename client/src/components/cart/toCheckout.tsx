@@ -13,6 +13,8 @@ import ResumeStripe from './resumeStripe';
 type Cart = {
     companyId: string
     companyName: string
+    shippingPrice: number,
+    freeShippingOver: number
     stripeId: string
     products: Product[]
 }
