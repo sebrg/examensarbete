@@ -1,19 +1,20 @@
-import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Route, Routes, useMatch } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 import { CompanyContext, CompanyOptions } from '../../../context/companies/companyContext';
-import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import { Order } from '../../../types';
 import SpinnerModal from '../../functions/spinnerModal';
 import Button from '../../UI/button';
 import CompanyCard from '../companyCard';
-import FoldableOrderCard from '../foldableOrderCard';
+import DashForCompanyShippedOrders from './dashForCompanyShippedOrders';
+
+type Alternatives = "show" | "showShipped"
 
 export default function DashForCompanyOrders() {
 
 
     const companyContext: CompanyOptions = useContext(CompanyContext)    
     const [oldOrders, setOldOrders] = useState<Order[] | null>()
+    const [viewAlternative, setViewAlternative] = useState<Alternatives>("show")
 
     let match = useMatch({
         path: "/myPages/:userId/:companyId/*"
@@ -39,23 +40,59 @@ export default function DashForCompanyOrders() {
 
 
     return (
-        
-        oldOrders === undefined? 
-        <SpinnerModal/>
-            : oldOrders?.length?
-            <div id="orderWrapp" className='noScrollBar' style={{height: '85%', overflow: 'auto', padding: "1em"}}>
-                {oldOrders?.map((order, key) => {
-                    return (
-                            <CompanyCard key={key} order={order}/>
-                    )
-                })}
+        <div>
 
+            <div id="dashOrderDiv" style={{flexDirection: 'row', display: 'flex'}}>
+                            <Button 
+                                margin='0 0.5em 0.5em 0' 
+                                width="50%"  
+                                border="2.5px solid white"
+                                buttonText='Inkomna ordrar' 
+                                bgColor={viewAlternative === "show"? "white" : ""}
+                                color={viewAlternative === "show"?  "black" : "white"}
+                                onClick={() => setViewAlternative('show')} 
+                                
+                            />
+
+                            <Button 
+                                onClick={() => setViewAlternative('showShipped')} 
+                                margin='0 0 0.5em 0' 
+                                width="50%" 
+                                border="2.5px solid white"
+                                buttonText='Skickade ordrar'
+                                bgColor={viewAlternative === "showShipped"? "white" : ""}
+                                color={viewAlternative === "showShipped"?  "black" : "white"}
+
+                            />
             </div>
-            : !oldOrders?.length? 
-                <div style={{display: "flex"}}>
-                    <p style={{margin: "2em", fontSize: "1.3em"}}>Det finns inga inkomna ordrar.</p>
-                </div>
-                : null
+
+                    {viewAlternative === "show"? 
+                        
+                        oldOrders === undefined? 
+                            <SpinnerModal/>
+                            : oldOrders?.length?
+                            <div id="orderWrapp" className='noScrollBar' style={{height: '85%', overflow: 'auto', padding: "1em"}}>
+                                {oldOrders?.map((order, key) => {
+                                    return (
+                                            <CompanyCard key={key} order={order}/>
+                                    )
+                                })}
+
+                            </div>
+                            : !oldOrders?.length? 
+                                <div style={{display: "flex"}}>
+                                    <p style={{margin: "2em", fontSize: "1.3em"}}>Det finns inga inkomna ordrar.</p>
+                                </div>
+                            : null
+
+                            : viewAlternative === "showShipped"? 
+                                <DashForCompanyShippedOrders/>
+                            : null
+                    }
+        </div>
+               
+
+
 
     );
 }
