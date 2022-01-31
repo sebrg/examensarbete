@@ -10,13 +10,13 @@ export interface CompanyOptions {
     addCompany: (company: Company, to: "companies" | "pendingCompanies") => Promise<StatusObject>
     getCurrentUserCompany: () => Promise<Company[]>
     getAllCompanies: (company: "companies" | "pendingCompanies") => Promise<Company[]>
-    updateCompany: (stripeId: string) => void,
+    updateCompany: (stripeId: string) => void
     setPaymentEnabled: (enabled: boolean) => void
     aproveCompany: (id: string) => void
     removeCompany: (id: string) => void
     getCompany: (from: "companies" | "pendingCompanies", queryOne: FbQuery, queryTwo?: FbQuery) => Promise<Company[]>
-    getOrdersByCompany: (userId: string, shippingStatus: string) => Promise<DocumentData>,
-    orderIsShipped:(orderId: string, shipped: string) => Promise<void>,
+    getOrdersByCompany: (userId: string, shippingStatus: string) => Promise<DocumentData>
+    orderIsShipped:(orderId: string, shipped: string) => Promise<void>
     getOrder: (orderId: string) => Promise<Order[]>
     denyCompany: (companyId: string) => void 
 
@@ -34,7 +34,7 @@ export const CompanyContext = createContext({
     getCompany: (from: "companies" | "pendingCompanies", queryOne: FbQuery, queryTwo?: FbQuery) => {},
     getOrdersByCompany: (userId: string, shippingStatus: string) => {},
     orderIsShipped: (orderId: string, shipped: string) => {},
-    getOrder: (orderId: string) => {}
+    getOrder: (orderId: string) => {},
     denyCompany: (companyId: string) => {}
 
 

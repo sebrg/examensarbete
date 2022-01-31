@@ -23,7 +23,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         setPaymentEnabled: this.setPaymentEnabled.bind(this),
         getOrdersByCompany: this.getOrdersByCompany.bind(this),
         orderIsShipped: this.orderIsShipped.bind(this),
-        getOrder: this.getOrder.bind(this)
+        getOrder: this.getOrder.bind(this),
         denyCompany: this.denyCompany.bind(this)
 
     }
