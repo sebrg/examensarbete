@@ -1,3 +1,4 @@
+import { equal } from "assert";
 import { stripe } from "../index.js"
 
 export const getAccount = async (req: any, res: any, next: any) => { 
@@ -51,10 +52,22 @@ export const checkOut = async (req: any, res: any, next: any) => {
     const cartItems = req.body.products
     const companyId = req.body.companyId
     const userId = req.body.userId
+    const shippingPrice = req.body.shippingPrice
+    const freeShippingOver = req.body.freeShippingOver
+    const companyName = req.body.companyName
     const path = req.body.path
 
-    console.log(path, "pataaththwhtawh")
+  
+    const sumTotal = arr => arr.reduce((sum, { price, quantity }) => sum + price * quantity, 0) //total amount för ordern
+    const total = sumTotal(cartItems)
 
+    let shipping = null
+    if(total > freeShippingOver) {
+        shipping = 0
+    } else {
+        shipping = shippingPrice
+    }
+   
     
     const cartItemIds = await cartItems.map(product => {
         //Skickas med i metadata
@@ -107,10 +120,10 @@ export const checkOut = async (req: any, res: any, next: any) => {
                 shipping_rate_data: {
                 type: 'fixed_amount',
                 fixed_amount: {
-                  amount: 0,
+                  amount: shipping * 100,
                   currency: 'sek',
                 },
-                display_name: 'Sebbes shipping test',
+                display_name: `Frakt ${companyName}`,
                 delivery_estimate: {
                   minimum: {
                     unit: 'business_day',
@@ -151,7 +164,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
         session_status: session.status,
         stripe_acc_id: stripeId,
         purchaseTerms: purchaseTerms,
-        shipped: "No"
+        shipped: "No",
+        shippingPrice: session.total_details.amount_shipping / 100
     }
 
     res.status(200).json({ id: session.id, pendingOrder: pendingOrder, cartItemIds: cartItemIds })
