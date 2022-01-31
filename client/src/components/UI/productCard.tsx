@@ -1,9 +1,6 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Link, useMatch } from 'react-router-dom';
-import Button from './button'
-import AddToCartBtn from '../cart/addToCartBtn';
+import { CSSProperties, useContext, useEffect, useState } from 'react';
+import { Link, } from 'react-router-dom';
 import { Product } from '../../models'
-import { DocumentData } from 'firebase/firestore';
 
 
 
@@ -33,7 +30,7 @@ export default function ProductCard(props: Props) {
         props.linkTo?
             <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, minWidth: props.minWidth, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor, border: props.border? props.border : "1px solid black"}}>
                 <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
-                 {   <Link style={{width: "100%", height: "100%", display: "flex", alignItems: "center"}} to={props.linkTo}> 
+                 {   <Link style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}} to={props.linkTo}> 
                         <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
                     </Link>}
                 </div>
@@ -43,18 +40,18 @@ export default function ProductCard(props: Props) {
                             {props.product.name}
                         </p>
                         {props.product.quantity?
-                            <p style={{padding: "0 0 0 1em"}}>
-                                x {props.product.quantity}
+                            <p style={{/* padding: "0 0 0 1em" */textAlign: "center"}}>
+                                {props.product.quantity} i lager
                             </p> 
-                        : null
+                            : null
                         }
                     </div>
 
-                    <div style={{margin: "0 0 0 1em"}}>
+                    <div /* style={{margin: "0 0 0 1em"}} */>
                         <p style={{fontSize: "1.5em", textAlign: "center"}}> 
                             Pris: 
                         </p>
-                        <p style={{padding: "0 0 0 0.5em", textAlign: "center"}}>
+                        <p style={{/* padding: "0 0 0 0.5em", */ textAlign: "center"}}>
                             {props.product.price + " " + currency}
                         </p>
                         
@@ -68,7 +65,7 @@ export default function ProductCard(props: Props) {
 
             <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor,  border: props.border? props.border : "1px solid black"}}>
                 <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
-                    <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center"}}> 
+                    <div style={{justifyContent: "center", width: "100%", height: "100%", display: "flex", alignItems: "center"}}> 
                         <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
                     </div>
                 </div>
@@ -79,17 +76,17 @@ export default function ProductCard(props: Props) {
                         <p style={{fontSize: "1.5em", textAlign: "center"}}> 
                             {props.product.name}
                         </p>
-                        <p style={{padding: "0 0 0 1em"}}>
-                            x {props.product.quantity}
-                        </p>
+                        <p style={{/* padding: "0 0 0 1em" */textAlign: "center"}}>
+                            {props.product.quantity} i lager
+                        </p> 
                         
                     </div>
 
-                    <div style={{margin: "0 0 0 1em"}}>
+                    <div /* style={{margin: "0 0 0 1em"}} */>
                         <p style={{fontSize: "1.5em", textAlign: "center"}}> 
                             Pris: 
                         </p>
-                        <p style={{padding: "0 0 0 0.5em", textAlign: "center"}}>
+                        <p style={{/* padding: "0 0 0 0.5em", */ textAlign: "center"}}>
                             {props.product.price + " " + currency}
                         </p>
                         
@@ -125,7 +122,7 @@ const productCardImgWrapperRowStyle: CSSProperties = {
 const productInfoWrapperRowStyle: CSSProperties = {
     flexGrow: 10,
     display: "flex",
-    //justifyContent: "space-around",
+    justifyContent: "space-around",
     //alignItems: "center"
 }
 
@@ -136,7 +133,7 @@ const productCardImgWrapperColumnStyle: CSSProperties = {
     height: "30vh",
     background: "lightgray",
     borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px"
+    borderTopRightRadius: "10px",
 }
 
 //INFO COLUMN

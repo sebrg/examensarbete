@@ -39,7 +39,7 @@ export default function CompanyPage() {
                                 direction="column"
                                 width='20vw'
                                 linkTo={`/company/${companyName}/${companyId}/product/${product.name}/${product.id}`} //NOTE: maybe use replace on blank spaces
-                                minWidth='160px'
+                                minWidth='250px'
                                 //imgWidth='100%'
                                 //imgHeight='auto'
                             >   
