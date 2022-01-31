@@ -146,6 +146,7 @@
 
     #dashAddProducts {
         width: 100% !important;
+        margin: 1em 0 0 0 !important;
     }
 
     #imgUploadInput label {
