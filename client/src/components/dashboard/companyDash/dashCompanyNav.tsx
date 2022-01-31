@@ -29,13 +29,9 @@ export default function DashCompanyNav() {
             linkTo: "products"
         },
         {
-            text: 'Inkomna ordrar',
+            text: 'Ordrar',
             linkTo: 'companyOrders'
         },
-        {
-            text: 'Skickade ordrar',
-            linkTo: 'shippedOrders'
-        }
     ]
 
 
