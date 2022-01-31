@@ -1,25 +1,19 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import { JsxElement } from 'typescript';
-import { InputType } from 'zlib';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
-import { Product } from '../../models';
 import { Order } from '../../types';
 import Button from '../UI/button';
 
 
-
 type Props = {
-    setCheckoutOpen: (bool: boolean) => void,
+    setOrderOpen: (bool: boolean) => void,
     order: Order | null
 }
-
 
 
 export default function ConfirmOrder(props: Props) {
 
     const companyContext: CompanyOptions = useContext(CompanyContext)
-    const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
+    const [currentView, setCurrentView] = useState<"start">("start")
     const [cbValue, setCbValue] = useState(false)
     const [isShipped, setIsShipped] = useState<string>()
 
@@ -51,7 +45,7 @@ export default function ConfirmOrder(props: Props) {
 	
     return (
 
-		<div onClick={() => props.setCheckoutOpen(false)} id='checkout-wrap' style={checkoutWrapper}>
+		<div onClick={() => props.setOrderOpen(false)} id='checkout-wrap' style={checkoutWrapper}>
             <div onClick={(event) => event.stopPropagation()} id='checkout-content' style={checkoutContent}>
                 {currentView === "start"?
                     <div>     

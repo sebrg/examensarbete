@@ -28,7 +28,7 @@ export default function CompanyCard(props: Props) {
 
         <div className='foldableOrderCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
             {orderOpen?      
-               <ConfirmOrder setCheckoutOpen={(bool: boolean) => setOrderOpen(bool)} order={props.order}/>
+               <ConfirmOrder setOrderOpen={(bool: boolean) => setOrderOpen(bool)} order={props.order}/>
                : null
             } 
             <div className='foldCardHeader' style={foldCardHeader} onClick={() => setOpen(!open)}>
