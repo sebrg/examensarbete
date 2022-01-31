@@ -12,6 +12,7 @@ type Props = {
     direction: "column" | "row"
     bgColor?: string
     width?: string
+    minWidth?: string
     height?: string
     linkTo?: any
     companyId?: string
@@ -30,7 +31,7 @@ export default function ProductCard(props: Props) {
     
     return (
         props.linkTo?
-            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor, border: props.border? props.border : "1px solid black"}}>
+            <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, minWidth: props.minWidth, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor, border: props.border? props.border : "1px solid black"}}>
                 <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
                  {   <Link style={{width: "100%", height: "100%", display: "flex", alignItems: "center"}} to={props.linkTo}> 
                         <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>

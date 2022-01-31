@@ -28,7 +28,7 @@ export default function CompanyPage() {
    
     function renderProducts() {
         return ( 
-            <div style={coPage}>
+            <div className='produtWrapper noScrollBar' style={coPage}>
                 { 
                 products?    
                     products.map((product, i) => {
@@ -39,6 +39,7 @@ export default function CompanyPage() {
                                 direction="column"
                                 width='20vw'
                                 linkTo={`/company/${companyName}/${companyId}/product/${product.name}/${product.id}`} //NOTE: maybe use replace on blank spaces
+                                minWidth='160px'
                                 //imgWidth='100%'
                                 //imgHeight='auto'
                             >   
@@ -94,9 +95,12 @@ const companyPageHeader: CSSProperties = {
 const coPage: CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    //alignItems: 'center',
     width: '100%', 
     height: '90%',
+    flexWrap: "wrap",
+    overflow: "auto",
+    padding: "1em"
 }
 
