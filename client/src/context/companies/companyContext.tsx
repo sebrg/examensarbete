@@ -10,15 +10,15 @@ export interface CompanyOptions {
     addCompany: (company: Company, to: "companies" | "pendingCompanies") => Promise<StatusObject>
     getCurrentUserCompany: () => Promise<Company[]>
     getAllCompanies: (company: "companies" | "pendingCompanies") => Promise<Company[]>
-    updateCompany: (stripeId: string) => void,
+    updateCompany: (stripeId: string) => void
     setPaymentEnabled: (enabled: boolean) => void
     aproveCompany: (id: string) => void
     removeCompany: (id: string) => void
     getCompany: (from: "companies" | "pendingCompanies", queryOne: FbQuery, queryTwo?: FbQuery) => Promise<Company[]>
-    getOrdersByCompany: (userId: string, shippingStatus: string) => Promise<DocumentData>,
-    orderIsShipped:(orderId: string, shipped: string) => Promise<void>,
+    getOrdersByCompany: (userId: string, shippingStatus: string) => Promise<DocumentData>
+    orderIsShipped:(orderId: string, shipped: string) => Promise<void>
     getOrder: (orderId: string) => Promise<Order[]>
-    denyCompany: (companyId: string) => void,
+    denyCompany: (companyId: string) => void
     updateShipping: (shippingPrice: number, freeShippingOver: number) => Promise<StatusObject>
 
 }
@@ -38,6 +38,7 @@ export const CompanyContext = createContext({
     getOrder: (orderId: string) => {},
     denyCompany: (companyId: string) => {},
     updateShipping: (shippingPrice: number, freeShippingOver: number) => {}
+
 
 
 

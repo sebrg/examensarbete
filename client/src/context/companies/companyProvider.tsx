@@ -27,6 +27,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         denyCompany: this.denyCompany.bind(this),
         updateShipping: this.updateShipping.bind(this)
 
+
     }
 
     async addCompany(company: Company, to: "companies" | "pendingCompanies") {
