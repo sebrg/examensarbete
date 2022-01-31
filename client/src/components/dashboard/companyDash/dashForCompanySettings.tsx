@@ -18,14 +18,14 @@ export default function DashForCompanySettings() {
   
 
     return (
-        <div style={dashSettings}> 
+        <div id="dashForCompanySettings" style={dashSettings}> 
         {/* <h1 style={{fontSize: '1.5em'}}>this is DashForCompanySettings</h1> */}
 
-            <div style={settingsDiv}>
+            <div id="shippingSection" style={settingsDiv}>
                <DashForCompanyShipping />
             </div>
 
-            <div style={stripeDiv}>   
+            <div id="paymentSection" style={stripeDiv}>   
                 <Button border='1px solid black' width='50%' onClick={() => setActivatePaymentsOpen(!activatePaymentsOpen)} buttonText='Betalningsalternativ'/>
                 {activatePaymentsOpen?
                     <ActivatePayments />

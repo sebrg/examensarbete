@@ -30,7 +30,7 @@ export default function DashForCompanyShipping() {
 
     return (
         
-        <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+        <div id="dashForCompanyShipping" style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
 
             {openShipping?      
                <ShippingPopup setShippingOpen={(bool: boolean) => setShippingOpen(bool)} company={currentCompany as Company} getCompany={getCurrentCompany}/>

@@ -16,8 +16,8 @@ type Props = {
 export default function ShippingPopup(props: Props) {
 
     const companyContext: CompanyOptions = useContext(CompanyContext)
-    const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
-    const [shippingPrice, setShippingPrice] = useState<number>(props.company? props.company.shipping.shippingPrice : 0)
+/*     const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
+ */    const [shippingPrice, setShippingPrice] = useState<number>(props.company? props.company.shipping.shippingPrice : 0)
     const [freeShippingOver, setFreeShippingOver] = useState<number>(props.company? props.company.shipping.freeShippingOver : 0)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [statusMsg, setStatusMsg ] = useState<string | undefined>(undefined)
@@ -32,9 +32,9 @@ export default function ShippingPopup(props: Props) {
 
     return (
 
-		<div onClick={() => props.setShippingOpen(false)} id='checkout-wrap' style={checkoutWrapper}>
-            <div onClick={(event) => event.stopPropagation()} id='checkout-content' style={checkoutContent}>
-                {currentView === "start" && props.company !== undefined?
+		<div onClick={() => props.setShippingOpen(false)} id='shippingPopup-wrap' style={checkoutWrapper}>
+            <div onClick={(event) => event.stopPropagation()} id='shipping-popup' style={checkoutContent}>
+                {props.company !== undefined?
                     <div>     
                         <p style={{marginTop: '1em'}}>Fraktpris:</p>
                         <input onChange={(event) => updateShippingPrice(event)} type='number' placeholder={props.company.shipping.shippingPrice.toString()}  style={{...inputStyle, marginBottom: '1em'}} />
@@ -95,7 +95,7 @@ const checkoutWrapper: CSSProperties = {
 
 const checkoutContent: CSSProperties = {
     width: "70%",
-    height: "50%",
+/*     height: "50%", */
     backgroundColor: "#5B5EA6",
     borderRadius: "10px",
     position: "relative",
@@ -108,7 +108,8 @@ const checkoutContent: CSSProperties = {
 const inputStyle: CSSProperties = {
     border: "none", 
     width: "100%",
-    height: "20%",
+    /* height: "20%", */
+    fontSize: "1.5em",
     borderRadius: '5px',
     textAlign: 'center',
     backgroundColor: '#DFCFBE'
