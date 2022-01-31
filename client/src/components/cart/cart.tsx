@@ -28,8 +28,6 @@ export default function Cart() {
     const companyContext: CompanyOptions = useContext(CompanyContext)
     const general: GeneralOptions = useContext(GeneralContext)
    
-    console.log(window.location)
-
     const [productsInCart, setProductsInCart] = useState<Cart[]>()
     const [stripeAccountId, setStripeAccountId] = useState<string>("")
     const [checkoutOpen, setCheckoutOpen] = useState<boolean>(false)
@@ -105,7 +103,6 @@ export default function Cart() {
 
     useEffect(() => {
         console.log("productsInCart: ", productsInCart)
-        console.log(productsInCart?.length)
         if(productsInCart !== undefined || localst === null) {
             setLoading(false)
         }
@@ -122,6 +119,7 @@ export default function Cart() {
                         <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
                         : null
                     }
+                    
                 <div className="noScrollBar" style={{overflow: "auto", borderRadius: "10px"}}>    
                     {productsInCart !== undefined && productsInCart.length > 0?   
                         productsInCart.map((cartItem, i) => {

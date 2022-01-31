@@ -5,11 +5,9 @@ import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { FbQuery, Order } from '../../types';
 import { documentId } from 'firebase/firestore';
+import ConfirmOrder from './confirmOrder';
 
 //FIXME: fix styling and closing function. event.propago....
-
-
-
 
 
 type Props = {
@@ -17,34 +15,22 @@ type Props = {
 }
 
 
-export default function FoldableOrderCard(props: Props) {
+export default function CompanyCard(props: Props) {
+
+    const [orderOpen, setOrderOpen] = useState<boolean>(false)
     
     const companyContext: CompanyOptions = useContext(CompanyContext)
 
-    const [companyName, setCompanyName] = useState<string>()
-
     const [open, setOpen] = useState<boolean>(false)
-
-    const getCompanyName = async (id: string) => { //FIXME: This one should not be neccessary. Get company name in "order" in DB.
-
-        const q: FbQuery = {
-            fieldPath: documentId(),
-            opStr: "==",
-            value: id
-        } 
-
-        const company = await companyContext.getCompany("companies", q)
-        setCompanyName(company[0].name)
-    }
-
-    useEffect(() => {
-        if(props.order) {
-            getCompanyName(props.order?.companyId)
-        }
-    }, [props.order])
+   
 
     return (
+
         <div className='foldableOrderCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
+            {orderOpen?      
+               <ConfirmOrder setOrderOpen={(bool: boolean) => setOrderOpen(bool)} order={props.order}/>
+               : null
+            } 
             <div className='foldCardHeader' style={foldCardHeader} onClick={() => setOpen(!open)}>
                 <h1 style={{fontSize: "1.5em", marginTop: "auto", marginBottom: "auto"}}>{props.order?.orderDate} </h1>
                 <p style={{display: "flex", alignItems: "center"}}>Order</p>
@@ -79,13 +65,16 @@ export default function FoldableOrderCard(props: Props) {
                             )
                         })}        
                         <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "1em", fontSize: "1.5em"}}>
-                            <p style={{marginRight: '1em'}}>{"Köpt av: " + companyName}</p>
+                            <p style={{marginRight: '1em'}}>{"Köpt av: " + "kundnamn"}</p>
                             <p>{"Totalpris: " + props.order?.totalPrice + " SEK"}</p>
                             {
-                                props.order && props.order.shipped === "Yes"? 
-                                    <p style={{color: 'green', marginLeft: '1em'}}>Skickad</p>
+                                props.order? 
+                                    props.order.shipped === "Yes"?
+                                    <p style={{marginLeft: '1em', color: 'Green'}}>Skickad</p>
                                     :
-                                    <p style={{color: 'red', marginLeft: '1em'}}>Ej skickad</p>
+                                    <Button onClick={() => setOrderOpen(!orderOpen)} height='75%' margin='0px 0em 0em 1em' bgColor='green' buttonText='Skicka'/>
+                                    :
+                                    null
                             }
                         </div>
                     </div>
@@ -155,56 +144,3 @@ const foldableCardContentOpen: CSSProperties = {
 
 const foldableCardContentClosed: CSSProperties = {
 }
-    
-
-/*     <div key={i} style={{display: "flex", flexGrow: 1, flexDirection: "column", borderRadius: "10px", padding: "0.5em", margin: "0 1em 1em 1em"}}>
-    <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}>
-        {data.title}
-    </p>
-    <div style={{fontSize: "1.2em", minWidth: "300px"}}>
-        {data.info}
-    </div>
-</div>  */
-
-
-
-
-
-
-
- 
-/*                 return (
-                    <div key={i} id="foldableCompanyCard" className='foldableCompanyCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
-                        <div className='foldCardHeader' style={foldCardHeader}>
-                        <h1 style={{fontSize: "1.5em", marginTop: "auto", marginBottom: "auto"}}> Order </h1>
-                        <p style={{display: "flex", alignItems: "center"}}> {data.orderDate} </p>
-                        {open? 
-                            <BsFillArrowUpCircleFill style={{fontSize: "2rem", position: "absolute", right: 0, cursor: "pointer"}} onClick={() => setOpen(!open)}/>
-                            :
-                            <BsFillArrowDownCircleFill style={{fontSize: "2rem", position: "absolute", right: 0, cursor: "pointer"}} onClick={() => setOpen(!open)}/>
-                        }
-                        </div>
-                        {open? 
-                            <div className="foldableCardContent noScrollBar" style={open? foldableCardContentOpen : foldableCardContentClosed}>
-                                {data.products.map((product, i) => {
-                                    return (  
-                                        <div key={i} style={{display: "flex", flexGrow: 1, flexDirection: "row", backgroundColor: "lightgray", borderRadius: "10px", padding: "0.5em", margin: "0 1em 1em 1em", flexWrap: "wrap"}}>
-                                            <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}> {product.name}</p>
-                                            <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}> Kvantitet: {product.quantity} </p>
-                                            <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}> Pris: {product.unitPrice}kr/st </p>                                          
-                                        </div>
-                                    )
-                                        
-                                })}
-                                <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}> Köpt av: UF namn</p>
-                                <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}> </p>
-                                <p style={{fontSize: "1.3em", minWidth: "300px", marginBottom: "0.5em", textAlign: "center"}}> Totalpris: {data.totalPrice} {data.currency} </p>
-                        </div>
-                    :
-                    null
-                
-                </div> */
-
-                        
-    
-
