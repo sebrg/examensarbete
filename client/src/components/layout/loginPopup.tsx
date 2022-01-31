@@ -117,7 +117,7 @@ const loginPopupBackGround: CSSProperties = {
     position: "absolute",
     left: "0",
     top: "0",
-    zIndex: "10",
+    zIndex: "98",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

@@ -2,13 +2,21 @@
 /* Phone  */
 @media only screen and (max-width: 600px)  {
 
+/** Frame **/
+    #frame {
+        padding: 0 !important;
+    }
+
 /** Layout **/
     #layoutWrap {
-        width: 100% !important;
-        height: 100% !important;
         border-radius: 0 !important;
     }
 
+    #mainNav {
+        left: 0 !important;
+        padding: 2em 5px !important;
+        width: 60% !important;
+    }
 
 /*** myPages ***/
     /* userInfo */
@@ -260,5 +268,7 @@
         justify-content: initial !important;
         align-items: initial !important;
     }
+
+
 
 }
