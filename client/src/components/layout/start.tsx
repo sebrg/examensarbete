@@ -15,19 +15,16 @@ export default function Start() {
 
     
     return (
-        <div>
-            <div style={sliderHolder}>
-            <Slider></Slider>
-            </div>
+        <div id="startContentWrapp" className='noScrollBar' style={startContentWrapp}>
+   
 
           <CompanyList/>
         </div>
     );
 }
 
-const sliderHolder: CSSProperties = {
-    width: "100%", 
-    height: "30%",
-    backgroundColor: 'none'
-
+const startContentWrapp: CSSProperties = {
+    width: "100%",
+    height: "100%",
+    overflow: "auto",
 }

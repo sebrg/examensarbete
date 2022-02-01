@@ -87,13 +87,15 @@ const companyPageHeader: CSSProperties = {
     alignItems: 'center',
     justifyContent: 'center',
     width: "100%", 
-    height: "10%",
+    //height: "10%",
     backgroundColor: '#92A8D1',
-    fontSize: '3em',
+    fontSize: '1.5em',
     color: 'white',
     borderBottom: "1px solid black",
     borderBottomLeftRadius: "15px",
-    borderBottomRightRadius: "15px"
+    borderBottomRightRadius: "15px",
+    position: "sticky",
+    top: 0
 }
 
 const coPage: CSSProperties = {
