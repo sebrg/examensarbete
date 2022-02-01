@@ -7,7 +7,7 @@ export default function Policy() {
 
     return (
 
-        <div style={policyDiv}>
+        <div id="policyWrapper" className='noScrollBar' style={policyDiv}>
             <h1 style={{textAlign: 'center'}}>Köpvillkor</h1>
 
             <h2>Ångerrätt</h2>
@@ -33,5 +33,6 @@ const policyDiv: CSSProperties = {
     height: '100%',
     flexDirection: 'column',
     color: 'white',
-    padding: '1em'
+    padding: '1em',
+    overflow: "auto"
   }
