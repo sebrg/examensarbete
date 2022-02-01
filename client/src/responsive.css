@@ -134,6 +134,8 @@
         display: flex !important;
         margin: 1em 0.5em 0.5em 0.5em !important;
         justify-content: space-between;
+/*         padding: 0 1em !important;
+ */
     }
 
     #dashProductsBtnDiv .customBtn {
@@ -146,6 +148,7 @@
         width: 100% !important;
         padding: 0 0.5em 0 1em !important;
         order: 1 !important;
+        margin-top: 1em !important;
     }
 
     #dashContentForCompany {
@@ -224,6 +227,19 @@
     #shipping-popup {
         width: 100% !important;
     }
+
+    .orderProductInfo p {
+        text-align: center;
+        width: 100% !important;
+        /* margin: 0.2em !important */;
+    }
+
+    /* companyCard */
+    #companyCard {
+        width: 80% !important;
+        max-width: 100% !important;
+        align-items: center !important;
+    }
     
 
     /* Cart */ 
@@ -285,7 +301,7 @@
 }
 
 /* Pad  */
-@media only screen and (min-width: 600px) and (max-width: 1068px) {
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
     /* SingleProduct page */
     #product-reel {
         display: none !important;
@@ -318,5 +334,103 @@
     }
 
 
+    /* Dash */
+    #dashProducts {
+        padding: 0 !important;
+        height: auto !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    #dashProductsBtnDiv {
+        width: 100% !important;
+        height: 10% !important;
+        display: flex !important;
+        margin: 1em 0 1em 0 !important;
+        justify-content: space-between;
+        padding: 0 1em !important;
+    }
+
+    #dashProductsBtnDiv .customBtn {
+        font-size: 1em !important;
+        margin: 0 !important;
+        border-top: none !important;
+    }
+
+    #dashShowProducts {
+        width: 100% !important;
+        padding: 0 0.5em 0 1em !important;
+        order: 1 !important;
+        margin-top: 1em !important;
+
+    }
+    #companyDashOrdersWrapp {
+        padding: 0 !important;
+        height: auto !important;
+        flex-direction: column !important;
+    }
+    #companyDashOrderBtnDiv {
+        width: 100% !important;
+        height: 10% !important;
+        display: flex !important;
+        margin: 1em 0 1em 0 !important;
+        justify-content: space-between;
+        padding: 0 1em !important;
+    }
+
+    #companyDashOrderBtnDiv .customBtn {
+        font-size: 1em !important;
+        margin: 0 !important;
+        border-top: none !important;
+    }
+    #dashShowOrders {
+        width: 100% !important;
+        padding: 0 0.5em 0 1em !important;
+        order: 1 !important;
+        margin: 1em 0 0 0 !important;
+    }
+    .foldableCompanyOrderCard {
+        min-height: 50px !important;
+    }
+    .companyOrderCardInfo {
+        flex-direction: column !important;
+    }
+    .companyOrderCardInfo div {
+        margin: 1em 0 0 0 !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+    #dashShowShipped {
+        width: 100% !important;
+        padding: 0 0.5em 0 1em !important;
+        order: 1 !important;
+        margin: 1em 0 0 0 !important; 
+    }
+    #dashAddProducts {
+        width: 90% !important;
+        margin: 1em 0 0 0 !important;
+
+    }
+    .uploadBtnDiv {
+        position: inherit !important;
+        top: inherit , !important;
+        bottom: inherit !important;
+    }
+
+    #imgUploadInput {
+        /* FOR TESTING */
+        height: 15vh !important
+    }
+
+    .uploadBtnDiv {
+        height: 100% !important;
+    }
+
+    #imgUploadInput > label {
+        height: auto !important;
+    }
+ /*    #imgUploadInput > div {
+        height: auto !important;
+    } */
 
 }
