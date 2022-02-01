@@ -7,5 +7,7 @@ export type UserInfo = {
     adress: string,
     phoneNr: number | null,
     co: string | null,
-    id: string
+    id: string,
+    company?: string | null,
+    pendingCompany?: boolean,
 }

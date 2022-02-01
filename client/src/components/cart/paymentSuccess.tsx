@@ -103,7 +103,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
     }, [isLoading])
 
     return (
-        <div className='noScrollBar' style={successDiv}>
+        <div className='wrapper noScrollBar' style={successDiv}>
             {    
                 !isLoading?
                     <SpinnerModal fullScreen={true}/>
@@ -111,7 +111,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
                     !ifOrderExist?
                     <h1 style={{padding: '2em', fontSize: '1.5em', marginTop: '2em', color: 'white'}}>Du försöker komma åt en sida som inte finns, har du nyligen lagt en order? Gå in på 'Gamla ordrar' under fliken Mina sidor.</h1>
                     :
-                    <div style={orderCard}>
+                    <div className='sucessWrapp noScrollBar' style={orderCard}>
                         <h2  style={{marginTop: '1em', color: 'white'}}>Tack för din order!</h2>    
                             <h1 style={{marginBottom: '1em'}}> {order?.orderDate} </h1>
                             {order?             
@@ -150,5 +150,6 @@ const orderCard: CSSProperties = {
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: '#45B8AC'
+    backgroundColor: 'rgb(49, 52, 68)',
+    overflow: "auto"
 }

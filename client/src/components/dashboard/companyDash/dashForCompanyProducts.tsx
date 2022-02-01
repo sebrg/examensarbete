@@ -149,5 +149,5 @@ const dashShowProductsStyle: CSSProperties = {
     flexDirection: "column",
     width: "70%",
     padding: "0 1em",
-    overflow: "scroll"
+    overflow: "auto"
 }

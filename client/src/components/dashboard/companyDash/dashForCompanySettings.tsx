@@ -5,6 +5,7 @@ import { FirebaseContext, FirebaseOptions } from '../../../context/firebaseConte
 import Button from '../../UI/button';
 import ActivateStripe from '../../functions/activateStripe';
 import ActivatePayments from '../../functions/activatePayments';
+import DashForCompanyShipping from './dashForCompanyShipping';
 
 
 
@@ -17,14 +18,14 @@ export default function DashForCompanySettings() {
   
 
     return (
-        <div style={dashSettings}> 
+        <div id="dashForCompanySettings" style={dashSettings}> 
         {/* <h1 style={{fontSize: '1.5em'}}>this is DashForCompanySettings</h1> */}
 
-            <div style={settingsDiv}>
-                Nånting annat ...
+            <div id="shippingSection" style={settingsDiv}>
+               <DashForCompanyShipping />
             </div>
 
-            <div style={stripeDiv}>   
+            <div id="paymentSection" style={stripeDiv}>   
                 <Button border='1px solid black' width='50%' onClick={() => setActivatePaymentsOpen(!activatePaymentsOpen)} buttonText='Betalningsalternativ'/>
                 {activatePaymentsOpen?
                     <ActivatePayments />

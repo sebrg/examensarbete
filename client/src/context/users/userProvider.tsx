@@ -10,7 +10,7 @@ interface Props{}
 export default class UserProvider extends Component<Props, UserOptions>   {
 
     state: UserOptions = {
-        addUser: this.addUser.bind(this),
+        /* addUser: this.addUser.bind(this), */
         getUsers: this.getUsers.bind(this),
         signInWithGooglePopup: this.signInWithGooglePopup.bind(this),
         signInWithEmail: this.signInWithEmail.bind(this),
@@ -22,9 +22,9 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         getUserInfo: this.getUserInfo.bind(this),
     }
 
-    addUser() {
+/*     addUser() {
 
-    }
+    } */
 
     async getUsers(setState: any) {    
         const userCollectionRef = collection(firebaseCollection.db, "users")
@@ -164,18 +164,28 @@ export default class UserProvider extends Component<Props, UserOptions>   {
     }
 
 
-    async addOrUpdateUserInfo(newUserInfo: UserInfo, oldUserInfo: UserInfo | undefined, id: string) { //FIXME: split this into two functions
+    async addOrUpdateUserInfo(newUserInfo: UserInfo, id: string) { //NOTE: maybe split this into two functions
         try {
+/*             const auth = getAuth();
+            if(!auth.currentUser) {
+                return {status: 400, message: "Du saknar behörighet" } as StatusObject
+            } */
 
-            const userCollectionRef = collection(firebaseCollection.db, "userInfo")
-            const data = await getDocs(userCollectionRef);
-            const userList = data.docs.map(doc => (doc.id));
-            const foundUser = userList.find((user) => user === id)
+            const userInfo = await this.getUserInfo(id)
+            console.log("length userInfo: ", userInfo.length)
+            const checkString = (str: string) => {
+                return str === null || str === undefined || str.match(/^ *$/) !== null;
+            }
 
-            if(foundUser) {
+            const checkNr = (nr: number) => {
+                return nr === null || nr === undefined || !nr.toString().length;
+            }
+            //Update userInfo
+            if(userInfo.length) {
 
-                const clonedUserInfo = {...oldUserInfo}
-                console.log("clonedUser", clonedUserInfo.phoneNr)
+                const clonedUserInfo = {...userInfo[0]}
+
+                console.log("clonedUser b4", clonedUserInfo)
                 if(newUserInfo.firstName !== undefined) {
                     clonedUserInfo.firstName = newUserInfo.firstName
                 }
@@ -208,8 +218,25 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                     clonedUserInfo.co = newUserInfo.co
                 }
 
+                if(newUserInfo.pendingCompany !== null && newUserInfo.pendingCompany !== undefined) {
+                    console.log("in if: ", newUserInfo.pendingCompany)
+                    clonedUserInfo.pendingCompany = newUserInfo.pendingCompany
+                } 
+                else {
+                    if(!clonedUserInfo.pendingCompany) {
+                        clonedUserInfo.pendingCompany = false
+                    } 
+                }
+
+                if(newUserInfo.company !== null  && newUserInfo.company !== undefined) {
+                    clonedUserInfo.company = newUserInfo.company
+                } else if (newUserInfo.company === undefined) {
+                    clonedUserInfo.company = null
+                }
+
+                console.log(clonedUserInfo)
                 //Update userInfo
-                await setDoc(doc(firebaseCollection.db, "userInfo", foundUser), {
+                await setDoc(doc(firebaseCollection.db, "userInfo", id), {
                     firstName: clonedUserInfo.firstName,
                     surName: clonedUserInfo.surName,
                     city: clonedUserInfo.city,
@@ -217,19 +244,23 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                     zipCode: clonedUserInfo.zipCode,
                     adress: clonedUserInfo.adress,
                     phoneNr: clonedUserInfo.phoneNr as number | null,
-                    co: clonedUserInfo.co
+                    co: clonedUserInfo.co,
+                    pendingCompany: clonedUserInfo.pendingCompany,
+                    company: clonedUserInfo.company,                      
+                    
                 });
 
                 return {status: 200, message: `UserInfo has been updated` } as StatusObject    
             } 
+
+            //Add userInfo
             else {
 
                 const clonedUserInfo = {...newUserInfo}
-
-                if(clonedUserInfo.firstName === undefined || clonedUserInfo.surName === undefined || clonedUserInfo.city === undefined || clonedUserInfo.municipality === undefined || clonedUserInfo.zipCode === undefined || clonedUserInfo.adress === undefined) {
+                if(checkString(clonedUserInfo.firstName) || checkString(clonedUserInfo.surName) || checkString(clonedUserInfo.city) || checkString(clonedUserInfo.municipality) || checkNr(clonedUserInfo.zipCode) || checkString(clonedUserInfo.adress)) {
                     return {status: 400, message: "Du måste fylla i alla uppgifter som krävs" } as StatusObject
                 } 
-    
+                
                 if(clonedUserInfo.phoneNr === undefined) {
                     clonedUserInfo.phoneNr = null
                 } 
@@ -239,7 +270,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 } 
 
                 //Add userInfo
-                await setDoc(doc(firebaseCollection.db, "userInfo", id as string), {
+                await setDoc(doc(firebaseCollection.db, "userInfo", id), {
                     firstName: clonedUserInfo.firstName,
                     surName: clonedUserInfo.surName,
                     city: clonedUserInfo.city,
@@ -247,7 +278,8 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                     zipCode: clonedUserInfo.zipCode,
                     adress: clonedUserInfo.adress,
                     phoneNr: clonedUserInfo.phoneNr,
-                    co: clonedUserInfo.co
+                    co: clonedUserInfo.co,
+                    pendingCompany: false
                 });
 
                 return {status: 200, message: `UserInfo has been added` } as StatusObject

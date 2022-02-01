@@ -16,5 +16,6 @@ export interface Order {
     session_status: string,
     stripeCustomerId: string,
     stripe_acc_id: string,
-    totalPrice: number
+    totalPrice: number,
+    shipped: string
 }

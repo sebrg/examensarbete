@@ -57,7 +57,7 @@ export default function DashNav(props: Props) {
         <div id="dashNav" style={dashNavStyle}>
             {renderLinksForDashNav()}
             
-            <div style={{height: "100%", flexDirection: "column", display: "flex", justifyContent: "flex-end"}}>
+            <div id="logoutAndCompanyBtnWrap" style={{height: "100%", flexDirection: "column", display: "flex", justifyContent: "flex-end"}}>
                 {props.currentCompany !== undefined?
                     currentDashPage == props.currentCompany.id?
                         <Link to={`/${props.currentCompany.id}`} className='dashLink' style={{...dashLinkStyle, background: fullBg}}>
@@ -82,11 +82,13 @@ export default function DashNav(props: Props) {
 const dashNavStyle: CSSProperties = {
     width: "20%",
     height: "100%",
+    minWidth: "150px",
     backgroundColor: "rgb(131 159 105)",
     borderBottomRightRadius: "15px", 
     padding: "2em 0 0 0",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    position: "sticky"
 }
 
 const dashLinkStyle: CSSProperties = {

@@ -18,7 +18,7 @@ export default function DashContent(props: Props) {
 
 
     return (
-        <div id="userDashFrame" style={userDashFrameStyle}>
+        <div id="userDashFrame" className='noScrollBar' style={userDashFrameStyle}>
             <div id="userDashContent" style={userDashContentStyle}>
                 <Routes>
                         <Route index element={<DashUserInfo currentCompany={props.currentCompany}/>} />
@@ -43,6 +43,7 @@ const userDashFrameStyle: CSSProperties = {
     width: "80%",
     height: "100%",
     padding: "0px 0.5em 0px 0px ",
+    overflow: "auto"
 }
 
 const userDashContentStyle: CSSProperties = {

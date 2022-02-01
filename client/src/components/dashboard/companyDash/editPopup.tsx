@@ -179,7 +179,7 @@ const editPopupWrapperStyle: CSSProperties = {
 
 const editPopupContentStyle: CSSProperties = {
     width: "50%",
-    height: "80%",
+    minHeight: "80%",
     backgroundColor: "rgb(239, 225, 206)",
     borderRadius: "10px",
     position: "relative",
@@ -216,5 +216,6 @@ const editSubmitWrapStyle: CSSProperties = {
     display: "flex",
     width: "100%",
     padding: "0 2em",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginBottom: "1em"
 }

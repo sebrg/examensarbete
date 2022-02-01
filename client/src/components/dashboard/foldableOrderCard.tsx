@@ -47,7 +47,7 @@ export default function FoldableOrderCard(props: Props) {
         <div className='foldableOrderCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
             <div className='foldCardHeader' style={foldCardHeader} onClick={() => setOpen(!open)}>
                 <h1 style={{fontSize: "1.5em", marginTop: "auto", marginBottom: "auto"}}>{props.order?.orderDate} </h1>
-                <p style={{display: "flex", alignItems: "center"}}>datum: 01/01/22</p>
+                <p style={{display: "flex", alignItems: "center"}}>Order</p>
                 {open? 
                     <BsFillArrowUpCircleFill style={{color: "white", fontSize: "2rem", position: "absolute", /* top: 0, */ right: 0, cursor: "pointer"}} onClick={() => setOpen(!open)}/>
                     :
@@ -79,8 +79,14 @@ export default function FoldableOrderCard(props: Props) {
                             )
                         })}        
                         <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "1em", fontSize: "1.5em"}}>
-                            <p>{"Köpt av: " + companyName}</p>
+                            <p style={{marginRight: '1em'}}>{"Köpt av: " + companyName}</p>
                             <p>{"Totalpris: " + props.order?.totalPrice + " SEK"}</p>
+                            {
+                                props.order && props.order.shipped === "Yes"? 
+                                    <p style={{color: 'green', marginLeft: '1em'}}>Skickad</p>
+                                    :
+                                    <p style={{color: 'red', marginLeft: '1em'}}>Ej skickad</p>
+                            }
                         </div>
                     </div>
                         
@@ -134,7 +140,7 @@ const foldCardHeader: CSSProperties = {
     flexWrap: "wrap",
     position: "relative",
     padding: "0 5em 0 0",
-    cursor: "pointer"
+    cursor: "pointer",
 }
 
 const foldableCardContentOpen: CSSProperties = {

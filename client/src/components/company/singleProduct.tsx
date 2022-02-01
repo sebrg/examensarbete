@@ -74,7 +74,7 @@ export default function SingleProduct() {
         return (               
                 product?
                     <React.Fragment>
-                        <div style={productDetails}>
+                        <div className='singleProductInfoWrapper' style={productDetails}>
                             <h1> {product.name} </h1>
                             <h3> {product.price + " " + 'kr'} </h3>
                             <p style={marginBottom}> Product info goes here </p>
@@ -107,10 +107,10 @@ export default function SingleProduct() {
 
 
     return (
-        <div className='noScrollBar' style={singlePage}>
+        <div className='singleProductWrapper noScrollBar' style={singlePage}>
             <div id='singleProductDiv' style={singleProductDiv}>
                 {renderProduct()}
-                <div id='slider-holder' style={{width: '50%', height: '50%'}}>
+                <div id='slider-holder' className='sliderForSingleProduct' style={{width: '50%', height: '50%'}}>
                     {
                         product? 
                             <ImageSlider slides={product.images}/>
