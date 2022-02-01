@@ -173,10 +173,42 @@
         padding: 1em !important;
     }
 
-    .productCardWrapper {
-        
-       /*  padding: 0 !important; */
+    #companyDashOrdersWrapp {
+        padding: 0 !important;
+        height: auto !important;
+        flex-direction: column !important;
     }
+    #companyDashOrderBtnDiv {
+        width: auto !important;
+        height: 10% !important;
+        display: flex !important;
+        margin: 1em 0.5em 0.5em 0.5em !important;
+        justify-content: space-between;
+    }
+
+    #companyDashOrderBtnDiv .customBtn {
+        font-size: 1em !important;
+        margin: 0 !important;
+        border-top: none !important;
+    }
+    #dashShowOrders {
+        width: 100% !important;
+        padding: 0 0.5em 0 1em !important;
+        order: 1 !important;
+        margin: 1em 0 0 0 !important;
+    }
+    .foldableCompanyOrderCard {
+        min-height: 50px !important;
+    }
+    .companyOrderCardInfo {
+        flex-direction: column !important;
+    }
+    .companyOrderCardInfo div {
+        margin: 1em 0 0 0 !important;
+        width: 100% !important;
+    }
+
+    
 
     /* Cart */ 
     #cartWrapper {
