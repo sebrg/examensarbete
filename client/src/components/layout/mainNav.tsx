@@ -60,7 +60,17 @@ export default function MainNav(props: Props) {
                     if(props.scrollContentIntoView) {
                         props.scrollContentIntoView(true)
                     }
-                }}/>               
+                }}/>         
+
+                <Button margin='0.5em 0 0 0' width='100%' color='white' bgColor='rgb(52 86 139)' border='1px solid white' linkTo={"/products"} buttonText='Produkter' onClick={() => {
+                    props.setNavToggle(false)
+                    if(props.scrollContentIntoView) {
+                        props.scrollContentIntoView(true)
+                    }
+                }}/>  
+
+
+
                 <Button margin='0.5em 0 0 0' width='100%' color='white' bgColor='rgb(52 86 139)' border='1px solid white' linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' onClick={() => {
                     props.setNavToggle(false)
                     if(props.scrollContentIntoView) {
