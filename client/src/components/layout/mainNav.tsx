@@ -126,7 +126,7 @@ const mainNavStyle: CSSProperties = {
     backgroundColor: "rgb(230 230 230 / 50%)",
     borderTopRightRadius: "10px",
     borderBottomRightRadius: "10px",
-    boxShadow: "0px 5px 5px -2px black",
+    boxShadow: "5px 5px 5px -2px black",
     borderTop: "2px solid white",
     borderRight: "2px solid white",
     borderBottom: "2px solid white",
