@@ -3,6 +3,7 @@ import { CompanyContext, CompanyOptions } from '../../../context/companies/compa
 import { Company } from '../../../models';
 import SpinnerModal from '../../functions/spinnerModal';
 import Button from '../../UI/button';
+import { AiOutlineClose } from 'react-icons/ai';
 
 
 
@@ -34,39 +35,36 @@ export default function ShippingPopup(props: Props) {
 
 		<div onClick={() => props.setShippingOpen(false)} id='shippingPopup-wrap' style={checkoutWrapper}>
             <div onClick={(event) => event.stopPropagation()} id='shipping-popup' style={checkoutContent}>
-                {props.company !== undefined?
-                    <div>     
-                        <p style={{marginTop: '1em'}}>Fraktpris:</p>
-                        <input onChange={(event) => updateShippingPrice(event)} type='number' placeholder={props.company.shipping.shippingPrice.toString()}  style={{...inputStyle, marginBottom: '1em'}} />
-                        <p>Gratis frakt om över:</p>
-                        <input onChange={(event) => updateFreeShippingOver(event)} type='number' placeholder={props.company.shipping.freeShippingOver.toString()} style={inputStyle} />
-                        <Button bgColor='#04AA6D' border='1px solid black' margin='1em 0 1em 0' buttonText='Uppdatera' onClick={ async () => {
-                        setIsLoading(true)
-                        let result = await companyContext.updateShipping(shippingPrice, freeShippingOver)
-                        if(result.status) {
-                            setStatusMsg(result.message)
-                            setTimeout(() => {
-                                if(result.status === 200) {
-                                    props.setShippingOpen(false)
-                                    props.getCompany()
-                                    setStatusMsg(undefined)
-                                    setIsLoading(false)
-                                } else { 
-                                    props.getCompany()
-                                    setStatusMsg(undefined)
-                                    setIsLoading(false)
-                                }
-                            }, 2000);
-                        }
+                <AiOutlineClose style={{color: "white", cursor: "pointer", position: "absolute", top: "5px", right: "5px"}} fontSize={"1.5em "} onClick={() => props.setShippingOpen(false)}/>
+                <div className='inputWrapp' style={{...inputWrapStyle, margin: "2em 0 0 0"}}>
+                    <p> Fraktpris: </p>
+                    <input className='removeInputOutline' onChange={(event) => updateShippingPrice(event)} type='number' placeholder={props.company.shipping.shippingPrice.toString()}  style={{...inputStyle}} />
+                </div>
 
-                    }}/> 
-                        <Button onClick={() => props.setShippingOpen(false)} bgColor='#DD4124' border='1px solid black' margin='0em 0 1em 0' buttonText='Stäng' />
-                    </div>
-                    
-                    :
-                    null 
-                }
-        
+                <div className='inputWrapp' style={{...inputWrapStyle, margin: "2em 0 0 0"}}>
+                    <p style={{whiteSpace: "nowrap"}}>Gratis frakt om över:</p>
+                    <input className='removeInputOutline' onChange={(event) => updateFreeShippingOver(event)} type='number' placeholder={props.company.shipping.freeShippingOver.toString()} style={inputStyle} />
+                </div>
+
+                <Button bgColor='#04AA6D' border='1px solid black' margin='1em 0 0.5em 0' buttonText='Uppdatera' onClick={ async () => {
+                    setIsLoading(true)
+                    let result = await companyContext.updateShipping(shippingPrice, freeShippingOver)
+                    if(result.status) {
+                        setStatusMsg(result.message)
+                        setTimeout(() => {
+                            if(result.status === 200) {
+                                props.setShippingOpen(false)
+                                props.getCompany()
+                                setStatusMsg(undefined)
+                                setIsLoading(false)
+                            } else { 
+                                props.getCompany()
+                                setStatusMsg(undefined)
+                                setIsLoading(false)
+                            }
+                        }, 2000);
+                    }
+                }}/> 
             </div>
                 {isLoading? 
                     <SpinnerModal fullScreen={true} message={statusMsg} />
@@ -94,9 +92,8 @@ const checkoutWrapper: CSSProperties = {
 }
 
 const checkoutContent: CSSProperties = {
-    width: "70%",
-/*     height: "50%", */
-    backgroundColor: "#5B5EA6",
+    width: "50%",
+    backgroundColor: "rgb(239, 225, 206)",
     borderRadius: "10px",
     position: "relative",
     display: "flex",
@@ -112,5 +109,23 @@ const inputStyle: CSSProperties = {
     fontSize: "1.5em",
     borderRadius: '5px',
     textAlign: 'center',
-    backgroundColor: '#DFCFBE'
+    backgroundColor: 'white',
 }    
+
+const inputWrapStyle: CSSProperties = {
+    width: "100%",
+    minWidth: "250px",
+    margin: "0 0 0.5em 0",
+    display: "flex", 
+    backgroundColor: "white", 
+    color: "black", 
+    overflow: "hidden", 
+    borderRadius: "10px",
+    alignItems: "center",
+    padding: "0 0 0 0.5em"
+}
+
+
+
+{/* <Button onClick={() => props.setShippingOpen(false)} bgColor='#DD4124' border='1px solid black' margin='0em 0 1em 0' buttonText='Stäng' />
+ */}

@@ -18,25 +18,28 @@ export default function DashForCompanySettings() {
   
 
     return (
-        <div id="dashForCompanySettings" style={dashSettings}> 
-        {/* <h1 style={{fontSize: '1.5em'}}>this is DashForCompanySettings</h1> */}
+        <div id="dashForCompanySettings" style={dashForCompanySettings}> 
 
-            <div id="shippingSection" style={settingsDiv}>
+            <div id="shippingSection" style={shippingSection}>
                <DashForCompanyShipping />
             </div>
 
-            <div id="paymentSection" style={stripeDiv}>   
+            <div id="paymentSection" style={paymentSection}>   
                 <Button border='1px solid black' width='50%' onClick={() => setActivatePaymentsOpen(!activatePaymentsOpen)} buttonText='Betalningsalternativ'/>
-                {activatePaymentsOpen?
-                    <ActivatePayments />
+           
+            </div>
+
+            {activatePaymentsOpen?
+                    <ActivatePayments setActivatePaymentsOpen={setActivatePaymentsOpen} />
                     : null
-                }
-            </div>  
+            } 
+           
         </div>   
+        
     );
 }
 
-const dashSettings: CSSProperties = {
+const dashForCompanySettings: CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
@@ -44,14 +47,16 @@ const dashSettings: CSSProperties = {
     flexDirection: 'column',
 }
 
-const stripeDiv: CSSProperties = {
+const paymentSection: CSSProperties = {
+    display: "flex",
     width: '100%',
-    height: '50%',
-    backgroundColor: '#34568B',
+    marginTop: "auto",
+    justifyContent: "center",
+    padding: "0 0 1em 0"
 }
 
-const settingsDiv: CSSProperties = {
+const shippingSection: CSSProperties = {
     width: '100%',
-    height: '50%',
-    backgroundColor: '#92A8D1'
+    //height: '50%',
+  //  backgroundColor: '#92A8D1'
 } 

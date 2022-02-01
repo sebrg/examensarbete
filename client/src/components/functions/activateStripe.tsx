@@ -98,5 +98,7 @@ const StripeActivation: CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: '1em',
+    width: "100%",
+    height: "100%",
 }
 

@@ -101,7 +101,7 @@
         border: none !important;
         padding:  0.2em !important;
         flex-wrap: wrap !important;
-        height: auto !important;
+        height: 10% !important;
         position: sticky !important;
         top: 0 !important;
         background-color: rgb(184 196 188) !important;
@@ -206,13 +206,29 @@
     .companyOrderCardInfo div {
         margin: 1em 0 0 0 !important;
         width: 100% !important;
+        text-align: center !important;
+    }
+    #dashShowShipped {
+        width: 100% !important;
+        padding: 0 0.5em 0 1em !important;
+        order: 1 !important;
+        margin: 1em 0 0 0 !important; 
     }
 
+    #dashForCompanySettings {
+        height: 90% !important
+    }
+    #shippingPopup-wrap {
+        padding: 1em !important;
+    }
+    #shipping-popup {
+        width: 100% !important;
+    }
     
 
     /* Cart */ 
     #cartWrapper {
-        padding: 1em 0 0 0 !important;
+        padding: 1em 0.5em !important;
         margin: 0 0 1em 0;
     }
     .cartSection {
