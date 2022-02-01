@@ -78,14 +78,14 @@ export default function FoldableOrderCard(props: Props) {
                                 </div>
                             )
                         })}        
-                        <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "1em", fontSize: "1.5em"}}>
-                            <p style={{marginRight: '1em'}}>{"Köpt av: " + companyName}</p>
-                            <p>{"Totalpris: " + props.order?.totalPrice + " SEK"}</p>
+                        <div className={"orderProductInfo"} style={{display: "flex", width: "100%", justifyContent: "space-between", marginTop: "1em", fontSize: "1.5em", flexWrap: "wrap"}}>
+                            <p style={{width: "50%"}}>{"Köpt av: " + companyName}</p>
+                            <p style={{width: "50%"}}>{"Totalpris: " + props.order?.totalPrice + " SEK"}</p>
                             {
                                 props.order && props.order.shipped === "Yes"? 
-                                    <p style={{color: 'green', marginLeft: '1em'}}>Skickad</p>
+                                    <p className='orderSentStatus' style={{margin: "1em 0 0 0", textAlign: "center", width: "100%", color: 'green', /* marginLeft: '1em' */}}>Skickad</p>
                                     :
-                                    <p style={{color: 'red', marginLeft: '1em'}}>Ej skickad</p>
+                                    <p className='orderSentStatus' style={{margin: "1em 0 0 0", textAlign: "center", width: "100%", color: 'red', /* marginLeft: '1em' */}}>Ej skickad</p>
                             }
                         </div>
                     </div>

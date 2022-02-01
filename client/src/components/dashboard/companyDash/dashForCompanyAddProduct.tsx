@@ -100,7 +100,7 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                     type="number"
                     onChange={(event) => updateQuantity(event)}
                 />
-                <select value={selectedCategory} onChange={(event) => updateCategory(event)} id="product-select" style={{width: '100%', textAlign: 'center', minHeight: '30px', marginBottom: '1em'}}>
+                <select value={selectedCategory} onChange={(event) => updateCategory(event)} id="product-select" style={{width: '100%', textAlign: 'center', minHeight: '30px', marginBottom: '1em', fontSize: "1.2em", padding: "0.5em"}}>
                     {productCategories?
                         productCategories.map((category) => {
                             return (

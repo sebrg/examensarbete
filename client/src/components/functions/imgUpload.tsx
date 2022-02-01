@@ -44,7 +44,7 @@ export default function ImgUpload(props: Props) {
         <div id="imgUploadInput" style={props.style}>
 
             <label style={{position: "relative", minWidth: "20%", height: "100%"}}>
-                <div style={uploadBtn}>
+                <div className="uploadBtnDiv" style={uploadBtn}>
                     <AiOutlineFileAdd fontSize={"4em"}/>
                 </div>
                 <input 
