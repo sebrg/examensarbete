@@ -6,6 +6,7 @@ import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import SpinnerModal from '../functions/spinnerModal';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
+import { UserInfo } from '../../types';
 
 type Cart = {
     companyId: string
@@ -20,6 +21,7 @@ type Props = {
     stripeAccountId: string,
     cartItem: Cart,
     purchaseTerms: boolean
+    userInfo: UserInfo
 }
 
 
@@ -43,7 +45,18 @@ export default function CheckoutStripe(props: Props) {
           		method: "POST",
           		headers: {"content-type": "application/json"},
           		credentials: 'include',
-                body: JSON.stringify({products: props.cartItem.products, companyId: props.cartItem.companyId, userId: userId, stripeId: props.stripeAccountId, shippingPrice: props.cartItem.shippingPrice, freeShippingOver: props.cartItem.freeShippingOver, companyName: props.cartItem.companyName, purchaseTerms: props.purchaseTerms, path: window.location.origin})
+                body: JSON.stringify({
+                    products: props.cartItem.products, 
+                    companyId: props.cartItem.companyId, 
+                    userId: userId, 
+                    stripeId: props.stripeAccountId, 
+                    shippingPrice: props.cartItem.shippingPrice, 
+                    freeShippingOver: props.cartItem.freeShippingOver, 
+                    companyName: props.cartItem.companyName, 
+                    purchaseTerms: props.purchaseTerms, 
+                    path: window.location.origin,
+                    userInfo: props.userInfo
+                })
       		})
 
 			const data = await response.json()
