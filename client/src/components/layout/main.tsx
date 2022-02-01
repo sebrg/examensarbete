@@ -20,6 +20,7 @@ import CompanyPage from '../company/companyPage';
 type Props = {
 	isLoggedIn: boolean | undefined
 	passedRef?: React.MutableRefObject<HTMLInputElement>
+	setLoginToggle: any
 }
 
 export default function Main(props: Props) {
@@ -39,7 +40,7 @@ export default function Main(props: Props) {
 					} 
 				/>
 				<Route path='/userNotFound' element={<UserNotFound/>} />
-				<Route path='/cart/:userId' element={<Cart/>} />
+				<Route path='/cart/:userId' element={<Cart isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} />} />
 				<Route path={"/success/:stripeId/:sessionId/"} element={<PaymentSuccess />} />
 				<Route path={"/cancel/:stripeId/:sessionId/"} element={<PaymentCancel />} />
 				<Route path={"/policy"} element={<Policy/>} />  

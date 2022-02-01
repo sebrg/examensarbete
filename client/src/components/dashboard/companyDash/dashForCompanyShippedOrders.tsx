@@ -3,7 +3,7 @@ import { useMatch } from 'react-router-dom';
 import { CompanyContext, CompanyOptions } from '../../../context/companies/companyContext';
 import { Order } from '../../../types';
 import SpinnerModal from '../../functions/spinnerModal';
-import CompanyCard from '../companyCard';
+import CompanyCard from '../foldableCompanyOrderCard';
 
 
 export default function DashForCompanyShippedOrders() {

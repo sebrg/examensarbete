@@ -28,7 +28,7 @@ export default function DashUserInfo(props: Props) {
      
     //const updatedUserInfo: Array<any> = [firstName, surName, city, municipality, zipCode, adress, phoneNr, co]
 
-  
+
 
     const getCurrentUserInfo = async () => {
         if(idFromUrl !== undefined) {
@@ -108,7 +108,7 @@ export default function DashUserInfo(props: Props) {
                         
                     </div>
                     : showOrEdit === "edit"? 
-                        <DashEditUserInfo userInfo={userInfo} currentCompany={props.currentCompany} setShowOrEdit={(showOrEdit) => setShowOrEdit(showOrEdit)}/>
+                        <DashEditUserInfo idFromUrl={idFromUrl as string} userInfo={userInfo} currentCompany={props.currentCompany} setShowOrEdit={(showOrEdit) => setShowOrEdit(showOrEdit)}/>
                         : null
                         
     );

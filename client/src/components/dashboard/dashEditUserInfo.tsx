@@ -11,13 +11,14 @@ type Props = {
     currentCompany: Pick<Company, "name" | "id"> | undefined
     userInfo: UserInfo | undefined
     setShowOrEdit: (param: "show" | "edit") => void
+    idFromUrl: string
 }
 
 export default function DashEditUserInfo(props: Props) {
 
     const userContext: UserOptions = useContext(UserContext)
 
-    const idFromUrl = useMatch("myPages/:userId/*")?.params.userId;
+   /*  const idFromUrl = useMatch("myPages/:userId/*")?.params.userId; */
 
     const [addOrEdit, setAddOrEdit] = useState<"add" | "edit">()
     const [loading, setLoading] = useState<boolean>(false)
@@ -47,7 +48,7 @@ export default function DashEditUserInfo(props: Props) {
             adress: adress as string,
             phoneNr: phoneNr as number,    
             co,
-            id: idFromUrl as string
+            id: props.idFromUrl as string
         }    
         return updatedUserInfo
     }
@@ -193,7 +194,7 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
                     console.log("userinfo", props.userInfo) 
-                    const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), idFromUrl as string)
+                    const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), props.idFromUrl as string)
                         console.log("dashEditUserInfo: ", phoneNr)
                         if(result.status === 200) {
                             setStatusMsg(result.message)
