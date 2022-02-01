@@ -40,12 +40,12 @@ export default function DashForCompanyOrders() {
 
 
     return (
-        <div>
+        <div id="companyDashOrdersWrapp" style={companyDashOrderWrappStyle}>
 
-            <div id="dashOrderDiv" style={{flexDirection: 'row', display: 'flex'}}>
+            <div id="companyDashOrderBtnDiv" style={companyDashOrderBtnDivStyle}>
                             <Button 
-                                margin='0 0.5em 0.5em 0' 
-                                width="50%"  
+                                margin='0 0 0.5em 0' 
+                                /*   width="50%"   */
                                 border="2.5px solid white"
                                 buttonText='Inkomna ordrar' 
                                 bgColor={viewAlternative === "show"? "white" : ""}
@@ -57,7 +57,7 @@ export default function DashForCompanyOrders() {
                             <Button 
                                 onClick={() => setViewAlternative('showShipped')} 
                                 margin='0 0 0.5em 0' 
-                                width="50%" 
+                             /*    width="50%"  */
                                 border="2.5px solid white"
                                 buttonText='Skickade ordrar'
                                 bgColor={viewAlternative === "showShipped"? "white" : ""}
@@ -69,9 +69,9 @@ export default function DashForCompanyOrders() {
                     {viewAlternative === "show"? 
                         
                         oldOrders === undefined? 
-                            <SpinnerModal/>
+                            <SpinnerModal fullScreen={true}/>
                             : oldOrders?.length?
-                            <div id="orderWrapp" className='noScrollBar' style={{height: '85%', overflow: 'auto', padding: "1em"}}>
+                            <div id="dashShowOrders" className='noScrollBar' style={dashShowOrdersStyle}>
                                 {oldOrders?.map((order, key) => {
                                     return (
                                             <CompanyCard key={key} order={order}/>
@@ -96,3 +96,24 @@ export default function DashForCompanyOrders() {
 
     );
 }
+
+const companyDashOrderWrappStyle: CSSProperties = {
+    width: "100%",
+    height: "85%",
+    padding: "1em",
+    display: "flex",
+
+}
+
+const companyDashOrderBtnDivStyle: CSSProperties = {
+    width: "30%"
+}
+
+const dashShowOrdersStyle: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    width: "70%",
+    padding: "0px 1em",
+    overflow: "auto"
+}
+

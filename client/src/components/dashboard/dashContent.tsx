@@ -18,7 +18,7 @@ export default function DashContent(props: Props) {
 
 
     return (
-        <div id="userDashFrame" style={userDashFrameStyle}>
+        <div id="userDashFrame" className='noScrollBar' style={userDashFrameStyle}>
             <div id="userDashContent" style={userDashContentStyle}>
                 <Routes>
                         <Route index element={<DashUserInfo currentCompany={props.currentCompany}/>} />

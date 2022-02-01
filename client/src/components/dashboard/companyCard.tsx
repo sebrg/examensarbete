@@ -26,12 +26,12 @@ export default function CompanyCard(props: Props) {
 
     return (
 
-        <div className='foldableOrderCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
+        <div className='foldableCompanyOrderCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
             {orderOpen?      
                <ConfirmOrder setOrderOpen={(bool: boolean) => setOrderOpen(bool)} order={props.order}/>
                : null
             } 
-            <div className='foldCardHeader' style={foldCardHeader} onClick={() => setOpen(!open)}>
+            <div className='foldableCompanyOrderCardHeader' style={foldCardHeader} onClick={() => setOpen(!open)}>
                 <h1 style={{fontSize: "1.5em", marginTop: "auto", marginBottom: "auto"}}>{props.order?.orderDate} </h1>
                 <p style={{display: "flex", alignItems: "center"}}>Order</p>
                 {open? 
@@ -41,13 +41,13 @@ export default function CompanyCard(props: Props) {
                 }
             </div>
             {open? 
-                <div className="foldableCardContent noScrollBar" style={open? foldableCardContentOpen : foldableCardContentClosed}>
+                <div className="foldableCompanyOrderCardContent" style={open? foldableCardContentOpen : foldableCardContentClosed}>
                 
                         
                     <div className='orderProductWrapper' style={{backgroundColor: "lightgray", borderRadius: "10px", padding: "1em", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
                         {props.order?.products.map((product, key) => {
                             return (
-                                <div key={key} className='orderProduct' style={{color: "black", backgroundColor: "rgb(221 221 221)", padding: "0.5em", borderRadius: "10px", minWidth: "250px", maxWidth: "500px", /* width: "30%", */ flexGrow: "1", display: "flex", flexWrap: "wrap", justifyContent: "space-between", margin: "1em"}}>
+                                <div key={key} className='companyOrder' style={{color: "black", backgroundColor: "rgb(221 221 221)", padding: "0.5em", borderRadius: "10px", minWidth: "250px", maxWidth: "500px", /* width: "30%", */ flexGrow: "1", display: "flex", flexWrap: "wrap", justifyContent: "space-between", margin: "1em"}}>
                                     
                                     <div style={{}}>
                                         <p style={{fontSize: "1em"}}>Namn: </p>
@@ -64,8 +64,9 @@ export default function CompanyCard(props: Props) {
                                 </div>
                             )
                         })}        
-                        <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "1em", fontSize: "1.5em"}}>
-                            <p style={{marginRight: '1em'}}>{"Köpt av: " + "kundnamn"}</p>
+
+                        <div className='companyOrderCardInfo' style={{display: "flex", width: "100%", alignItems: "center", justifyContent: "space-around", marginTop: "1em", fontSize: "1.5em"}}>
+                         {/*    <p style={{marginRight: '1em'}}>{"Köpt av: " + "kundnamn"}</p> */}
                             <p>{"Totalpris: " + props.order?.totalPrice + " SEK"}</p>
                             {
                                 props.order? 
@@ -89,10 +90,6 @@ export default function CompanyCard(props: Props) {
             
         </div>
     )
-}
-
-const orderDiv: CSSProperties = {
-
 }
 
 const foldableCompanyCardOpen: CSSProperties = {
@@ -138,7 +135,7 @@ const foldableCardContentOpen: CSSProperties = {
     height: "80%",
     padding: "1em",
     alignContent: "flex-start",
-    overflow: "scroll",
+    //overflow: "scroll",
     width: "100%"
 }
 
