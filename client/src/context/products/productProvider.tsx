@@ -34,7 +34,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             addPendingOrder: this.addPendingOrder.bind(this),
             addQuantityOnExpiredOrder: this.addQuantityOnExpiredOrder.bind(this),
             verifyCheckoutSession: this.verifyCheckoutSession.bind(this),
-            getOrdersByUser: this.getOrdersByUser.bind(this)
+            getOrdersByUser: this.getOrdersByUser.bind(this),
+            getProductCategories: this.getProductCategories.bind(this)
         },
         allProducts: []
     }
@@ -42,13 +43,14 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         try {
             let currentCompany = await this.context.getCurrentUserCompany()
             //const imgTest = await this.upLoadImg(product.img)
-    
+            console.log(product.category, "in provider")
             let productData = {
                 name: product.name as string,
                 price: product.price as number,
                 company: currentCompany[0].id as string,
                 images: [] as any[],
-                quantity: product.quantity as number
+                quantity: product.quantity as number,
+                category: product.category as string
             }
     
             if(product.images) {
@@ -358,6 +360,17 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             });     
             console.log("Removed", QuantityToRemove, "on product:", productId)   
         }
+    }
+
+    async getProductCategories() {
+        const result: DocumentData[] = []
+        const q = query(collection(firebaseCollection.db, "categories"), where(documentId(), "==", "productCategories"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            result.push({id: doc.id, ...doc.data()})
+          });
+
+          return result
     }
 
     render() {

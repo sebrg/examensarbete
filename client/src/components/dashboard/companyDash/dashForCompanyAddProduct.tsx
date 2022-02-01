@@ -1,11 +1,13 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
-import { Product } from "../../../models";
 import ImgPreview from "../../functions/imgPreview";
 import Button from "../../UI/button";
-import { AiOutlineFileAdd } from 'react-icons/ai';
+import { AiOutlineConsoleSql, AiOutlineFileAdd } from 'react-icons/ai';
 import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import ImgUpload from "../../functions/imgUpload";
 import SpinnerModal from "../../functions/spinnerModal";
+import { DocumentData } from "firebase/firestore";
+import { forEachChild } from "typescript";
+import { Product } from "../../../types";
 
 /* type Props = {
     getAndSetProducts: () => void
@@ -17,9 +19,11 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
     const [quantity, setQuantity] = useState<number>(0)
+    const [selectedCategory, setSelectedCategory] = useState<string>("Övrigt")
     const [imgArr, setImgArr] = useState<string[] | Blob[] | MediaSource[] | object[] | undefined>(undefined) //NOTE: any type, no good!
     const [loading, setIsLoading] =  useState<boolean>(false)
     const [statusMsg, setStatusMsg] = useState<string | undefined>(undefined)
+    const [productCategories, setProductCategories] = useState<string[]>()
 
     const updateName = (event: any) => {
         event? setName(event.target.value) : setName("")
@@ -33,11 +37,16 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
         event? setQuantity(event.target.value) : setQuantity(0) //NOTE: is 0 really a good fallback?
     }
 
+    const updateCategory = (event: any) => {
+        event? setSelectedCategory(event.target.value) : setSelectedCategory("Övrigt")
+    }
+    
+
 
 
     const addProductAndSetLoading = ( async () => {
         setIsLoading(true)
-        const status = await productContext.functions.addProduct(new Product(name, price, imgArr, undefined, undefined, quantity))
+        const status = await productContext.functions.addProduct({name: name, price: price, images: imgArr, quantity: quantity, category: selectedCategory} as Product)
         //const status = await Promise.all([addProductAndGetStatus]) 
         if(status) {
             setStatusMsg(status.message) 
@@ -47,11 +56,29 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
             }, 2000);
         }
     })
+
+    const getProductCategories = async () => {
+        const categories = await productContext.functions.getProductCategories()
+        setProductCategories(categories[0].categories)
+    }
+
     
     //FIXME: listen to status message, and update products and close popup when msg is ok
     useEffect(() => {
 
     }, [statusMsg])
+
+    useEffect(() => {
+        getProductCategories()
+    }, [])
+
+    useEffect(() => {
+
+    }, [productCategories])
+
+    useEffect(() => {
+        
+    }, [selectedCategory])
 
     return (
             <div id="dashAddProducts" style={dashAddProductsStyle}>
@@ -73,6 +100,18 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                     type="number"
                     onChange={(event) => updateQuantity(event)}
                 />
+                <select value={selectedCategory} onChange={(event) => updateCategory(event)} id="product-select" style={{width: '100%', textAlign: 'center', minHeight: '30px', marginBottom: '1em'}}>
+                    {productCategories?
+                        productCategories.map((category) => {
+                            return (
+                                <option value={category}> {category} </option>
+                            )
+                        })
+                        : null
+                    }      
+                </select>
+                
+                
 
 
             
