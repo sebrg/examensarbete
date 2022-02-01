@@ -1,3 +1,5 @@
+import { UserInfo } from './userInfo'
+
 interface ProductInOrder {
     name: string,
     quantity: number,
@@ -17,5 +19,6 @@ export interface Order {
     stripeCustomerId: string,
     stripe_acc_id: string,
     totalPrice: number,
-    shipped: string
+    shipped: string,
+    userInfo: UserInfo
 }
