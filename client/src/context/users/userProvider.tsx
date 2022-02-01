@@ -185,7 +185,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
 
                 const clonedUserInfo = {...userInfo[0]}
 
-                console.log("clonedUser", clonedUserInfo)
+                console.log("clonedUser b4", clonedUserInfo)
                 if(newUserInfo.firstName !== undefined) {
                     clonedUserInfo.firstName = newUserInfo.firstName
                 }
@@ -228,9 +228,9 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                     } 
                 }
 
-                if(newUserInfo.company !== null && newUserInfo.company !== undefined) {
+                if(newUserInfo.company !== null  && newUserInfo.company !== undefined) {
                     clonedUserInfo.company = newUserInfo.company
-                } else {
+                } else if (newUserInfo.company === undefined) {
                     clonedUserInfo.company = null
                 }
 
