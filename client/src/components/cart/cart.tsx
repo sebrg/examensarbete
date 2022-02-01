@@ -11,6 +11,7 @@ import SpinnerModal from '../functions/spinnerModal';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 
 
+
 type Cart = {
     companyId: string
     companyName: string
@@ -20,11 +21,16 @@ type Cart = {
     products: Product[]
 }
 
+type Props = {
+    isLoggedIn: any
+    setLoginToggle: any
+}
+
 /**
  * The cart synchronize ID'S saved in the localstorage to fetch the correct product data from the DB and 
  * then combine the quantity from localstorage with the product data from DB into state("productsInCart")
  * */ 
-export default function Cart() {
+export default function Cart(props: Props) {
 
     const productContext: ProductOptions = useContext(ProductContext)
     const companyContext: CompanyOptions = useContext(CompanyContext)
@@ -120,7 +126,7 @@ export default function Cart() {
             : <div id="cartWrapper" style={cartWrapperStyle}>
                 
                     {checkoutOpen?      
-                        <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
+                        <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} />
                         : null
                     }
                     
