@@ -37,21 +37,19 @@ export default function DashForCompanyShipping() {
                : null
             }
 
-            <h1 style={{color: 'black', marginTop:'1em'}}>Företagets fraktkostnader</h1>
+            <h1 style={{color: 'black', marginTop:'1em', fontSize: "1.5em"}}>Företagets fraktkostnader</h1>
                 {currentCompany !== undefined?
-                    <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '1em'}}> 
-                        <h1> Fraktpris: {currentCompany.shipping.shippingPrice} kr </h1>
-                        <h1> Gratis frakt över: {currentCompany.shipping.freeShippingOver} kr </h1>
-                        <Button onClick={() => setShippingOpen(!openShipping)} icon={<BiEdit size="2.5em"/>}></Button>
+                    <div style={{textAlign: "center", display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '1em', width: "100%"}}> 
+                        <p> Fraktpris: {currentCompany.shipping.shippingPrice} kr </p>
+                        <p> Gratis frakt över: {currentCompany.shipping.freeShippingOver} kr </p>
+                        <div className='btnWrapp' style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
+                            <Button onClick={() => setShippingOpen(!openShipping)} icon={<BiEdit size="2.5em"/>}></Button>
+                        </div>
                     </div>
                     : null
                 }
 
-           {/*  <Button icon={<BiEdit size="1.5em"/>}></Button> */}
-           {/*  <p style={{marginTop: '1em'}}>Fraktpris:</p>
-            <input type='number' style={{...inputStyle, marginBottom: '1em'}} />
-            <p>Gratis frakt om över:</p>
-            <input type='number' style={inputStyle} /> */}
+
         </div>
 
     );
