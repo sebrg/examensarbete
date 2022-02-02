@@ -271,9 +271,7 @@
 /* Pad  */
 @media only screen and (min-width: 600px) and (max-width: 1068px) {
     /* SingleProduct page */
-    #product-reel {
-        display: none !important;
-    }
+    
     #singleProductDiv {
         flex-direction: column !important;
         width: 100% !important;
@@ -303,4 +301,10 @@
 
 
 
+}
+
+@media only screen and (min-width: 600px) and (max-width: 870px) {
+    #product-reel {
+         display: none !important;
+     }
 }
