@@ -1,4 +1,4 @@
-import { DocumentData, FieldPath, WhereFilterOp } from 'firebase/firestore'
+import { DocumentData, FieldPath, QueryConstraint, WhereFilterOp } from 'firebase/firestore'
 import { createContext } from 'react'
 import { Company, Product } from "../../models"
 import { StatusObject } from '../../types'
@@ -14,8 +14,8 @@ export interface ProductFunctions {
     getProductsFromCompany: (companyId: string) => Promise<Product[]>
     upLoadImg: (file: any) => void 
     //getSingleProduct: (docId: string) => Promise<Product | undefined> //FIXME: should not be allowed to be undefined
+    getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[], limit: QueryConstraint) => Promise<Product[]>
     getAllProducts: () => Promise<Product[]>
-    getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => Promise<Product[]>
     deleteProduct: (product: Product) => Promise<StatusObject>
     updateProduct: (oldProduct: Product, newProduct: Product) => Promise<StatusObject>
     addOrder: (sessionId: string, stripeCustomer: string) => void
@@ -36,7 +36,7 @@ export const ProductContext = createContext({
         upLoadImg: (file: any) => {},
         //getSingleProduct: (docId: string) => {},
         getAllProducts: () => {},
-        getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) => {},
+        getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[], limit: QueryConstraint) => {},
         deleteProduct: (product: Product) => {},
         updateProduct: (oldProduct: Product, newProduct: Product) => {},
         addOrder: (sessionId: string, stripeCustomer: string) => {},

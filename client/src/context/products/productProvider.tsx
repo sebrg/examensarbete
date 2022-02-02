@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, documentId, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FieldPath, getDoc, getDocs, query, setDoc, where, WhereFilterOp, WithFieldValue, deleteDoc, documentId, updateDoc, limit, QueryConstraint } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { ProductContext, ProductOptions, } from "./productContext"
@@ -87,9 +87,9 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         ** opStr: The operation string (e.g "<", "<=", "==", "<", "<=", "!=").
         ** value: The value for comparison
     **/ 
-        async getProducts(dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[]) {
+        async getProducts(dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[], limit: QueryConstraint) {
             //FIXME: remove param dbCollection and replace with "products"
-            const q = query(collection(firebaseCollection.db, dbCollection), where(fieldPath, opStr, value));
+            const q = query(collection(firebaseCollection.db, dbCollection), where(fieldPath, opStr, value), limit);
             const querySnapshot = await getDocs(q);
             const result: Product[] = []
             
@@ -187,7 +187,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
 
     async addQuantityOnExpiredOrder(sessionId: string, productId: string, QuantityToAdd: number) {
-        let getProduct = await this.getProducts("products", documentId(), "==", productId)
+        let getProduct = await this.getProducts("products", documentId(), "==", productId, limit(1000))
         const productClone = getProduct[0] as Product
     
         const productRef = doc(firebaseCollection.db, "products", productId as string);
@@ -350,7 +350,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
 
     async updateQuantityOnPurchase(productId: string, QuantityToRemove: number) { 
-        let getProduct = await this.getProducts("products", documentId(), "==", productId)
+        let getProduct = await this.getProducts("products", documentId(), "==", productId, limit(1000))
         const productClone = getProduct[0] as Product
     
         const productRef = doc(firebaseCollection.db, "products", productId as string);
