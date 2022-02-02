@@ -4,7 +4,7 @@ import { CompanyContext, CompanyOptions } from '../../../context/companies/compa
 import { Order } from '../../../types';
 import SpinnerModal from '../../functions/spinnerModal';
 import Button from '../../UI/button';
-import CompanyCard from '../foldableCompanyOrderCard';
+import CompanyCard from '../companyCard';
 import DashForCompanyShippedOrders from './dashForCompanyShippedOrders';
 
 type Alternatives = "show" | "showShipped"
