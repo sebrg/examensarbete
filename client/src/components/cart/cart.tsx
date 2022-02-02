@@ -132,14 +132,18 @@ export default function Cart(props: Props) {
     }, [statusMsg]) */
 
     return (
-        loading? //FIXME: Spinner
-            <SpinnerModal fullScreen={true} message={statusMsg as string} />
-            : <div id="cartWrapper" style={cartWrapperStyle}>
+        
+            
+            <div id="cartWrapper" style={cartWrapperStyle}>
+
+                {loading? //FIXME: Spinner
+                    <SpinnerModal fullScreen={true} message={statusMsg as string} />
+                : null}
                 
-                    {checkoutOpen?      
-                        <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} />
-                        : null
-                    }
+                {checkoutOpen?      
+                    <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} />
+                    : null
+                }
                     
                 <div className="noScrollBar" style={{overflow: "auto", borderRadius: "10px"}}>    
                     {productsInCart !== undefined && productsInCart.length > 0?   
@@ -180,8 +184,8 @@ export default function Cart(props: Props) {
 
                                                 if(result?.status === 200) {
                                                     setStripeAccountId(cartItem.stripeId);
-                                                    setCheckoutOpen(!checkoutOpen); 
                                                     setCheckoutItems(cartItem);
+                                                    setCheckoutOpen(!checkoutOpen); 
                                                 }
                                               
                                             }}/>
@@ -190,12 +194,13 @@ export default function Cart(props: Props) {
                                     </div>
                                 )
                             })
-                        :   productsInCart !== undefined && productsInCart?.length < 1 || localst === null?
-                                <p>Din varukorg är tom</p>
-                                : null
-                    }
-                    
+                            :   productsInCart !== undefined && productsInCart?.length < 1 || localst === null?
+                                    <p>Din varukorg är tom</p>
+                                    : null}
+                        
                 </div>
+
+       
             </div>
     );
 }

@@ -175,9 +175,9 @@ export default function DashEditUserInfo(props: Props) {
 
     return(
         loading?
-        <SpinnerModal />
+        <SpinnerModal fullScreen={true}/>
         :
-        <div id="editInfo" className='noScrollBar' style={showInfoStyle}>
+        <div id="editInfo" className='noScrollBar' style={editInfoStyle}>
             <h1 style={{width: "100%", margin: "0 0 1em 0"}}>(Edit)</h1>
             {renderInputArray()}
 
@@ -239,7 +239,7 @@ const textInInputWrap: CSSProperties = {
     padding: "0.5em",
 }
 
-const showInfoStyle: CSSProperties = {
+const editInfoStyle: CSSProperties = {
     display: "flex",
     width: "100%",
     height: "100%",
