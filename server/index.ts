@@ -29,15 +29,15 @@ app.listen(port, () => {
     console.log('The application is listening on port 3001!');
 })
 
-app.use(function(req, res, next) { //Kollar om origin är tillåten
+app.use('/', routes, function(req, res, next) { //Kollar om origin är tillåten
     const allowedOrigins = ['http://localhost:3000', "https://examensprojekt-market.web.app"];
     console.log(req.headers.origin)
     if(allowedOrigins.includes(req.headers.origin)) {
         res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
     } 
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
     next();
 });
 
-app.use('/', routes)
+/* app.use('/', routes) */
