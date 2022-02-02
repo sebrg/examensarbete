@@ -3,11 +3,14 @@ import Button from '../UI/button'
 import { Product } from '../../models'
 import { DocumentData } from 'firebase/firestore';
 import { FaCartPlus } from 'react-icons/fa';
+import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 type Props = { //FIXME Fix correct types
     product: Product
 }
 
 export default function AddToCartBtn(props: Props) {
+
+    const generalContext: GeneralOptions = useContext(GeneralContext)
 
     const addToLocal = (product: Product) => {
         let newCart = []
@@ -37,7 +40,7 @@ export default function AddToCartBtn(props: Props) {
 
 		<Button 
             width='100%' 
-            onClick={() => addToLocal(props.product)} 
+            onClick={() => {addToLocal(props.product); generalContext.functions.countCart("state")}} 
             buttonText='Lägg till i kundvagn'
             icon={<FaCartPlus fontSize={"1.2em"}/>}
             bgColor='#363945'

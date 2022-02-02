@@ -85,7 +85,7 @@ export default function MainNav(props: Props) {
                     }
                 }}/>  
                 <div className='wrapForMargin' style={{marginTop: "auto"}}>
-                    <Button margin='0.5em 0 0 0' width='100%' color='white' bgColor='rgb(236 28 36)' border='1px solid white' buttonText='Logout' linkTo={"/"} onClick={() => {
+                    <Button margin='0.5em 0 0 0' width='100%' color='white' bgColor='rgb(236 28 36)' border='1px solid white' buttonText='Logga ut' linkTo={"/"} onClick={() => {
                     userContext.logOut()
                     props.setNavToggle(false)
                     if(props.scrollContentIntoView) {

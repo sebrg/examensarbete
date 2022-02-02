@@ -24,6 +24,9 @@ export default function EditPopup(props: Props) {
     const [price, setPrice] = useState<number | undefined>()
     const [quantity, setQuantity] = useState<number | undefined>()
     const [info, setInfo] = useState<string | undefined>() 
+    const [selectedCategory, setSelectedCategory] = useState<string>("Övrigt")
+    const [productCategories, setProductCategories] = useState<string[]>()
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [statusMsg, setStatusMsg ] = useState<string | undefined>(undefined)
     const updateName = (event: any) => {
@@ -41,6 +44,10 @@ export default function EditPopup(props: Props) {
     const updateInfo = (event: any) => {
         event? setInfo(event.target.value) : setInfo("") 
     }
+
+    const updateCategory = (event: any) => {
+        event? setSelectedCategory(event.target.value) : setSelectedCategory("Övrigt")
+    }
     
     const newProduct = () => {
         const product = {
@@ -49,7 +56,8 @@ export default function EditPopup(props: Props) {
             price: price,
             id: props.product.id,
             info: info,
-            quantity: quantity 
+            quantity: quantity,
+            category: selectedCategory
         } as Product
         
         return product
@@ -62,10 +70,16 @@ export default function EditPopup(props: Props) {
             price: props.product.price,
             id: props.product.id,
             info: props.product.info,
-            quantity: props.product.quantity 
+            quantity: props.product.quantity, 
+            category: props.product.category
         } as Product
         
         return product
+    }
+
+    const getProductCategories = async () => {
+        const categories = await productContext.functions.getProductCategories()
+        setProductCategories(categories[0].categories)
     }
 
 /*  NOTE: Maybe not needed   
@@ -75,13 +89,14 @@ export default function EditPopup(props: Props) {
 
     useEffect(() => {
         setImgArr(props.product.images)
+        getProductCategories()
     }, [])
 
     return (
         <div id="editPopupWrapper" onClick={() => props.setEditPopupOpen(false)} style={editPopupWrapperStyle}>
             <div id="editPopupContent" onClick={(event) => event.stopPropagation()} style={editPopupContentStyle}> 
                 <AiOutlineClose style={{position: "absolute", right: 5, top: 5, cursor: "pointer"}} onClick={() => props.setEditPopupOpen(false)} size="2em" color="black" />
-                <h1> PRODUKT NAMN </h1>
+                <h1> {props.product.name} </h1>
                 <h4>EDIT</h4>
                 <div id="editInputWrap" style={editInputWrapStyle}>
 
@@ -108,6 +123,16 @@ export default function EditPopup(props: Props) {
                         placeholder={props.product.info? props.product.info : "Info"}
                         onChange={(event) => updateInfo(event)}
                     />
+
+                    <select value={selectedCategory} onChange={(event) => updateCategory(event)} id="product-select" style={categorySelect}>
+                        {productCategories?
+                            productCategories.map((category, key) => {
+                                return (
+                                    <option key={key} value={category}> {category} </option>
+                                )
+                            })
+                        : null}      
+                    </select>
 
                     <ImgUpload style={imgUploadWrappStyle} imgArr={imgArr} setImgArr={(newArr: string[] | Blob[] | MediaSource[] | object[] | undefined) => setImgArr(newArr)}/>
                 
@@ -194,7 +219,7 @@ const editInputWrapStyle: CSSProperties = {
     width: "100%",
     flexDirection: "column",
     padding: "0 2em",
-    margin: "1em 0 2em 0"
+    margin: "1em 0 1em 0"
 }
 
 const editProductInputStyle: CSSProperties = {
@@ -217,5 +242,23 @@ const editSubmitWrapStyle: CSSProperties = {
     width: "100%",
     padding: "0 2em",
     justifyContent: "space-between",
-    marginBottom: "1em"
+    marginBottom: "0.5em"
+}
+
+const categorySelect: CSSProperties = {
+    //width: '100%', 
+    textAlign: 'center', 
+    //minHeight: '30px', 
+    marginBottom: "1em",
+    fontSize: "1.2em", 
+    padding: "0.5em",
+    borderRadius: "10px",
+    border: "none"
+    //backgroundColor: "rgb(146, 168, 209)",
+    //color: "white",
+    //Add the two under to make category stick
+    //position: "sticky",
+    //top: "2.5em"
+
+
 }
