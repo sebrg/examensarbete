@@ -1,4 +1,4 @@
-import { DocumentData, documentId } from 'firebase/firestore';
+import { DocumentData, documentId, limit } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
@@ -49,7 +49,7 @@ export default function Cart(props: Props) {
             let parsedLocal = JSON.parse(localst)
             if(parsedLocal.length) {
                 
-                let cart = await productContext.functions.getProducts("products", documentId(), 'in', parsedLocal.map((localItem: any) => { return localItem.id }))
+                let cart = await productContext.functions.getProducts("products", documentId(), 'in', parsedLocal.map((localItem: any) => { return localItem.id }), limit(1000))
                 //Merge quantity from localstorage to cart
                 cart.forEach((cartItem: any) => {
                     let foundItem = parsedLocal.find((localItem: any) => localItem.id == cartItem.id)
