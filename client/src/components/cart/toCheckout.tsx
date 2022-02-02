@@ -79,7 +79,7 @@ export default function ToCheckout(props: Props) {
     }, [showOrEdit])
 
     useEffect(() => {
-        console.log(userInfo)
+        
     },[userInfo])
 
     const auth = () => {
