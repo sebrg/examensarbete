@@ -25,6 +25,9 @@ type Props = {
 
 export default function Main(props: Props) {
 
+	const NoMatch = () => {
+		return (<p>Sidan finns inte: 404!</p>);
+	  };
 
     return (
 
@@ -43,8 +46,9 @@ export default function Main(props: Props) {
 				<Route path='/cart/:userId' element={<Cart isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} />} />
 				<Route path={"/success/:stripeId/:sessionId/"} element={<PaymentSuccess />} />
 				<Route path={"/cancel/:stripeId/:sessionId/"} element={<PaymentCancel />} />
-				<Route path={"/policy"} element={<Policy/>} />  
-				<Route path='/company/:companyName/:companyId/product/:productName/:productId' element={<SingleProduct/>} />	  	
+				<Route path={"/policy"} element={<Policy/>} /> 
+				<Route path='/company/:companyName/:companyId/product/:productName/:productId' element={<SingleProduct/>} />
+				<Route path="*" element={<NoMatch />} />
 				<Route path='/company/:companyName/:companyId' element={<CompanyPage/>} />		
 				<Route path='/admin/*' element={
 					<ReqAdminAuth >
