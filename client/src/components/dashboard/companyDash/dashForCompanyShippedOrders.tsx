@@ -38,9 +38,9 @@ export default function DashForCompanyShippedOrders() {
     return (
         
         oldOrders === undefined? 
-        <SpinnerModal/>
+        <SpinnerModal fullScreen={true}/>
             : oldOrders?.length?
-            <div id="orderWrapp" className='noScrollBar' style={{height: '85%', overflow: 'auto', padding: "1em"}}>
+            <div id="dashShowShipped" className='noScrollBar' style={dashShowShipped}>
                 {oldOrders?.map((order, key) => {
                     return (
                             <CompanyCard key={key} order={order}/>
@@ -55,4 +55,12 @@ export default function DashForCompanyShippedOrders() {
                 : null
 
     );
+}
+
+const dashShowShipped: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    width: "70%",
+    padding: "0px 1em",
+    overflow: "auto"
 }

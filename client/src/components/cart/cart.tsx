@@ -1,4 +1,4 @@
-import { DocumentData, documentId } from 'firebase/firestore';
+import { DocumentData, documentId, limit } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
@@ -9,6 +9,8 @@ import Button from '../UI/button';
 import ToCheckout from './toCheckout';
 import SpinnerModal from '../functions/spinnerModal';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
+import CartProductCard from '../UI/cartProductCard';
+
 
 
 type Cart = {
@@ -20,11 +22,16 @@ type Cart = {
     products: Product[]
 }
 
+type Props = {
+    isLoggedIn: any
+    setLoginToggle: any
+}
+
 /**
  * The cart synchronize ID'S saved in the localstorage to fetch the correct product data from the DB and 
  * then combine the quantity from localstorage with the product data from DB into state("productsInCart")
  * */ 
-export default function Cart() {
+export default function Cart(props: Props) {
 
     const productContext: ProductOptions = useContext(ProductContext)
     const companyContext: CompanyOptions = useContext(CompanyContext)
@@ -43,7 +50,7 @@ export default function Cart() {
             let parsedLocal = JSON.parse(localst)
             if(parsedLocal.length) {
                 
-                let cart = await productContext.functions.getProducts("products", documentId(), 'in', parsedLocal.map((localItem: any) => { return localItem.id }))
+                let cart = await productContext.functions.getProducts("products", documentId(), 'in', parsedLocal.map((localItem: any) => { return localItem.id }), limit(1000))
                 //Merge quantity from localstorage to cart
                 cart.forEach((cartItem: any) => {
                     let foundItem = parsedLocal.find((localItem: any) => localItem.id == cartItem.id)
@@ -120,7 +127,7 @@ export default function Cart() {
             : <div id="cartWrapper" style={cartWrapperStyle}>
                 
                     {checkoutOpen?      
-                        <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} />
+                        <ToCheckout setCheckoutOpen={(bool: boolean) => setCheckoutOpen(bool)} stripeAccountId={stripeAccountId} cartItem={checkoutItems} isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} />
                         : null
                     }
                     
@@ -136,15 +143,9 @@ export default function Cart() {
                                                         /* let total = productsInCart.reduce((sum: any,item: any) => sum + item.price * item.quantity, 0)     
                                                         console.log(total) */ //NOTE: Totalsumma av produkter..
                                                         return(
-                                                            <ProductCard key={i} 
-                                                                product={product}
-                                                                direction='row'
-                                                                linkTo={`/company/${cartItem.companyName}/${cartItem.companyId}/product/${product.name}/${product.id}`}
-                                                                height='10vh' //NOTE: Vh istället för procent kan skapa problem. Procent skapar dock stretch problem här då närmsta parent inte har en height
-                                                                width='100%'
-                                                            >     
+                                                            <CartProductCard key={i} product={product} linkTo={`/company/${cartItem.companyName}/${cartItem.companyId}/product/${product.name}/${product.id}`}>
                                                                 <CartProductController product={product} syncCart={syncCart}/>
-                                                            </ProductCard>
+                                                            </CartProductCard>
                                                         )
                                                     })
                                                 }
@@ -204,7 +205,7 @@ const cartSectionProductWrapperStyle: CSSProperties = {
 
 const paymentSectionStyle: CSSProperties = {
     display: "flex",
-    width: "50%",
+    //width: "50%",
     //height: "100%",
     minWidth: "350px",
     //backgroundColor: "red",

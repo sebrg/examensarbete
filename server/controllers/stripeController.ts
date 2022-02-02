@@ -56,13 +56,14 @@ export const checkOut = async (req: any, res: any, next: any) => {
     const freeShippingOver = req.body.freeShippingOver
     const companyName = req.body.companyName
     const path = req.body.path
+    const userInfo = req.body.userInfo
 
   
     const sumTotal = arr => arr.reduce((sum, { price, quantity }) => sum + price * quantity, 0) //total amount för ordern
     const total = sumTotal(cartItems)
 
     let shipping = null
-    if(total > freeShippingOver) {
+    if(total > freeShippingOver && freeShippingOver !== 0) {
         shipping = 0
     } else {
         shipping = shippingPrice
@@ -165,7 +166,8 @@ export const checkOut = async (req: any, res: any, next: any) => {
         stripe_acc_id: stripeId,
         purchaseTerms: purchaseTerms,
         shipped: "No",
-        shippingPrice: session.total_details.amount_shipping / 100
+        shippingPrice: session.total_details.amount_shipping / 100,
+        userInfo: userInfo
     }
 
     res.status(200).json({ id: session.id, pendingOrder: pendingOrder, cartItemIds: cartItemIds })

@@ -1,39 +1,38 @@
-import { DocumentData, documentId } from 'firebase/firestore';
+import { DocumentData, documentId, limit } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { useMatch } from 'react-router-dom';
+import { Link, Navigate, useMatch, useNavigate } from 'react-router-dom';
 import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
 import ImageSlider from '../UI/sliderCarousel';
-import Button from '../UI/button';
-import { FaCartPlus } from 'react-icons/fa';
 import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import AddToCartBtn from '../cart/addToCartBtn';
+import SpinnerModal from '../functions/spinnerModal';
+
 
 
 export default function SingleProduct() {
+    
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState<Product>()
     const [products, setProducts] = useState<Product[]>()
     const [productsInReel, setProductsInReel] = useState<Product[]>()
+    const [url, setUrl] = useState<string | undefined>(undefined)
+    const [shouldRedirect, setShouldRedirect] = useState<boolean>(false)
 
     //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
 
     const params = useMatch("/company/:companyName/:companyId/product/:productName/:productId")?.params;
 
-    console.log(params)
-
     const productName = params?.productName
     const productId = params?.productId
     const companyName = params?.companyName
     const companyId = params?.companyId
-    
-
-
 
     const getProducts = async () => {
         if(companyId && companyId !== undefined) {
-            const products = await productContext.functions.getProducts("products", "company", "==", companyId)
+            const products = await productContext.functions.getProducts("products", "company", "==", companyId, limit(4))
             setProducts(products) 
         }
     }
@@ -52,6 +51,12 @@ export default function SingleProduct() {
         }
     }
 
+    useEffect(() => {
+        if(shouldRedirect) {
+            getProducts()
+            setShouldRedirect(false)
+        }
+    }, [shouldRedirect])
 
 
     useEffect(() => {
@@ -59,15 +64,14 @@ export default function SingleProduct() {
     }, [])
     
     useEffect(() => {
-        console.log(products, "all products")
         getCurrentProduct()
         filterAllProducts()
     }, [products])
     
     useEffect(() => {
-       console.log(product, "single product")
     }, [product])
-    
+
+
 
 
     function renderProduct() {
@@ -82,32 +86,35 @@ export default function SingleProduct() {
                         </div>
                     </React.Fragment>          
                     :
-                    <h1>Hämtar produkt..</h1>
+                    <SpinnerModal fullScreen={true} />
         )
     }
 
    
-
+    //NOTE: 
     function productReel() {
-        return (               
+        return (
                 productsInReel?
-                    productsInReel.map((products, i) => {
-                        return (
-                            <div>
-                                <h1> {products.name} </h1>
-                                <h3> {products.price + " " + 'kr'} </h3>
-                                <p style={marginBottom}> Product info goes here </p>
+                    productsInReel.map((product, i) => {
+                        return (     
+                            <div id='reel-div' key={i} style={{width: '100%', height: '25%', display: 'flex', justifyContent: 'center', marginBottom: '1.5em', flexDirection: 'column', padding: '0.5em'}}>
+                                <Link key={product.id} to={`/company/${companyName as string}/${companyId as string}/product/${product.name}/${product.id}`} style={{height: '100%', width: '100%', borderRadius: '15px', border: '1px solid #E0B589', backgroundColor: '#EFE1CE'}}>
+                                <img  onClick={() => setShouldRedirect(true)} style={{objectFit: 'contain', height: '100%', width: '100%', borderRadius: '15px'}} src={product.images[0]} alt='Bilden hittades inte' />
+                                </Link>
+                                <p style={{textAlign: 'center'}}>  {product.name}  </p>
                             </div>
                         )
                     })    
                     :
-                    <h1>Hämtar produkt..</h1>
+                    <SpinnerModal fullScreen={true} />
         )
     }
 
 
     return (
+
         <div className='singleProductWrapper noScrollBar' style={singlePage}>
+     
             <div id='singleProductDiv' style={singleProductDiv}>
                 {renderProduct()}
                 <div id='slider-holder' className='sliderForSingleProduct' style={{width: '50%', height: '50%'}}>
@@ -121,10 +128,11 @@ export default function SingleProduct() {
                 
             </div>
 
-            <div id='product-reel' style={productReelStyle}>
+            <div className='noScrollBar' id='product-reel' style={productReelStyle}>
                 {productReel()}
             </div> 
         </div>
+
 
         
     );
@@ -159,10 +167,11 @@ const productReelStyle: CSSProperties = {
     display: 'flex',
     width: '20%',
     height: '100%',
-    backgroundColor: '#79C753',
+    backgroundColor: '#DFCFBE',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    overflow: 'auto'
 }
 
 const productDetails: CSSProperties = {

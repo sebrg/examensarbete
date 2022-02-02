@@ -62,4 +62,5 @@ const cartProductControllerStyle: CSSProperties = {
     //height: "100%",
     //flexWrap: "wrap",
     //justifyContent: "space-between"
+    marginLeft: "auto"
 }

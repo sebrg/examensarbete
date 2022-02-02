@@ -2,8 +2,6 @@ import { CSSProperties, useContext, useEffect, useState } from 'react';
 import { Link, } from 'react-router-dom';
 import { Product } from '../../models'
 
-
-
 type Props = {
     product: Product
     direction: "column" | "row"
@@ -20,7 +18,6 @@ type Props = {
     children?: JSX.Element
     border?: string
 }
-
 
 export default function ProductCard(props: Props) {
 
@@ -39,6 +36,10 @@ export default function ProductCard(props: Props) {
                         <p style={{fontSize: "1.5em", textAlign: "center"}}> 
                             {props.product.name}
                         </p>
+
+
+
+                        {/* FIXME: add quantity OR instock */}
                         {props.product.quantity?
                             <p style={{/* padding: "0 0 0 1em" */textAlign: "center"}}>
                                 {props.product.quantity} i lager
@@ -120,10 +121,11 @@ const productCardImgWrapperRowStyle: CSSProperties = {
 
 //INFO ROW
 const productInfoWrapperRowStyle: CSSProperties = {
-    flexGrow: 10,
+    //flexGrow: 10,
     display: "flex",
-    justifyContent: "space-around",
+    //justifyContent: "space-around",
     //alignItems: "center"
+    flexDirection: "column",
 }
 
 //IMG COLUMM

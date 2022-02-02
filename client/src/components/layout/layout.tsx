@@ -6,7 +6,6 @@ import Main from './main';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import Hero from './hero';
 import { useLocation } from 'react-router-dom';
-import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import MainNav from './mainNav';
 
 
@@ -38,9 +37,9 @@ export default function Layout() {
         
         <div id="frame" style={frameStyle}>
             <div id="layoutWrap" className='noScrollBar' style={layoutStyle}>
-                <Hero />
+                <Hero scrollContentIntoView={scrollContentIntoView}/>
                 <Header dropDownRef={dropDownRef} setNavToggle={setNavToggle} navToggle={navToggle} scrollContentIntoView={scrollContentIntoView} setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
-                <Main /* stripeOptions={props.stripeOptions} */ passedRef={mainRef} isLoggedIn={isLoggedIn}/>
+                <Main /* stripeOptions={props.stripeOptions} */ passedRef={mainRef} isLoggedIn={isLoggedIn} setLoginToggle={setLoginToggle} />
             </div>
 
             {navToggle?
