@@ -18,7 +18,7 @@ export default function Hero(props: Props) {
     return (
         <div id="Hero" style={heroStyle}>
             <div id="heroTopLinks" style={heroTopLinks}>
-                <Button color='white' buttonText='Regler & Köpvilkor' width='25%' linkTo={"/policy"} onClick={() => {
+                <Button color='white' buttonText='Regler & Köpvilkor' linkTo={"/policy"} onClick={() => {
                     if(props.scrollContentIntoView) {
                         props.scrollContentIntoView(true)
                     }
