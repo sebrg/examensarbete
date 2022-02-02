@@ -8,6 +8,8 @@ import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } f
 import { CompanyContext } from "../companies/companyContext";
 import { GeneralContext } from "../general/generalContext";
 import { StatusObject } from '../../types'
+import { urlToHttpOptions } from "url";
+import { isAwaitExpression } from "typescript";
 
 //import { match } from "react-router-dom";
 
@@ -35,7 +37,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             addQuantityOnExpiredOrder: this.addQuantityOnExpiredOrder.bind(this),
             verifyCheckoutSession: this.verifyCheckoutSession.bind(this),
             getOrdersByUser: this.getOrdersByUser.bind(this),
-            getProductCategories: this.getProductCategories.bind(this)
+            getProductCategories: this.getProductCategories.bind(this),
+            checkQuantityBeforePurchase: this.checkQuantityBeforePurchase.bind(this)
         },
         allProducts: []
     }
@@ -50,7 +53,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
                 company: currentCompany[0].id as string,
                 images: [] as any[],
                 quantity: product.quantity as number,
-                category: product.category as string
+                category: product.category as string,
+                companyName: currentCompany[0].name as string
             }
     
             if(product.images) {
@@ -297,12 +301,14 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
     async updateProduct(oldProduct: Product, newProduct: Product) {
         try {
-            const updatedProduct: Product = {
+            const updatedProduct: Omit<Product, "company" | "companyName"> = {
                 name: newProduct.name? newProduct.name : oldProduct.name,
                 price: newProduct.price? newProduct.price : oldProduct.price,
                 info: newProduct.info? newProduct.info : oldProduct.info != undefined? oldProduct.info : "",
                 quantity: newProduct.quantity? newProduct.quantity : oldProduct.quantity,
-                images: [] as string[] /* | Blob[] | MediaSource[] | object[] */
+                images: [] as string[] /* | Blob[] | MediaSource[] | object[] */,
+                category: newProduct.category? newProduct.category : oldProduct.category
+                //companyName: newProduct.category? newProduct.category : oldProduct.category
             }
     
             //Failsafe, require atleast one image
@@ -362,6 +368,37 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             });     
             console.log("Removed", QuantityToRemove, "on product:", productId)   
         }
+    }
+
+    async checkQuantityBeforePurchase(products: any) {
+        try {
+            //NOTE: Lägg till product name i status om tid
+            const checkQuantity = products.map( async (product: any) => {
+                let getProduct = await this.getProducts("products", documentId(), "==", product.id, limit(1000))
+                const currentProduct = getProduct[0] as Product
+
+                const quantity = currentProduct.quantity as number - product.quantity
+                if(quantity < 0) {
+                    return false
+                }
+                else {
+                    return true
+                }   
+            }); 
+              
+                const checkingBooleans = await Promise.all(checkQuantity)
+                
+                if(checkingBooleans.includes(false)) {
+                    return {status: 410, message: `Det finns bara  kvar i lager..` } as StatusObject
+                } else {
+                    console.log("status 200")
+                    return {status: 200, message: `Det finns bara kvar i lager..` } as StatusObject
+                }
+
+        } catch(err) {
+            return {status: 400, message: err } as StatusObject
+        }
+        
     }
 
     async getProductCategories() {

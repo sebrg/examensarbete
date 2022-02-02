@@ -66,13 +66,13 @@ export default function ProductListView() {
                     products.map((product, key) => {
                         if(selectedCategory === "Alla") {
                             return (
-                                <ProductCard key={key} direction="column" bgColor={"rgb(239, 225, 206)"} product={product} width="20vw">
+                                <ProductCard key={key} direction="column" bgColor={"rgb(239, 225, 206)"} product={product} width="20vw" linkTo={`/company/${product.companyName.replace(" ", '').replace("-", "").replace("_", "")}/${product.company}/product/${product.name.replace(" ", '').replace("-", "").replace("_", "")}/${product.id}`}>
                                     <AddToCartBtn product={product}/>  
                                 </ProductCard>
                             )
                         } else if(product.category == selectedCategory) {
                             return (
-                                <ProductCard key={key} direction="column" bgColor={"rgb(239, 225, 206)"} product={product} width="20vw">
+                                <ProductCard key={key} direction="column" bgColor={"rgb(239, 225, 206)"} product={product} width="20vw" linkTo={`/company/${product.companyName.replace(" ", '').replace("-", "").replace("_", "")}/${product.company}/product/${product.name.replace(" ", '').replace("-", "").replace("_", "")}/${product.id}`}>
                                     <AddToCartBtn product={product}/>  
                                 </ProductCard>
 

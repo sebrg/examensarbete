@@ -57,17 +57,22 @@ export default function DashForCompanyProducts(props: Props) {
     }
 
     const renderProducts = () => { //FIXME: make this div returned to a component
-        const findId = (product: Product) => { return products?.find((productInArray) => productInArray === product as Product) }
-        return products?.map((product, index) => {
-            return ( //Productcard with edit and delete button
+        if(products?.length) {
+            const findId = (product: Product) => { return products?.find((productInArray) => productInArray === product as Product) }
+            return products?.map((product, index) => {
+                return ( //Productcard with edit and delete button
+    
+                    <DashProductCard key={index} product={product}>
+                        <div style={{marginLeft: "auto"}}>
+                            <Button icon={<BiEdit size="1.5em"/>} border='2.5px solid white' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
+                        </div> 
+                    </DashProductCard>
+                )
+            })
+        }else {
+            return "Inga produkter hittade"
+        }
 
-                <DashProductCard key={index} product={product}>
-                    <div style={{marginLeft: "auto"}}>
-                        <Button icon={<BiEdit size="1.5em"/>} border='2.5px solid white' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
-                    </div> 
-                </DashProductCard>
-            )
-        })
     }
 
     useEffect(() => {

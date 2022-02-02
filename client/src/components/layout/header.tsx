@@ -2,6 +2,7 @@ import React, { CSSProperties, SetStateAction, useContext } from 'react';
 import MainNav from './mainNav';
 import marungoFatGreen from "./../../assets/baraMlogo.png"
 import DropDownBtn from '../functions/dropDown';
+import CartBtn from '../UI/cartBtn';
 type Props = { //FIXME: Fix "any" types
 	setLoginToggle: any
 	isLoggedIn: boolean | undefined
@@ -16,10 +17,10 @@ export default function Header(props: Props) {
 
     return (
 		<header style={headerStyle}>
-			{/* <MainNav scrollContentIntoView={props.scrollContentIntoView} isLoggedIn={props.isLoggedIn} setLoginToggle={props.setLoginToggle} /> */}
-			
-			
-			<DropDownBtn dropDownRef={props.dropDownRef} navToggle={props.navToggle} setNavToggle={props.setNavToggle} /> 
+			<div id="headerActions" style={headerActions}>
+				<DropDownBtn dropDownRef={props.dropDownRef} navToggle={props.navToggle} setNavToggle={props.setNavToggle} /> 
+				<CartBtn scrollContentIntoView={props.scrollContentIntoView} />
+			</div>			
 
 			<img src={marungoFatGreen} style={logoStyleTest}></img>
 		</header>
@@ -46,4 +47,11 @@ const logoStyleTest: CSSProperties = {
 	objectFit: "contain", 
 	borderRadius: "15px", 
 	padding: "0 10px 0 0"
+}
+
+const headerActions: CSSProperties = {
+	display: "flex",
+	padding: "1em",
+	width: "100%",
+/* 	justifyContent: "space-between" */
 }

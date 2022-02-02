@@ -236,7 +236,13 @@ export default class UserProvider extends Component<Props, UserOptions>   {
 
                 console.log(clonedUserInfo)
                 //Update userInfo
-                await setDoc(doc(firebaseCollection.db, "userInfo", id), {
+                /* 
+                    const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)
+                    await updateDoc(productRef, 
+                        {...updatedProduct}
+                    ); 
+                */
+                await setDoc(doc(firebaseCollection.db, "userInfo", id), { //Maybe use "updateDoc" instead of "setDoc"
                     firstName: clonedUserInfo.firstName,
                     surName: clonedUserInfo.surName,
                     city: clonedUserInfo.city,
@@ -268,7 +274,12 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 if(clonedUserInfo.co === undefined) {
                     clonedUserInfo.co = null
                 } 
-
+                //Maybe use addDoc instead
+                /* 
+                    await addDoc(collection(firebaseCollection.db, "products"), {
+                    ...productData
+                    })
+                */
                 //Add userInfo
                 await setDoc(doc(firebaseCollection.db, "userInfo", id), {
                     firstName: clonedUserInfo.firstName,
