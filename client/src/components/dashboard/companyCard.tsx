@@ -71,7 +71,7 @@ export default function CompanyCard(props: Props) {
                             {
                                 props.order? 
                                     props.order.shipped === "Yes"?
-                                    <p style={{marginLeft: '1em', color: 'Green'}}>Skickad</p>
+                                    <div style={{marginLeft: '1em', color: 'Green'}}>Skickad</div>
                                     :
                                     <Button onClick={() => setOrderOpen(!orderOpen)} height='75%' margin='0px 0em 0em 1em' bgColor='green' buttonText='Skicka'/>
                                     :

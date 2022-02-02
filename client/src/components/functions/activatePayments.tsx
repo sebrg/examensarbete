@@ -12,8 +12,12 @@ type Status = {
     message: string
 }
 
+type Props = {
+    setActivatePaymentsOpen: any //FIXME: any type?
+}
 
-export default function ActivatePayments() {
+
+export default function ActivatePayments(props: Props) {
 
     const stripePK = 'pk_test_51KCOmfFKFGHIBqJeuHe27RBjAFluqc1kaOArTwLHDQ6H1rIrSPE4HBYMz6O3eHD2V5rqOkR4xBmumJlBdGj04l7J00azQB7MR5'	
 
@@ -66,26 +70,48 @@ export default function ActivatePayments() {
 
 
     return (
-       <div id='activate-payments'>
+        <div className='popUpWrapp' style={popUpWrapp} onClick={() => props.setActivatePaymentsOpen(false)}>
+            <div id='activate-payments' style={activatePayments}>
 
-           {currentView === 'start'?
-                loading || stripeAccountStatus?.status == undefined? 
-                    <SpinnerModal/>
-                    :
-                    stripeAccountStatus?.status === 200? 
-                        <p style={{textAlign: 'center', marginTop: '1.5em'}}>Du har aktiverat Stripe</p>
-                        :
-                        <Button border='1px solid black' color='black' width='50%' onClick={() => setCurrentView("stripe")} buttonText='Ta emot betalningar med Stripe'/>
-                        : currentView === 'stripe'? 
-                            <Elements stripe={stripePromise}> 
-                                <ActivateStripe stripeAccountStatus={stripeAccountStatus} setStripeAccountStatus={(status: Status) => setStripeAccountStatus(status)} stripeId={stripeId as string} syncIdAndStatus={() => syncIdAndStatus()}/>
-                            </Elements>
-                            : null
-           }
+                {currentView === 'start'?
+                        loading || stripeAccountStatus?.status == undefined? 
+                            <SpinnerModal fullScreen={true}/>
+                            :
+                            stripeAccountStatus?.status === 200? 
+                                <p style={{textAlign: 'center', marginTop: '1.5em'}}>Du har aktiverat Stripe</p>
+                                :
+                                <Button border='1px solid black' color='black' width='50%' onClick={() => setCurrentView("stripe")} buttonText='Ta emot betalningar med Stripe'/>
+                                : currentView === 'stripe'? 
+                                    <Elements stripe={stripePromise}> 
+                                        <ActivateStripe stripeAccountStatus={stripeAccountStatus} setStripeAccountStatus={(status: Status) => setStripeAccountStatus(status)} stripeId={stripeId as string} syncIdAndStatus={() => syncIdAndStatus()}/>
+                                    </Elements>
+                                    : null
+                }
 
-       </div>    
+            </div> 
+        </div>   
             
     );
 }
 
 
+const activatePayments: CSSProperties = {
+    width: "50%",
+    minHeight: "50%",
+    backgroundColor: "rgb(239, 225, 206)",
+}
+
+const popUpWrapp: CSSProperties = {
+    position: "absolute",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    display: "flex",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: "99",
+    padding: "2em",
+    justifyContent: "center",
+    alignItems: "center"
+
+}

@@ -227,10 +227,10 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                         clonedUserInfo.pendingCompany = false
                     } 
                 }
-
+                //Problem is here in the ifs
                 if(newUserInfo.company !== null  && newUserInfo.company !== undefined) {
                     clonedUserInfo.company = newUserInfo.company
-                } else if (newUserInfo.company === undefined) {
+                } else if (clonedUserInfo.company === undefined/* newUserInfo.company === undefined */) {
                     clonedUserInfo.company = null
                 }
 

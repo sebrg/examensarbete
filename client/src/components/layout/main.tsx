@@ -15,6 +15,7 @@ import PaymentCancel from '../cart/paymentCancel';
 import Policy from './policy';
 import SingleProduct from '../company/singleProduct';
 import CompanyPage from '../company/companyPage';
+import ProductListView from './productListView';
 
 
 type Props = {
@@ -49,7 +50,8 @@ export default function Main(props: Props) {
 				<Route path={"/policy"} element={<Policy/>} /> 
 				<Route path='/company/:companyName/:companyId/product/:productName/:productId' element={<SingleProduct/>} />
 				<Route path="*" element={<NoMatch />} />
-				<Route path='/company/:companyName/:companyId' element={<CompanyPage/>} />		
+				<Route path='/company/:companyName/:companyId' element={<CompanyPage/>} />			
+				<Route path='/products' element={<ProductListView/>} />	
 				<Route path='/admin/*' element={
 					<ReqAdminAuth >
 						<AdminView />

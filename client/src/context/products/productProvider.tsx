@@ -251,12 +251,14 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
 
     async getAllProducts() {
-        const result: DocumentData[] = []
+        const result: Product[] = []
         const get = await getDocs(collection(firebaseCollection.db, "products"));
+       
         get.forEach((doc) => {
-            result.push({id: doc.id, ...doc.data()})
+            result.push({id: doc.id, ...doc.data()} as Product)
           });
-          this.state.allProducts = result as Product[]
+          /* this.state.allProducts = result as Product[] */
+          return result as Product[]
     }
     async deleteImg(imgName: string) {
 

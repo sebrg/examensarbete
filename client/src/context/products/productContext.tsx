@@ -14,8 +14,8 @@ export interface ProductFunctions {
     getProductsFromCompany: (companyId: string) => Promise<Product[]>
     upLoadImg: (file: any) => void 
     //getSingleProduct: (docId: string) => Promise<Product | undefined> //FIXME: should not be allowed to be undefined
-    getAllProducts: () => void//Promise<DocumentData[]>
     getProducts: (dbCollection: string, fieldPath: string | FieldPath, opStr: WhereFilterOp, value: string | string[], limit: QueryConstraint) => Promise<Product[]>
+    getAllProducts: () => Promise<Product[]>
     deleteProduct: (product: Product) => Promise<StatusObject>
     updateProduct: (oldProduct: Product, newProduct: Product) => Promise<StatusObject>
     addOrder: (sessionId: string, stripeCustomer: string) => void

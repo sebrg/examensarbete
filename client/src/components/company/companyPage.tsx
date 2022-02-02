@@ -65,16 +65,20 @@ export default function CompanyPage() {
     }, [products])
 
     return (
-        <React.Fragment>
-            <div style={companyPageHeader}> 
+        <div id="companyPageWrapper" className='noScrollBar' style={companyPageWrapper}>
+
+
+            <div id="companyPageHeader" style={companyPageHeader}> 
                 <h3>
                     {companyName}
                 </h3>
             </div>
 
 
-        {renderProducts()}
-        </React.Fragment>
+            {renderProducts()}
+
+        </div>
+   
     );    
 }
 
@@ -83,13 +87,15 @@ const companyPageHeader: CSSProperties = {
     alignItems: 'center',
     justifyContent: 'center',
     width: "100%", 
-    height: "10%",
+    //height: "10%",
     backgroundColor: '#92A8D1',
-    fontSize: '3em',
+    fontSize: '1.5em',
     color: 'white',
     borderBottom: "1px solid black",
     borderBottomLeftRadius: "15px",
-    borderBottomRightRadius: "15px"
+    borderBottomRightRadius: "15px",
+    position: "sticky",
+    top: 0
 }
 
 const coPage: CSSProperties = {
@@ -98,9 +104,13 @@ const coPage: CSSProperties = {
     justifyContent: 'space-evenly',
     //alignItems: 'center',
     width: '100%', 
-    height: '90%',
     flexWrap: "wrap",
-    overflow: "auto",
     padding: "1em"
 }
 
+const companyPageWrapper: CSSProperties = {
+    height: '100%',
+    overflow: "auto",
+
+
+}

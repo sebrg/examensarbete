@@ -37,7 +37,7 @@ export default function Layout() {
         
         <div id="frame" style={frameStyle}>
             <div id="layoutWrap" className='noScrollBar' style={layoutStyle}>
-                <Hero />
+                <Hero scrollContentIntoView={scrollContentIntoView}/>
                 <Header dropDownRef={dropDownRef} setNavToggle={setNavToggle} navToggle={navToggle} scrollContentIntoView={scrollContentIntoView} setLoginToggle={setLoginToggle} isLoggedIn={isLoggedIn}/>
                 <Main /* stripeOptions={props.stripeOptions} */ passedRef={mainRef} isLoggedIn={isLoggedIn} setLoginToggle={setLoginToggle} />
             </div>

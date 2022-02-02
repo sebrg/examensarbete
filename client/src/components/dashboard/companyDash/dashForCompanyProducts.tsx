@@ -1,17 +1,15 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { FirebaseContext, FirebaseOptions } from '../../../context/firebaseContext';
 import Button from '../../UI/button';
 import { Company, Product } from "../../../models"
-import { DocumentData, documentId, FieldPath, WhereFilterOp } from 'firebase/firestore';
+import { documentId} from 'firebase/firestore';
 import DashForCompanyAddProducts from './dashForCompanyAddProduct';
 import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import { CompanyContext, CompanyOptions } from '../../../context/companies/companyContext';
-import ProductCard from '../../UI/productCard';
 import EditPopup from './editPopup';
 import { FbQuery } from '../../../types';
 import { BiEdit } from 'react-icons/bi';
 import SpinnerModal from '../../functions/spinnerModal';
+import DashProductCard from '../../UI/dashProductCard';
 
 type Alternatives = "show" | "add"
 
@@ -62,11 +60,12 @@ export default function DashForCompanyProducts(props: Props) {
         const findId = (product: Product) => { return products?.find((productInArray) => productInArray === product as Product) }
         return products?.map((product, index) => {
             return ( //Productcard with edit and delete button
-                <ProductCard key={index} product={product} direction='row' height='12.5vh' border="2.5px solid white">
-                    <div style={{display: "flex"}}>
+
+                <DashProductCard key={index} product={product}>
+                    <div style={{marginLeft: "auto"}}>
                         <Button icon={<BiEdit size="1.5em"/>} border='2.5px solid white' onClick={() => {setEditProductTarget(findId(product)); setEditPopupOpen(!editPopupOpen)}} />
-                    </div>
-                </ProductCard>
+                    </div> 
+                </DashProductCard>
             )
         })
     }
@@ -140,7 +139,7 @@ const dashProductsStyle: CSSProperties = {
     width: "100%",
     height: "85%",
     padding: "1em",
-    display: "flex"
+    display: "flex",
 }
 
 

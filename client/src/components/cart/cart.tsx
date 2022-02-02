@@ -9,6 +9,7 @@ import Button from '../UI/button';
 import ToCheckout from './toCheckout';
 import SpinnerModal from '../functions/spinnerModal';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
+import CartProductCard from '../UI/cartProductCard';
 
 
 
@@ -142,15 +143,9 @@ export default function Cart(props: Props) {
                                                         /* let total = productsInCart.reduce((sum: any,item: any) => sum + item.price * item.quantity, 0)     
                                                         console.log(total) */ //NOTE: Totalsumma av produkter..
                                                         return(
-                                                            <ProductCard key={i} 
-                                                                product={product}
-                                                                direction='row'
-                                                                linkTo={`/company/${cartItem.companyName}/${cartItem.companyId}/product/${product.name}/${product.id}`}
-                                                                height='10vh' //NOTE: Vh istället för procent kan skapa problem. Procent skapar dock stretch problem här då närmsta parent inte har en height
-                                                                width='100%'
-                                                            >     
+                                                            <CartProductCard key={i} product={product} linkTo={`/company/${cartItem.companyName}/${cartItem.companyId}/product/${product.name}/${product.id}`}>
                                                                 <CartProductController product={product} syncCart={syncCart}/>
-                                                            </ProductCard>
+                                                            </CartProductCard>
                                                         )
                                                     })
                                                 }
@@ -210,7 +205,7 @@ const cartSectionProductWrapperStyle: CSSProperties = {
 
 const paymentSectionStyle: CSSProperties = {
     display: "flex",
-    width: "50%",
+    //width: "50%",
     //height: "100%",
     minWidth: "350px",
     //backgroundColor: "red",
