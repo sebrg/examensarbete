@@ -3,13 +3,14 @@ import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { Product } from '../../models';
-import ProductCard from '../UI/productCard';
 import CartProductController from './cartProductController';
 import Button from '../UI/button';
 import ToCheckout from './toCheckout';
 import SpinnerModal from '../functions/spinnerModal';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 import CartProductCard from '../UI/cartProductCard';
+
+
 
 
 
@@ -42,6 +43,7 @@ export default function Cart(props: Props) {
     const [checkoutOpen, setCheckoutOpen] = useState<boolean>(false)
     const [checkoutItems, setCheckoutItems] = useState<any>()
     const [loading, setLoading] = useState<boolean>(true)
+    const [statusMsg, setStatusMsg] =useState<string | undefined>(undefined)
     const localst: string | null = localStorage.getItem('cart')
    
     const syncCart = async () => {
@@ -117,13 +119,20 @@ export default function Cart(props: Props) {
         if(productsInCart !== undefined || localst === null) {
             setLoading(false)
         }
- 
     }, [productsInCart])
+ 
+/* 
+    useEffect(() => {
+        
+    }, [loading])
 
+    useEffect(() => {
+        
+    }, [statusMsg]) */
 
     return (
-        loading? 
-            <SpinnerModal fullScreen={true} />
+        loading? //FIXME: Spinner
+            <SpinnerModal fullScreen={true} message={statusMsg as string} />
             : <div id="cartWrapper" style={cartWrapperStyle}>
                 
                     {checkoutOpen?      
@@ -149,12 +158,33 @@ export default function Cart(props: Props) {
                                                         )
                                                     })
                                                 }
+                                           
                                             </div>
                                                 
                                         <div className='paymentSection' style={paymentSectionStyle}>
                                             <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: total </p>
-                                            <Button border='1px solid black' onClick= {() => {setStripeAccountId(cartItem.stripeId); setCheckoutOpen(!checkoutOpen); setCheckoutItems(cartItem)}} width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' />
-                                        
+
+                                            <Button border='1px solid black' width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' onClick= { async () => {
+                                                setLoading(true); 
+                                                const result = await productContext.functions.checkQuantityBeforePurchase(cartItem.products)
+                                                if(result?.status === 410) {  
+                                                    console.log("in 400 if")                          
+                                                    setStatusMsg('Opps, det fanns inte tillräckligt med produkter')
+                                                    console.log(result.status , result.message)
+                                                }
+                                                setTimeout(() => {
+                                                    setStatusMsg(undefined)
+                                                    setLoading(false)
+                                                }, 1500);
+
+                                                if(result?.status === 200) {
+                                                    setStripeAccountId(cartItem.stripeId);
+                                                    setCheckoutOpen(!checkoutOpen); 
+                                                    setCheckoutItems(cartItem);
+                                                }
+                                              
+                                            }}/>
+                   
                                         </div>
                                     </div>
                                 )
