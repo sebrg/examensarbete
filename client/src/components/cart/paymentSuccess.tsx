@@ -87,6 +87,8 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
                 
             }
             setIsLoading(true)
+            general.functions.countCart("state")
+
         }
     }
 

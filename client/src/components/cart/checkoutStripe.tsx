@@ -87,6 +87,6 @@ export default function CheckoutStripe(props: Props) {
 
 	
     return (
-        <SpinnerModal fullScreen={true}/>
+            <SpinnerModal fullScreen={true}/>
     );
 }
