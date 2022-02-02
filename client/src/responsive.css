@@ -69,7 +69,8 @@
     }
 
     #editInfo div {
-        width: 90% !important;
+       /*  width: 90% !important; */
+        justify-content: center !important;
     }
 
     #editInfo > div p {
