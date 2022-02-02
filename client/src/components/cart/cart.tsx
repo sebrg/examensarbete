@@ -109,6 +109,7 @@ export default function Cart(props: Props) {
 
     useEffect(() => {
         syncCart()  
+        general.functions.countCart("state")
     }, [localst])
 
 

@@ -50,7 +50,8 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
                 company: currentCompany[0].id as string,
                 images: [] as any[],
                 quantity: product.quantity as number,
-                category: product.category as string
+                category: product.category as string,
+                companyName: currentCompany[0].name as string
             }
     
             if(product.images) {
@@ -297,12 +298,14 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
     async updateProduct(oldProduct: Product, newProduct: Product) {
         try {
-            const updatedProduct: Product = {
+            const updatedProduct: Omit<Product, "company" | "companyName"> = {
                 name: newProduct.name? newProduct.name : oldProduct.name,
                 price: newProduct.price? newProduct.price : oldProduct.price,
                 info: newProduct.info? newProduct.info : oldProduct.info != undefined? oldProduct.info : "",
                 quantity: newProduct.quantity? newProduct.quantity : oldProduct.quantity,
-                images: [] as string[] /* | Blob[] | MediaSource[] | object[] */
+                images: [] as string[] /* | Blob[] | MediaSource[] | object[] */,
+                category: newProduct.category? newProduct.category : oldProduct.category
+                //companyName: newProduct.category? newProduct.category : oldProduct.category
             }
     
             //Failsafe, require atleast one image

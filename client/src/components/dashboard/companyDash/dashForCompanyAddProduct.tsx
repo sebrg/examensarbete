@@ -102,9 +102,9 @@ export default function DashForCompanyAddProducts(/* props: Props */) {
                 />
                 <select value={selectedCategory} onChange={(event) => updateCategory(event)} id="product-select" style={{width: '100%', textAlign: 'center', minHeight: '30px', marginBottom: '1em', fontSize: "1.2em", padding: "0.5em"}}>
                     {productCategories?
-                        productCategories.map((category) => {
+                        productCategories.map((category, key) => {
                             return (
-                                <option value={category}> {category} </option>
+                                <option key={key} value={category}> {category} </option>
                             )
                         })
                         : null
