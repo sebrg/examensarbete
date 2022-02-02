@@ -1,4 +1,4 @@
-import { DocumentData } from 'firebase/firestore';
+import { DocumentData, limit } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { ProductContext, ProductOptions } from "../../context/products/productContext";
@@ -21,7 +21,7 @@ export default function CompanyPage() {
 
     const getProducts = async () => {
         if(companyId && companyId !== undefined) {
-            const products = await productContext.functions.getProducts("products", "company", "==", companyId)
+            const products = await productContext.functions.getProducts("products", "company", "==", companyId, limit(1000))
             setProducts(products) 
         }
     }
