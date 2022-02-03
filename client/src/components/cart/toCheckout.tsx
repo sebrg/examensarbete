@@ -126,8 +126,8 @@ export default function ToCheckout(props: Props) {
 
                     {isLogged === undefined?
                         <div id='noUserInfo'>
-                                <p style={{marginTop: '2em'}}>Du måste logga in först.</p>
-                                <Button onClick= {() => {props.setLoginToggle(true); } } icon={<BiLogIn size="2.5em"/>}/> 
+                                <p style={{marginTop: '2em', marginBottom: "2em"}}>Du måste logga in först.</p>
+                                <Button onClick= {() => {props.setLoginToggle(true); } } buttonText='Logga in' icon={<BiLogIn size="2.5em"/>}/> 
                         </div> 
                         : null}
                     
