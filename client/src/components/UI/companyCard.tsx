@@ -1,7 +1,5 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Link, useMatch } from 'react-router-dom';
-import AddToCartBtn from '../cart/addToCartBtn';
-import { Product } from '../../models'
+import React, { CSSProperties } from 'react';
+import { Link } from 'react-router-dom';
 import { Company } from '../../types';
 import { AiOutlineFileImage } from 'react-icons/ai';
 

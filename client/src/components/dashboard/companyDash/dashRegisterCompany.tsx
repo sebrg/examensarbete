@@ -1,7 +1,5 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import Button from '../../UI/button';
-import { FirebaseContext, FirebaseOptions } from "../../../context/firebaseContext";
-import { Company, Product } from "../../../models"
 import { CompanyContext, CompanyOptions } from '../../../context/companies/companyContext';
 import { UserContext, UserOptions } from '../../../context/users/userContext';
 import { getAuth } from 'firebase/auth';

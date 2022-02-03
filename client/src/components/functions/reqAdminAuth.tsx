@@ -1,6 +1,5 @@
-import { getAuth } from 'firebase/auth';
 import { useContext, useEffect, useState } from 'react';
-import { Navigate, useLocation, useMatch } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { UserContext, UserOptions } from '../../context/users/userContext';
 import SpinnerModal from './spinnerModal';
 

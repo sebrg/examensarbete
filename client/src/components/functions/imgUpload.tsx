@@ -1,4 +1,4 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties } from 'react';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import ImgPreview from './imgPreview';
 

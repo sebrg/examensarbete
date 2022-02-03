@@ -1,7 +1,5 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import { UserContext, UserOptions } from '../../context/users/userContext';
-import marungTestBackground from "./../../assets/cartLogoDarker.png"
 import AdminContent from './adminContent';
 import AdminNav from './adminNav';
 

@@ -6,12 +6,8 @@ import { ProductContext, ProductOptions, } from "./productContext"
 import { Company, Product } from "../../models"
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { CompanyContext } from "../companies/companyContext";
-import { GeneralContext } from "../general/generalContext";
 import { StatusObject } from '../../types'
-import { urlToHttpOptions } from "url";
-import { isAwaitExpression } from "typescript";
 
-//import { match } from "react-router-dom";
 
 interface Props{}
 export default class ProductProvider extends Component<Props, ProductOptions>   {

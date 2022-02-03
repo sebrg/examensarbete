@@ -11,7 +11,6 @@ import { UserInfo } from '../../types';
 import { BiEdit, BiLogIn } from 'react-icons/bi';
 import DashEditUserInfo from '../dashboard/dashEditUserInfo';
 import { getAuth } from 'firebase/auth';
-import SpinnerModal from '../functions/spinnerModal';
 
 type Cart = {
     companyId: string

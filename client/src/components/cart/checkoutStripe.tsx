@@ -1,5 +1,5 @@
 
-import { Elements, useStripe } from '@stripe/react-stripe-js'
+import { useStripe } from '@stripe/react-stripe-js'
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import { useMatch } from 'react-router-dom';
 import { Product } from '../../models';

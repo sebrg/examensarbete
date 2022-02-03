@@ -1,10 +1,8 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, documentId, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, documentId, getDocs, query, setDoc, where } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { UserContext, UserOptions, } from "./userContext"
-import { Company, Product } from "../../models"
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable, uploadString } from "firebase/storage";
 import { StatusObject, UserInfo } from "../../types";
 interface Props{}
 export default class UserProvider extends Component<Props, UserOptions>   {

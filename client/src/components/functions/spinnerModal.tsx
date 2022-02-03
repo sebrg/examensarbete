@@ -1,6 +1,4 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
-import marungTestBackground from "./../../assets/cartLogoDarker.png"
+import React, { CSSProperties } from 'react';
 import ClipLoader from "react-spinners/ClipLoader";
 //MoonLoader
 
