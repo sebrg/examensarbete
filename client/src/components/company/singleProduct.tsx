@@ -19,6 +19,7 @@ export default function SingleProduct() {
     const [productsInReel, setProductsInReel] = useState<Product[]>()
     const [url, setUrl] = useState<string | undefined>(undefined)
     const [shouldRedirect, setShouldRedirect] = useState<boolean>(false)
+    
 
     //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
@@ -68,8 +69,9 @@ export default function SingleProduct() {
         filterAllProducts()
     }, [products])
     
- /*    useEffect(() => {
-    }, [product]) */
+    useEffect(() => {
+        setShouldRedirect(true)
+    }, [params])
 
 
 
@@ -99,7 +101,7 @@ export default function SingleProduct() {
                         return (     
                             <div id='reel-div' key={i} style={{width: '100%', height: '25%', display: 'flex', justifyContent: 'center', marginBottom: '1.5em', flexDirection: 'column', padding: '0.5em'}}>
                                 <Link key={product.id} to={`/company/${companyName as string}/${companyId as string}/product/${product.name}/${product.id}`} style={{height: '100%', width: '100%', borderRadius: '15px', border: '1px solid #E0B589', backgroundColor: '#EFE1CE'}}>
-                                <img  onClick={() => setShouldRedirect(true)} style={{objectFit: 'contain', height: '100%', width: '100%', borderRadius: '15px'}} src={product.images[0]} alt='Bilden hittades inte' />
+                                <img  /* onClick={() => setShouldRedirect(true)} */ style={{objectFit: 'contain', height: '100%', width: '100%', borderRadius: '15px'}} src={product.images[0]} alt='Bilden hittades inte' />
                                 </Link>
                                 <p style={{textAlign: 'center'}}>  {product.name}  </p>
                             </div>

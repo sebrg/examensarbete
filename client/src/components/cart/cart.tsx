@@ -105,7 +105,19 @@ export default function Cart(props: Props) {
         }
     }
 
-	 useEffect(() => {
+    const calculateTotalPrice = (products: Product[]) => {
+        let total: number = 0
+        products.map((product) => {
+            if(product.quantity) {
+                let priceTimesQuantity = product.price * product.quantity
+                total = (total + priceTimesQuantity)
+            }
+        })
+        return total
+    }
+
+
+    useEffect(() => {
         productContext.functions.verifyCheckoutSession(general.path as string) 
     }, [])
 
@@ -117,7 +129,7 @@ export default function Cart(props: Props) {
 
 
     useEffect(() => {
-        console.log("productsInCart: ", productsInCart)
+        //console.log("productsInCart: ", productsInCart)
         if(productsInCart !== undefined || localst === null) {
             setLoading(false)
         }
@@ -135,10 +147,16 @@ export default function Cart(props: Props) {
     return (
         
             
-            <div id="cartWrapper" style={cartWrapperStyle}>
+            <div id="cartWrapper" className='noScrollBar' style={cartWrapperStyle}>
                 <Helmet>
                     <title>{`Marung - Kundvagn`}</title>
                 </Helmet>
+
+                <div className="contentHeader" style={contentHeader}> 
+                    <h3>
+                        Kundvagn
+                    </h3>
+                </div>
 
                 {loading? //FIXME: Spinner
                     <SpinnerModal fullScreen={true} message={statusMsg as string} />
@@ -149,7 +167,7 @@ export default function Cart(props: Props) {
                     : null
                 }
                     
-                <div className="noScrollBar" style={{overflow: "auto", borderRadius: "10px"}}>    
+                <div id="cartContentWrapper" className="noScrollBar" style={{padding: "0 2em"}}>    
                     {productsInCart !== undefined && productsInCart.length > 0?   
                         productsInCart.map((cartItem, i) => {
                                 return (
@@ -158,8 +176,6 @@ export default function Cart(props: Props) {
                                             <div className='cartSectionProductWrapper' style={cartSectionProductWrapperStyle}  >
                                                 {
                                                     cartItem.products.map((product, i) => {
-                                                        /* let total = productsInCart.reduce((sum: any,item: any) => sum + item.price * item.quantity, 0)     
-                                                        console.log(total) */ //NOTE: Totalsumma av produkter..
                                                         return(
                                                             <CartProductCard key={i} product={product} linkTo={`/company/${cartItem.companyName}/${cartItem.companyId}/product/${product.name}/${product.id}`}>
                                                                 <CartProductController product={product} syncCart={syncCart}/>
@@ -171,7 +187,11 @@ export default function Cart(props: Props) {
                                             </div>
                                                 
                                         <div className='paymentSection' style={paymentSectionStyle}>
-                                            <p style={{minWidth: "50%", textAlign: "center", fontSize: "1.2em"}}>Total pris: total </p>
+                                            <div id="paymentSectionInfo" style={{minWidth: "50%", /* textAlign: "center", */ fontSize: "1.2em"}}>
+                                                <p>Frakt: {cartItem.shippingPrice}kr</p>
+                                                <p>Produkter: {calculateTotalPrice(cartItem.products)}kr </p>
+                                                <p>Totalt: {cartItem.shippingPrice + calculateTotalPrice(cartItem.products)}kr</p>
+                                            </div>
 
                                             <Button border='1px solid black' width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' onClick= { async () => {
                                                 setLoading(true); 
@@ -214,7 +234,8 @@ const cartWrapperStyle: CSSProperties = {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    padding: "1em 2em",
+    //padding: "0 2em",
+    overflow: "auto"
     //overflow: "auto",
     //position: "relative"
 }
@@ -253,4 +274,21 @@ const paymentSectionStyle: CSSProperties = {
     justifyContent: "center",
     flexWrap: "wrap",
     alignItems: "center"
+}
+
+const contentHeader: CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: "100%", 
+   // height: "10%",
+    backgroundColor: '#92A8D1',
+    fontSize: '1.5em',
+    color: 'white',
+    borderBottom: "1px solid black",
+    borderBottomLeftRadius: "15px",
+    borderBottomRightRadius: "15px",
+    position: "sticky",
+    top: 0,
+    marginBottom: "1em"
 }
