@@ -28,15 +28,15 @@ export default function CompanyCard(props: Props) {
             </div>
 
             <div className="companyCardInfoDiv">
-                <p>Kategori: {props.company.category}</p>
-            </div>
-
-            <div className="companyCardInfoDiv">
                 <p>Region: {props.company.region}</p>
             </div>
 
             <div className="companyCardInfoDiv">
                 <p>Skola: {props.company.school}</p>
+            </div>
+
+            <div className="companyCardInfoDiv">
+                <p>Email: {props.company.email}</p>
             </div>
 
         </div>

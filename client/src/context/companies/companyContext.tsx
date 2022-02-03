@@ -7,7 +7,7 @@ import { FbQuery, StatusObject, Order } from '../../types'
 export interface CompanyOptions {
 
 
-    addCompany: (company: Company, to: "companies" | "pendingCompanies") => Promise<StatusObject>
+    addCompany: (company: Omit<Company, "category">, to: "companies" | "pendingCompanies") => Promise<StatusObject>
     getCurrentUserCompany: () => Promise<Company[]>
     getAllCompanies: (company: "companies" | "pendingCompanies") => Promise<Company[]>
     updateCompany: (stripeId: string) => void
@@ -25,7 +25,7 @@ export interface CompanyOptions {
 
 
 export const CompanyContext = createContext({
-    addCompany: (company: Company, to: "companies" | "pendingCompanies") => {},
+    addCompany: (company: Omit<Company, "category">, to: "companies" | "pendingCompanies") => {},
     getCurrentUserCompany: () => {},
     aproveCompany: (id: string) => {},
     removeCompany: (id: string) => {},

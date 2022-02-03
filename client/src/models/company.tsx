@@ -15,9 +15,10 @@ export class Company {
     category: string;
     payments: Payments;
     shipping: Shipping
+    email: string
     id?: string //NOTE: not sure to keep
     creator?: string
-   constructor(name: string, school: string, region: string, category: string, payments: Payments, shipping: Shipping, id?: string, creator?: string) {
+   constructor(name: string, school: string, region: string, category: string, payments: Payments, shipping: Shipping, email: string, id?: string, creator?: string) {
         this.name = name
         this.school = school
         this.region = region
@@ -26,5 +27,6 @@ export class Company {
         this.payments = payments
         this.shipping = shipping
         this.creator = creator
+        this.email = email
     }
 }

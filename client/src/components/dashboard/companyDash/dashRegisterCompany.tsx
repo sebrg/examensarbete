@@ -17,6 +17,7 @@ export default function DashRegisterCompany() {
         const userContext: UserOptions = useContext(UserContext)
 
         const [loading, setLoading] = useState<boolean>(true)
+        const [statusMsg, setStatusMsg] = useState<string | undefined>()
         const [redirect, setRedirect] = useState<boolean | undefined>(undefined)
         const [userInfo, setUserInfo] = useState<UserInfo | undefined>()
 
@@ -24,6 +25,8 @@ export default function DashRegisterCompany() {
         const [school, setSchool] = useState<string>("")
         const [region, setRegion] = useState<string>("")
         const [category, setCategory] = useState<string>("")
+        const [email, setEmail] = useState<string>("")
+
         
         
         const updateName = (event: any) => {
@@ -37,10 +40,15 @@ export default function DashRegisterCompany() {
         const updateRegion = (event: any) => {
             event? setRegion(event.target.value) : setRegion("")
         } 
+        const updateEmail = (event: any) => {
+            event? setEmail(event.target.value) : setEmail("")
+        } 
         
+        /*  
         const updateCategory = (event: any) => {
             event? setCategory(event.target.value) : setCategory("")
-        } 
+        }  
+        */
 
         const checkStatus = async () => {
             if(auth.currentUser) {
@@ -71,7 +79,7 @@ export default function DashRegisterCompany() {
 
     return (
         loading?
-            <SpinnerModal />
+            <SpinnerModal message={statusMsg}/>
             : redirect === true?
                 <p>Inte tillåtet</p>
                 : redirect === false? 
@@ -90,13 +98,31 @@ export default function DashRegisterCompany() {
                             <p style={inputTitle}>Region:</p>
                             <input style={inputStyle} className='removeInputOutline' onChange={(event) => updateRegion(event)}/>
                         </div>
+
+                        <div style={inputWrap}>
+                            <p style={inputTitle}>Email:</p>
+                            <input style={inputStyle} className='removeInputOutline' onChange={(event) => updateEmail(event)}/>
+                        </div>
             
+                        {/*                     
                         <div style={inputWrap}>
                             <p style={inputTitle}>Category:</p>
                             <input style={inputStyle} className='removeInputOutline' onChange={(event) => updateCategory(event)}/>
-                        </div>
+                        </div> 
+                        */}
             
-                        <Button  border='1px solid black' onClick={() => companyContext.addCompany({name, school, region, category, payments: {enabled: false}, shipping: {shippingPrice: 0, freeShippingOver: 0}}, "pendingCompanies")} buttonText='Registrera ansökan' width='30%' bgColor='black'/>
+                        <Button  border='1px solid black' buttonText='Registrera ansökan' width='30%' bgColor='black' onClick={ async () => {
+                            setLoading(true)
+                            const result = await companyContext.addCompany({name, school, region, email, payments: {enabled: false}, shipping: {shippingPrice: 0, freeShippingOver: 0}}, "pendingCompanies")
+                            if(result) {
+                                setStatusMsg(result.message)
+                                setTimeout(() => {
+                                    setLoading(false) 
+                                    setStatusMsg(undefined)
+                                }, 1500)    
+                            } 
+
+                        }}/>  
         
                     </div>
                     : null
@@ -118,7 +144,8 @@ const inputWrap: CSSProperties = {
     color: "black",
     display: "flex",
     marginBottom: "1em",
-    width: "100%"
+    width: "100%",
+    borderRadius: "10px"
 }
 
 const inputTitle: CSSProperties = {
@@ -128,5 +155,7 @@ const inputTitle: CSSProperties = {
 
 const inputStyle: CSSProperties = {
     width: "100%",
+    borderTopRightRadius: "10px",
+    borderBottomRightRadius: "10px",
 
 }
