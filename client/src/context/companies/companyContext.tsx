@@ -16,7 +16,7 @@ export interface CompanyOptions {
     removeCompany: (id: string) => void
     getCompany: (from: "companies" | "pendingCompanies", queryOne: FbQuery, queryTwo?: FbQuery) => Promise<Company[]>
     getOrdersByCompany: (userId: string, shippingStatus: string) => Promise<DocumentData>
-    orderIsShipped:(orderId: string, shipped: string) => Promise<void>
+    orderIsShipped:(orderId: string, shipped: string) => Promise<StatusObject>
     getOrder: (orderId: string) => Promise<Order[]>
     denyCompany: (companyId: string) => void
     updateShipping: (shippingPrice: string, freeShippingOver: string) => Promise<StatusObject>

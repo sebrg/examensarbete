@@ -17,7 +17,6 @@ type Props = {
 export default function ShippingPopup(props: Props) {
 
     const companyContext: CompanyOptions = useContext(CompanyContext)
-    const [currentView, setCurrentView] = useState<"start" | "stripe">("start")
     const [shippingPrice, setShippingPrice] = useState<string>(props.company? props.company.shipping.shippingPrice.toString() : "0")
     const [freeShippingOver, setFreeShippingOver] = useState<string>(props.company? props.company.shipping.freeShippingOver.toString() : "0")
     const [isLoading, setIsLoading] = useState<boolean>(false)
