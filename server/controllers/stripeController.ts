@@ -231,7 +231,13 @@ export const verifySession = async (req: any, res: any, next: any) => {
 export const checkSession = async (req: any, res: any, next: any) => {
 
     const pendingOrders = await req.body.pendingOrders
-    
+
+    if(pendingOrders.length <= 0) {
+        return res.status(204).json({
+            status: 204, 
+            message: "No content"
+          })
+    }
     const sessionObj: any = await Promise.all(  pendingOrders.map (element => {
         const session = stripe.checkout.sessions.retrieve(element.id, {
             stripeAccount: element.stripe_acc_id
