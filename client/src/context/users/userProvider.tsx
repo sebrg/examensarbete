@@ -212,10 +212,14 @@ export default class UserProvider extends Component<Props, UserOptions>   {
 
                 if(newUserInfo.phoneNr && newUserInfo.phoneNr !== 0) {
                     clonedUserInfo.phoneNr = newUserInfo.phoneNr
+                } else if (newUserInfo.phoneNr == 0) {
+                    clonedUserInfo.phoneNr = null
                 }
 
-                if(newUserInfo.co !== null || newUserInfo.co !== undefined || newUserInfo.co !== "") {
+                if(newUserInfo.co !== null && newUserInfo.co !== "") {
                     clonedUserInfo.co = newUserInfo.co
+                } else if (newUserInfo.co == "") {
+                    clonedUserInfo.co = null
                 }
 
                 if(newUserInfo.pendingCompany !== null && newUserInfo.pendingCompany !== undefined) {
