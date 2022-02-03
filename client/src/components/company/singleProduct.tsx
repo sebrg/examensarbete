@@ -101,7 +101,7 @@ export default function SingleProduct() {
                         return (     
                             <div id='reel-div' key={i} style={{width: '100%', height: '25%', display: 'flex', justifyContent: 'center', marginBottom: '1.5em', flexDirection: 'column', padding: '0.5em'}}>
                                 <Link key={product.id} to={`/company/${companyName as string}/${companyId as string}/product/${product.name}/${product.id}`} style={{height: '100%', width: '100%', borderRadius: '15px', border: '1px solid #E0B589', backgroundColor: '#EFE1CE'}}>
-                                <img  /* onClick={() => setShouldRedirect(true)} */ style={{objectFit: 'contain', height: '100%', width: '100%', borderRadius: '15px'}} src={product.images[0]} alt='Bilden hittades inte' />
+                                <img  /* onClick={() => setShouldRedirect(true)} */ style={{objectFit: 'contain', height: '100%', width: '100%', borderRadius: '15px'}} src={product.images[0]} alt='produktbild' />
                                 </Link>
                                 <p style={{textAlign: 'center'}}>  {product.name}  </p>
                             </div>

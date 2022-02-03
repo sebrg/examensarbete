@@ -15,7 +15,7 @@ export default function DashProductCard(props: Props) {
     return (
         <div className='dashCardWrapper' style={productCardWrapper}>
                 <div id="dashProductCardImgWrapp" style={cartProductCardImgWrapp}>
-                    <img style={{width: "100%", height: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
+                    <img style={{width: "100%", height: "100%", objectFit: "contain"}} src={props.product.images[0]} alt='produkt'/>
                 </div>
 
             <div id="dashProductCardNameAndPrice" style={dashProductCardInfoWrapp}>

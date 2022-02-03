@@ -22,7 +22,7 @@ export default function ImgPreview(props: Props) {
 
             return (
                 <div key={i} id="uploadPreviewImgWrap" style={{...uploadPreviewImgWrapStyle, }}>
-                    <img className='previewImg' style={imgStyle} src={previewSrc as string} />
+                    <img className='previewImg' style={imgStyle} src={previewSrc as string} alt='Gick inte att hämta bilden..' />
                     <span onClick={() => props.removeFunc(img)} style={removeIconStyle} >    
                          <IoMdRemoveCircleOutline /> 
                     </span>

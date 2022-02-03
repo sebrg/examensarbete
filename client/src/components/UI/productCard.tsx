@@ -28,7 +28,7 @@ export default function ProductCard(props: Props) {
             <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, minWidth: props.minWidth, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor, border: props.border? props.border : "1px solid black"}}>
                 <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
                  {   <Link style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}} to={props.linkTo}> 
-                        <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
+                        <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]} alt='produktbild'/>
                     </Link>}
                 </div>
                 <div className='productInfoWrapper' style={props.direction == "row"? productInfoWrapperRowStyle : productInfoWrapperColumnStyle }>
@@ -67,7 +67,7 @@ export default function ProductCard(props: Props) {
             <div className='productCardWrapper' style={{...productCardWrapperStyle, width: props.width, height: props.height, flexDirection: props.direction, backgroundColor: props.bgColor,  border: props.border? props.border : "1px solid black"}}>
                 <div className='productCardImgWrapper' style={props.direction == "row"? productCardImgWrapperRowStyle : productCardImgWrapperColumnStyle }>
                     <div style={{justifyContent: "center", width: "100%", height: "100%", display: "flex", alignItems: "center"}}> 
-                        <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
+                        <img style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}} src={props.product.images[0]} alt='produktbild'/>
                     </div>
                 </div>
                 <div className='productInfoWrapper' style={props.direction == "row"? productInfoWrapperRowStyle : productInfoWrapperColumnStyle }>

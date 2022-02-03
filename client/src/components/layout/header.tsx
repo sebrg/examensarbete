@@ -22,7 +22,7 @@ export default function Header(props: Props) {
 				<CartBtn scrollContentIntoView={props.scrollContentIntoView} />
 			</div>			
 
-			<img src={marungoFatGreen} style={logoStyleTest}></img>
+			<img src={marungoFatGreen} style={logoStyleTest} alt='marung-logo'></img>
 		</header>
     );
 }

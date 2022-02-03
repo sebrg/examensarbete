@@ -34,7 +34,7 @@ export default function ImageSlider(props: Props) {
                         key={index}
                         >
                         {index === current && (
-                            <img id='img-slide' style={img} src={slide} alt='Bilden kunde inte ladda..' />
+                            <img id='img-slide' style={img} src={slide} alt='slider-bild' />
                             )}
                     </div>   
                 );

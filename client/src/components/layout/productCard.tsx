@@ -65,7 +65,7 @@ export default function ProductCard(props: Props) {
                         height: props.height
                     }}
                 >
-                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="" />
+                <img style={{...img, width: props.imgWidth, height: props.imgHeight}} src={props.product.images[0]} alt="produktbild" />
                 <div style={cardFrame}> 
                     <p> {/* {props.ProductInfo} */} product info goes here</p>
                     <h3>{props.product.name}</h3>

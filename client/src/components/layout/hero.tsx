@@ -25,7 +25,7 @@ export default function Hero(props: Props) {
                 }}/>
 
             </div>
-            <img src={marungTestBackground} style={{objectFit: "contain", /* alignSelf: "center", */ height: "60%", borderBottomRightRadius: "15px", borderBottomLeftRadius: "15px"}}></img>
+            <img src={marungTestBackground} style={{objectFit: "contain", /* alignSelf: "center", */ height: "60%", borderBottomRightRadius: "15px", borderBottomLeftRadius: "15px"}} alt='marung-hero'></img>
             <h1 style={{color: 'black', fontSize: '1em'}}>Marknadsplattformen för unga företagare</h1>
 
         </div>

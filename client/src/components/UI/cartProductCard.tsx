@@ -17,7 +17,7 @@ export default function CartProductCard(props: Props) {
         <div className='productCardWrapper' style={productCardWrapper}>
             <Link to={props.linkTo}> 
                 <div id="cartProductCardImgWrapp" style={cartProductCardImgWrapp}>
-                    <img style={{width: "100%", height: "100%", objectFit: "contain"}} src={props.product.images[0]}/>
+                    <img style={{width: "100%", height: "100%", objectFit: "contain"}} src={props.product.images[0]} alt='produktbild'/>
                 </div>
             </Link> 
 
