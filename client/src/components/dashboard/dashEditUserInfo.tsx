@@ -193,7 +193,6 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText='Tillbaka' onClick={() => props.setShowOrEdit("show")}/>
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
-                    console.log("userinfo", props.userInfo) 
                     const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), props.idFromUrl as string)
                         console.log("dashEditUserInfo: ", phoneNr)
                         if(result.status === 200) {
@@ -205,7 +204,6 @@ export default function DashEditUserInfo(props: Props) {
                             }, 1500);
                         } 
                         else {
-                            console.log(result.status, result.message)
                             setStatusMsg(result.message)
                             setTimeout(() => {
                                 setLoading(false) 

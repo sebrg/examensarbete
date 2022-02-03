@@ -13,6 +13,7 @@ export type Company = {
     category: string;
     payments: Payments
     shipping: Shipping
+    email: string
     id?: string //NOTE: not sure to keep
     creator?: string
 
