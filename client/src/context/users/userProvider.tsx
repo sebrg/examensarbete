@@ -186,35 +186,35 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 const clonedUserInfo = {...userInfo[0]}
 
                 console.log("clonedUser b4", clonedUserInfo)
-                if(newUserInfo.firstName !== undefined) {
+                if(newUserInfo.firstName !== undefined && newUserInfo.firstName !== "") {
                     clonedUserInfo.firstName = newUserInfo.firstName
                 }
 
-                if(newUserInfo.surName !== undefined) {
+                if(newUserInfo.surName !== undefined && newUserInfo.surName !== "") {
                     clonedUserInfo.surName = newUserInfo.surName
                 }
 
-                if(newUserInfo.city !== undefined) {
+                if(newUserInfo.city !== undefined && newUserInfo.city !== "") {
                     clonedUserInfo.city = newUserInfo.city
                 }
 
-                if(newUserInfo.municipality !== undefined) {
+                if(newUserInfo.municipality !== undefined && newUserInfo.municipality !== "") {
                     clonedUserInfo.municipality = newUserInfo.municipality
                 }
 
-                if(newUserInfo.zipCode !== undefined) {
+                if(newUserInfo.zipCode && newUserInfo.zipCode !== 0) {
                     clonedUserInfo.zipCode = newUserInfo.zipCode
                 }
 
-                if(newUserInfo.adress !== undefined) {
+                if(newUserInfo.adress !== undefined && newUserInfo.adress !== "") {
                     clonedUserInfo.adress = newUserInfo.adress
                 }
 
-                if(newUserInfo.phoneNr !== null || undefined) {
+                if(newUserInfo.phoneNr && newUserInfo.phoneNr !== 0) {
                     clonedUserInfo.phoneNr = newUserInfo.phoneNr
                 }
 
-                if(newUserInfo.co !== null || undefined) {
+                if(newUserInfo.co !== null || newUserInfo.co !== undefined || newUserInfo.co !== "") {
                     clonedUserInfo.co = newUserInfo.co
                 }
 
@@ -267,13 +267,17 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                     return {status: 400, message: "Du måste fylla i alla uppgifter som krävs" } as StatusObject
                 } 
                 
-                if(clonedUserInfo.phoneNr === undefined) {
+                if(newUserInfo.phoneNr && newUserInfo.phoneNr !== 0) {
+                    clonedUserInfo.phoneNr = newUserInfo.phoneNr
+                } else {
                     clonedUserInfo.phoneNr = null
-                } 
-    
-                if(clonedUserInfo.co === undefined) {
+                }
+
+                if(newUserInfo.co && newUserInfo.co !== "") {
+                    clonedUserInfo.co = newUserInfo.co
+                } else {
                     clonedUserInfo.co = null
-                } 
+                }
                 //Maybe use addDoc instead
                 /* 
                     await addDoc(collection(firebaseCollection.db, "products"), {
