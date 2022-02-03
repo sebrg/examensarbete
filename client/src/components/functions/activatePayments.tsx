@@ -1,6 +1,7 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import { FaStripe } from 'react-icons/fa';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 import Button from '../UI/button';
@@ -44,7 +45,8 @@ export default function ActivatePayments(props: Props) {
     }
 
     async function getAccount() {
-        if(stripeId) {
+        try {
+            
             const response = await fetch(`${general.path}/getStripeAcc` , {
                 method: "POST",
                 headers: {"content-type": "application/json"},
@@ -53,17 +55,24 @@ export default function ActivatePayments(props: Props) {
             })
             
             const status = await response.json()
+            console.log("status:", status)
             setStripeAccountStatus(status)
+            if(status) {
+                setLoading(false)
+            }
+        } catch(err) {
+            setLoading(false)
+
         }
-        setLoading(false)
+
     }
    
-
-
     useEffect(() => {
         getAccount()
+        setLoading(false)
+        
     }, [stripeId]) 
-
+    
     useEffect(() => {
         syncIdAndStatus()
     }, []) 
@@ -71,22 +80,21 @@ export default function ActivatePayments(props: Props) {
 
     return (
         <div className='popUpWrapp' style={popUpWrapp} onClick={() => props.setActivatePaymentsOpen(false)}>
-            <div id='activate-payments' style={activatePayments}>
+            {loading?
+                <SpinnerModal fullScreen={true}/>
+                : null}
+            
+            <div id='activate-payments' style={activatePayments} onClick={(event) => event.stopPropagation()}>
 
-                {currentView === 'start'?
-                        loading || stripeAccountStatus?.status == undefined? 
-                            <SpinnerModal fullScreen={true}/>
-                            :
-                            stripeAccountStatus?.status === 200? 
-                                <p style={{textAlign: 'center', marginTop: '1.5em'}}>Du har aktiverat Stripe</p>
-                                :
-                                <Button border='1px solid black' color='black' width='50%' onClick={() => setCurrentView("stripe")} buttonText='Ta emot betalningar med Stripe'/>
-                                : currentView === 'stripe'? 
-                                    <Elements stripe={stripePromise}> 
-                                        <ActivateStripe stripeAccountStatus={stripeAccountStatus} setStripeAccountStatus={(status: Status) => setStripeAccountStatus(status)} stripeId={stripeId as string} syncIdAndStatus={() => syncIdAndStatus()}/>
-                                    </Elements>
-                                    : null
-                }
+            {currentView === 'start'? 
+                //FIXME: "Button" should not have ID, fix styling in button component instead 
+                <Button id="stripeBtn" border='1px solid black' color='black' minWidth="20vw" onClick={() => setCurrentView("stripe")} icon={<FaStripe fontSize={"3em"}/>}/>
+                : currentView === 'stripe'? 
+                    <Elements stripe={stripePromise}> 
+                        <ActivateStripe stripeAccountStatus={stripeAccountStatus} setStripeAccountStatus={(status: Status) => setStripeAccountStatus(status)} stripeId={stripeId as string} syncIdAndStatus={() => syncIdAndStatus()}/>
+                    </Elements>
+                    : null
+            }
 
             </div> 
         </div>   
@@ -96,9 +104,13 @@ export default function ActivatePayments(props: Props) {
 
 
 const activatePayments: CSSProperties = {
-    width: "50%",
-    minHeight: "50%",
     backgroundColor: "rgb(239, 225, 206)",
+    borderRadius: "10px",
+    color: "black",
+    padding: "1em",
+    minHeight: "200px",
+    display: "flex",
+    alignItems: "center"
 }
 
 const popUpWrapp: CSSProperties = {
@@ -113,5 +125,4 @@ const popUpWrapp: CSSProperties = {
     padding: "2em",
     justifyContent: "center",
     alignItems: "center"
-
 }

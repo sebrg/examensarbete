@@ -187,13 +187,14 @@ export default function Cart(props: Props) {
                                             </div>
                                                 
                                         <div className='paymentSection' style={paymentSectionStyle}>
-                                            <div id="paymentSectionInfo" style={{minWidth: "50%", /* textAlign: "center", */ fontSize: "1.2em"}}>
-                                                <p>Frakt: {cartItem.shippingPrice}kr</p>
+                                            <div id="paymentSectionInfo" style={{minWidth: "50%", fontSize: "1.2em"}}>
+                                                
+                                                <p>Frakt: {calculateTotalPrice(cartItem.products) > cartItem.freeShippingOver && cartItem.freeShippingOver !== 0? 0 : cartItem.shippingPrice}kr</p>
                                                 <p>Produkter: {calculateTotalPrice(cartItem.products)}kr </p>
-                                                <p>Totalt: {cartItem.shippingPrice + calculateTotalPrice(cartItem.products)}kr</p>
+                                                <p>Totalt: {calculateTotalPrice(cartItem.products) > cartItem.freeShippingOver && cartItem.freeShippingOver !== 0? calculateTotalPrice(cartItem.products) : cartItem.shippingPrice + calculateTotalPrice(cartItem.products)}kr</p>
                                             </div>
 
-                                            <Button border='1px solid black' width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' onClick= { async () => {
+                                            <Button border='1px solid black' width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' margin="0.5em 0 0 0" onClick= { async () => {
                                                 setLoading(true); 
                                                 const result = await productContext.functions.checkQuantityBeforePurchase(cartItem.products)
                                                 if(result?.status === 410) {  
@@ -273,7 +274,8 @@ const paymentSectionStyle: CSSProperties = {
     flexGrow: 1,
     justifyContent: "center",
     flexWrap: "wrap",
-    alignItems: "center"
+    alignItems: "flex-end",
+    margin: "0 0 1.5em 0",
 }
 
 const contentHeader: CSSProperties = {
