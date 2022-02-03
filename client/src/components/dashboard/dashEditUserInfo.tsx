@@ -128,7 +128,7 @@ export default function DashEditUserInfo(props: Props) {
             inputName: "co",
             inputText: "C/o",
             value: props.userInfo?.co? props.userInfo.co : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.co? props.userInfo.co : "", setFirstName)},
+            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.co? props.userInfo.co : "", setCo)},
             required: false
         }
     ] 

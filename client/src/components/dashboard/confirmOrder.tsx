@@ -75,13 +75,16 @@ export default function ConfirmOrder(props: Props) {
             }
 
             <div onClick={(event) => event.stopPropagation()} id='markorder-content' style={checkoutContent}>
-                        <h4>Adress till köpare</h4>
+                        <h4>Kundinformation</h4>
                         <p> {props.order?.userInfo.firstName} </p>
                         <p> {props.order?.userInfo.surName} </p>
                         <p> {props.order?.userInfo.city} </p>
                         <p> {props.order?.userInfo.municipality} </p>
                         <p> {props.order?.userInfo.adress} </p>
-                        <p style={{marginBottom: '1em'}}> {props.order?.userInfo.zipCode} </p>
+                        <p> {props.order?.userInfo.zipCode} </p>
+                        <p> {props.order?.userInfo.phoneNr? props.order?.userInfo.phoneNr: null} </p>
+                        <p> {props.order?.userInfo.co? props.order?.userInfo.co: null} </p>
+
                         {/* <Button border='1px solid black' minWidth='50%' height='5vh' buttonText='Boka frakt'></Button>   NOTE: Boka frakt nångång   */} 
                         
                             <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginTop: '5em'}}> 
