@@ -68,7 +68,7 @@ const leftArrow: CSSProperties = {
     position: 'absolute',
     bottom: 0,
     zIndex: 10,
-    left: '30%',
+    left: '10%',
     cursor: 'pointer',
     fontSize: '48px',
 }
@@ -78,7 +78,7 @@ const rightArrow: CSSProperties = {
     position: 'absolute',
     bottom: 0,
     zIndex: 10,
-    right: '30%',
+    right: '10%',
     cursor: 'pointer',
     fontSize: '48px',
 }

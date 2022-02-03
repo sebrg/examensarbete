@@ -242,7 +242,20 @@
         align-items: center !important;
     }
     
+    /* ActivatePayment popup */
 
+    #activate-payments {
+        width: 90% !important;
+    }
+
+    #activate-payments * {
+        width: 100% !important;
+    }
+
+    #stripeBtn {
+        display: block !important;
+    }
+ 
     /* Cart */ 
     #cartWrapper {
 /*         padding: 1em 0.5em !important;
@@ -260,6 +273,10 @@
         flex-direction: column;
         min-width: 100% !important;
         align-items: center !important;
+    }
+
+    .paymentSection {
+        margin: 0 0 0.5em 0 !important;
     }
 
     .paymentSection div {

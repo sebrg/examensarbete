@@ -67,26 +67,24 @@ export default function ActivateStripe(props: Props) {
      }, [props.stripeId])
 
 
-
-
     return (
-        <div style={StripeActivation}> 
+        <div id="stripeActivationWrapp" style={StripeActivation}> 
             {!props.stripeId? 
                 <div>
-                    <p>Steg 1: Skapa ditt stripe konto för att ta emot kortbetalningar</p>
+                    <p style={textStyle}>Steg 1: Skapa ditt stripe konto för att ta emot kortbetalningar</p>
                     <Button border='1px solid black' onClick={createStripeAcc} buttonText='Skapa stripe konto'/>
-                    <p> {props.stripeAccountStatus?.message} </p>
+               {/*      <p> {props.stripeAccountStatus?.message} </p> */}
                 </div>
                 : props.stripeAccountStatus?.status === 201?
                     <div>
-                        <p>Steg 2: Länka ditt stripe konto till oss för att ta betalt</p>
+                        <p style={textStyle}>Steg 2: Länka ditt stripe konto till oss för att ta betalt</p>
+                        <p style={textStyle}> {props.stripeAccountStatus.message} </p>
                         <Button border='1px solid black' onClick={createStripeLink} buttonText='Länka konto'/>
-                        <p> {props.stripeAccountStatus.message} </p>
                     </div>
                     : props.stripeAccountStatus?.status === 202?
-                        <p> {props.stripeAccountStatus?.message} </p>
+                        <p style={textStyle}> {props.stripeAccountStatus?.message} </p>
                         : props.stripeAccountStatus?.status === 200?
-                            <p> {props.stripeAccountStatus?.message} </p>
+                            <p style={textStyle}> {props.stripeAccountStatus?.message} </p>
                             : null    
             }
         </div>    
@@ -97,8 +95,11 @@ export default function ActivateStripe(props: Props) {
 const StripeActivation: CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: '1em',
+    //marginTop: '1em',
     width: "100%",
     height: "100%",
 }
 
+const textStyle: CSSProperties = {
+    margin: "0 0 1em 0"
+}
