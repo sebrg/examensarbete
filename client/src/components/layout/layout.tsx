@@ -1,5 +1,4 @@
 import React, { CSSProperties, useContext, useEffect, useRef, useState } from 'react';
-import Footer from './footer';
 import Header from './header';
 import LoginPopup from './loginPopup';
 import Main from './main';

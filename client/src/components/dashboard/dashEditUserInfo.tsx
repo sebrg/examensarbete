@@ -1,6 +1,5 @@
-import { userInfo } from 'os';
+
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { useMatch } from 'react-router-dom';
 import { Company } from '../../models';
 import { UserInfo } from '../../types';
 import Button from '../UI/button';

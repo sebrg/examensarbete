@@ -1,6 +1,4 @@
-import { DocumentData } from 'firebase/firestore'
 import { createContext } from 'react'
-import { Company, Product } from "../../models"
 import { StatusObject, UserInfo } from '../../types'
 
 

@@ -1,6 +1,4 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Company } from '../../models';
-import Button from '../UI/button';
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { FbQuery, Order } from '../../types';

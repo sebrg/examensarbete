@@ -1,5 +1,4 @@
-import React, { CSSProperties, ReactElement, useContext, useEffect, useState } from 'react';
-import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
+import React, { CSSProperties, ReactElement } from 'react';
 import "../../animations.css"
 import { Link } from 'react-router-dom';
 

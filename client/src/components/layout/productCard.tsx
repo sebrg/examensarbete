@@ -1,9 +1,8 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Link, useMatch } from 'react-router-dom';
-import Button from '../UI/button'
+import React, { CSSProperties } from 'react';
+import { Link } from 'react-router-dom';
 import AddToCartBtn from '../cart/addToCartBtn';
 import { Product } from '../../models'
-import { DocumentData } from 'firebase/firestore';
+
 
 
 

@@ -4,7 +4,6 @@ import { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { CompanyContext, CompanyOptions, } from "../companies/companyContext"
 import { Company, Product } from "../../models"
-import { getDownloadURL, getStorage, ref, uploadBytesResumable,  } from "firebase/storage";
 import { FbQuery, Order, StatusObject, UserInfo } from "../../types"
 import { UserContext } from "../users/userContext";
 

@@ -1,6 +1,5 @@
-import Button from "../UI/button";
 import { AiOutlineMenu } from 'react-icons/ai';
-import { CSSProperties, useState } from "react";
+import { CSSProperties } from "react";
 
 type Props = {
     children?: JSX.Element

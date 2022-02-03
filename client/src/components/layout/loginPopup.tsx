@@ -1,6 +1,5 @@
 import { getAuth } from 'firebase/auth';
 import React, { CSSProperties, useContext, useState } from 'react';
-//import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import Button from '../UI/button';
 import { FcGoogle } from 'react-icons/fc';
 import { HiOutlineMail } from 'react-icons/hi';

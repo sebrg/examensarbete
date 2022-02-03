@@ -1,8 +1,7 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { AiOutlineClose, AiOutlineFileAdd } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import { Product } from '../../../models';
-import ImgPreview from '../../functions/imgPreview';
 import ImgUpload from '../../functions/imgUpload';
 import SpinnerModal from '../../functions/spinnerModal';
 import Button from '../../UI/button';

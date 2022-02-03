@@ -1,7 +1,5 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
-import marungTestBackground from "./../../assets/cartLogoDarker.png"
 import AdminStart from './adminStart';
 import PendingCompanies from './pendingCompanies';
 

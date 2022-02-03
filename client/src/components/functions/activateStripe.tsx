@@ -1,7 +1,5 @@
-import { Elements, useStripe } from '@stripe/react-stripe-js';
-import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { useStripe } from '@stripe/react-stripe-js';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { RiContactsBookLine } from 'react-icons/ri';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 import Button from '../UI/button';

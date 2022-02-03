@@ -1,7 +1,6 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties, useContext } from 'react';
 import Button from '../UI/button'
 import { Product } from '../../models'
-import { DocumentData } from 'firebase/firestore';
 import { FaCartPlus } from 'react-icons/fa';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 type Props = { //FIXME Fix correct types

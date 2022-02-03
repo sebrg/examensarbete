@@ -1,4 +1,4 @@
-import { CSSProperties, useContext, useEffect, useState } from 'react';
+import { CSSProperties } from 'react';
 import { Link, } from 'react-router-dom';
 import { Product } from '../../models'
 
