@@ -12,6 +12,7 @@ import ConfirmOrder from './confirmOrder';
 
 type Props = {
     order: Order | null
+    getNonShippedOrders: () => void
 }
 
 
@@ -28,7 +29,7 @@ export default function CompanyCard(props: Props) {
 
         <div className='foldableCompanyOrderCard' style={open? foldableCompanyCardOpen : foldableCompanyCardClosed}  onClick={open? (event) => event.stopPropagation() : () => setOpen(!open)}>
             {orderOpen?      
-               <ConfirmOrder setOrderOpen={(bool: boolean) => setOrderOpen(bool)} order={props.order}/>
+               <ConfirmOrder setOrderOpen={(bool: boolean) => setOrderOpen(bool)} order={props.order} getNonShippedOrders={props.getNonShippedOrders} />
                : null
             } 
             <div className='foldableCompanyOrderCardHeader' style={foldCardHeader} onClick={() => setOpen(!open)}>

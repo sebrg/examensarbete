@@ -259,7 +259,8 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         await updateDoc(orderRef, {
         ...clonedOrder as Order
         });     
-        console.log("Order is set as:", shipped)   
+        console.log("Order is set as:", shipped) 
+        return {status: 200, message: `Ordern är markerad som skickad` } as StatusObject   
     }
 
     
