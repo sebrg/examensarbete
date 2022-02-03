@@ -14,6 +14,7 @@ export const getAccount = async (req: any, res: any, next: any) => {
       );
       //Kollar status på stripe konto  
       if(account.details_submitted == false) {
+            console.log(account.details_submitted)
             res.status(201).send({status: 201, message: "Stripe saknar information, färdigställ länkningen" })
             return
       } else if(!account.charges_enabled && !account.payouts_enabled) {
@@ -22,7 +23,7 @@ export const getAccount = async (req: any, res: any, next: any) => {
       } else {
             res.status(200).send({status: 200, message: "Ditt konto har verifierats, nu kan du ta betalt med stripe" })
       }
-
+      console.log(account)
       return account
 }
 

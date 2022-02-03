@@ -198,9 +198,9 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
     async setPaymentEnabled(enabled: boolean) {
         let getCompany = await this.getCurrentUserCompany()
         let currentCompanyClone = getCompany[0] as Company
-
-        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id as string);
         currentCompanyClone.payments.enabled = enabled
+        console.log(currentCompanyClone)
+        const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id as string);
         await updateDoc(companyRef, {
         ...currentCompanyClone as Company
         });     
