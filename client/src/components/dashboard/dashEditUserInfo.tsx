@@ -138,7 +138,7 @@ export default function DashEditUserInfo(props: Props) {
         return inputsArray.map((item, key) => {
             if(item.inputName === "phoneNr" || item.inputName === "zipCode") {
                 return (
-                    <div key={key} style={editInputWrapperStyle}>
+                    <div className='editInputWrap' key={key} style={editInputWrapperStyle}>
                     
                         <p style={textInInputWrap}> {item.inputText} </p>
                        
@@ -154,7 +154,7 @@ export default function DashEditUserInfo(props: Props) {
     
             } else {
                 return (
-                    <div key={key} style={editInputWrapperStyle}>
+                    <div className='editInputWrap' key={key} style={editInputWrapperStyle}>
                     
                         <p style={textInInputWrap}> {item.inputText} </p>
                        
