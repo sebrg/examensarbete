@@ -211,32 +211,38 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         //Failsafe, verifierar session status
         //Tar bort utgångna checkout sessions och skickar tillbaka produkt quantity
         //console.log(param)
-        const pendingOrders = await this.getAllOrders("pendingOrders")
-		const response = await fetch(`${param}/checkSession`, {
-			method: "POST",
-            mode: 'cors',
-			headers: {"content-type": "application/json"},
-			credentials: 'include',
-			body: JSON.stringify({pendingOrders})
-		})
-		
-		const data = await response.json()
-        const sessionItems: any[] = data.cartItems
-
-        if(data.status === 410) {
-            console.log(data)
-                sessionItems.forEach(items => {                     
-                    this.addQuantityOnExpiredOrder(data.sessionId , items.productId, items.quantity)
-                })
-            return {status: 410} as StatusObject    
-	    }
-        if(data.status === 200) { 
-            //Failsafe om en order ej har blivit flyttad från pending till orders..
-            this.addOrder(data.sessionId, data.stripeCustomer)
-            console.log(data, "denna order är betalad och klar.")
+        try {
+            const pendingOrders = await this.getAllOrders("pendingOrders")
+            const response = await fetch(`${param}/checkSession`, {
+                method: "POST",
+                headers: {"content-type": "application/json"},
+                credentials: 'include',
+                body: JSON.stringify({pendingOrders})
+            })
+            
+            const data = await response.json()
+            const sessionItems: any[] = data.cartItems
+    
+            if(data.status === 200) { 
+                //Failsafe om en order ej har blivit flyttad från pending till orders..
+                this.addOrder(data.sessionId, data.stripeCustomer)
+                console.log(data, "denna order är betalad och klar.")
+                return {status: 200} as StatusObject 
+            }
+    
+            else if(data.status === 410) {
+                console.log(data)
+                    sessionItems.forEach(items => {                     
+                        this.addQuantityOnExpiredOrder(data.sessionId , items.productId, items.quantity)
+                    })
+                return {status: 410} as StatusObject    
+            }
+           
+            return  {status: 200} as StatusObject
+        }catch(err) {
+            return {status: 400, message: err} as StatusObject 
         }
-
-        return {status: 200} as StatusObject 
+       
     }
 
     async getOrdersByUser(userId: string) {
