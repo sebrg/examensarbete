@@ -54,14 +54,14 @@ export default function MainNav(props: Props) {
             <nav ref={navRef} id="mainNav" style={{...mainNavStyle, maxWidth: maxWidth, padding: padding}}>
                 
                 <AiOutlineClose style={{color: "white", cursor: "pointer", position: "absolute", top: "5px", right: "5px"}} fontSize={"1.5em "} onClick={() => props.setNavToggle(false)}/>
-
+                {/* Start button */}
                 <Button margin='0.5em 0 0 0' width='100%' color='black' bgColor='rgb(239 225 206)' border='2px solid black' linkTo={"/"} buttonText='Start' onClick={() => {
                     props.setNavToggle(false)
                     if(props.scrollContentIntoView) {
                         props.scrollContentIntoView(true)
                     }
                 }}/>         
-
+                {/* Produkcts button */}
                 <Button margin='0.5em 0 0 0' width='100%' color='black' bgColor='rgb(239 225 206)' border='2px solid black' linkTo={"/products"} buttonText='Produkter' onClick={() => {
                     props.setNavToggle(false)
                     if(props.scrollContentIntoView) {
@@ -70,20 +70,15 @@ export default function MainNav(props: Props) {
                 }}/>  
 
 
-
+                {/* myPages button */}
                 <Button margin='0.5em 0 0 0' width='100%' color='black' bgColor='rgb(239 225 206)' border='2px solid black' linkTo={`/myPages/${auth.currentUser?.uid}`} buttonText='Mina sidor' onClick={() => {
                     props.setNavToggle(false)
                     if(props.scrollContentIntoView) {
                         props.scrollContentIntoView(true)
                     }
                 }}/>   
-
-             {/*    <Button margin='0.5em 0 0 0' width='100%' color='white' bgColor='rgb(52 86 139)' border='1px solid white' buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => {
-                    props.setNavToggle(false)
-                    if(props.scrollContentIntoView) {
-                        props.scrollContentIntoView(true)
-                    }
-                }}/>   */}
+                
+                {/* Logout button */}
                 <div className='wrapForMargin' style={{marginTop: "auto"}}>
                     <Button margin='0.5em 0 0 0' width='100%' color='white' bgColor='rgb(236 28 36)' border='2px solid white' buttonText='Logga ut' linkTo={"/"} onClick={() => {
                     userContext.logOut()
@@ -99,23 +94,25 @@ export default function MainNav(props: Props) {
             <nav ref={navRef} id="mainNav" style={{...mainNavStyle, maxWidth: maxWidth, padding: padding}}>
                 
                 <AiOutlineClose style={{color: "white", cursor: "pointer", position: "absolute", top: "5px", right: "5px"}} fontSize={"1.5em "} onClick={() => props.setNavToggle(false)}/>
+                {/* Start */}
+                <Button margin='0.5em 0 0 0' width='100%' color='black' bgColor='rgb(239 225 206)' border='2px solid black' linkTo={"/"} buttonText='Start' onClick={() => {
+                    props.setNavToggle(false)
+                    if(props.scrollContentIntoView) {
+                        props.scrollContentIntoView(true)
+                    }
+                }}/>
 
-                <Button margin='0.5em 0 0 0' width='100%' color='white' bgColor='rgb(52 86 139)' border='1px solid white' linkTo={"/"} buttonText='Start' onClick={() => {
+                {/* Produkcts button */}
+                <Button margin='0.5em 0 0 0' width='100%' color='black' bgColor='rgb(239 225 206)' border='2px solid black' linkTo={"/products"} buttonText='Produkter' onClick={() => {
                     props.setNavToggle(false)
                     if(props.scrollContentIntoView) {
                         props.scrollContentIntoView(true)
                     }
-                }}/>
-                
-                <Button margin='0.5em 0 0 0' width='100%' color="white" bgColor='rgb(52 86 139)' border='1px solid white' buttonText='Varukorg' linkTo={`/cart/${auth.currentUser?.uid}`} onClick={() => {
-                   /*  props.scrollContentIntoView? props.scrollContentIntoView(true) : null */
-                    props.setNavToggle(false)
-                    if(props.scrollContentIntoView) {
-                        props.scrollContentIntoView(true)
-                    }
-                }}/>
+                }}/>  
+
+                {/* Login */}
                 <div className='btnWrapForMarginTopAuto' style={{marginTop: "auto"}}>
-                    <Button margin='0.5em 0 0 0' width='100%' color="white" bgColor='rgb(52 86 139)' border='1px solid white' buttonText='Login' onClick={() => {
+                    <Button margin='0.5em 0 0 0' width='100%' color="white" bgColor='rgb(28 236 155)' border='2px solid white' buttonText='Login' onClick={() => {
                         props.setNavToggle(false)
                         props.setLoginToggle(true)
                     }}/>
