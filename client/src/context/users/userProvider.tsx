@@ -86,7 +86,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         });
     }
 
-    createUserWithEmail(email: string | undefined, password: string | undefined) {
+    createUserWithEmail(email: string | undefined, password: string | undefined, callBack?: () => void) {
         if(password == undefined || email == undefined) {
             return
         }
@@ -97,14 +97,14 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
-            // ...
+            if(callBack) {
+                callBack()
+            }
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage)
-            // ..
         });
 
     }
