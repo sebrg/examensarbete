@@ -1,9 +1,7 @@
-import { DocumentData } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import  CompanyList  from '../company/companyList'
-import Button from '../UI/button';
-import Slider from '../UI/slider'
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -16,9 +14,12 @@ export default function Start() {
     
     return (
         <div id="startContentWrapp" className='noScrollBar' style={startContentWrapp}>
-   
+            <Helmet>
+                <title>Marung</title>
+                <meta name="description" content="Marung, Marknadsplatsen för unga företagare" />
+            </Helmet>
 
-          <CompanyList/>
+            <CompanyList/>
         </div>
     );
 }

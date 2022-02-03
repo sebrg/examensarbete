@@ -22,7 +22,7 @@ export default function CartProductCard(props: Props) {
             </Link> 
 
             <div id="cartProductCardInfoWrapp" style={cartProductCardInfoWrapp}>
-                <p style={{...infoParagraph, fontSize: "2em", textAlign: "center"}}>{props.product.name}</p>
+                <p style={{...infoParagraph, fontSize: "1.5em", textAlign: "center"}}>{props.product.name}</p>
                 <p style={{...infoParagraph, margin: "0 0 0 0.5em"}}>{props.product.price}kr /st</p>
             </div>
             {props.children}
@@ -48,6 +48,7 @@ const cartProductCardImgWrapp: CSSProperties = {
 
 const cartProductCardInfoWrapp: CSSProperties = {
     display: "flex",
+    alignItems: "center"
 }
 
 const infoParagraph: CSSProperties = {

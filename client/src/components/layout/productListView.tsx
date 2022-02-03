@@ -1,4 +1,5 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { ProductContext, ProductOptions } from "../../context/products/productContext";
 import { Product } from "../../models";
 import AddToCartBtn from "../cart/addToCartBtn";
@@ -35,15 +36,20 @@ export default function ProductListView() {
     }, [])
 
     
-    useEffect(() => {
+/*     useEffect(() => {
         console.log(products)
     }, [products])
-
+ */
     
 
   
     return (
         <div id="productListViewWrapper" className="noScrollBar" style={{overflow: "auto", height: "100%"}}>
+
+            <Helmet>
+                <title>Marung - Produkter</title>
+            </Helmet>
+
             <div className="contentHeader" style={contentHeader}> 
                 <h3>
                     Produkter

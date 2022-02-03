@@ -11,6 +11,7 @@ import UserProvider from './context/users/userProvider';
 import { ProductContext, ProductOptions } from './context/products/productContext';
 import "./responsive.css"
 import GeneralProvider from './context/general/generalProvider';
+import { HelmetProvider } from 'react-helmet-async';
 
 
 function App() {
@@ -23,9 +24,11 @@ function App() {
 				<UserProvider>
 					<CompanyProvider>
 						<ProductProvider>
-							<BrowserRouter>
-								<Layout />  
-							</BrowserRouter>
+							<HelmetProvider>
+								<BrowserRouter>
+									<Layout />  
+								</BrowserRouter>
+							</HelmetProvider>
 						</ProductProvider>
 					</CompanyProvider>
 				</UserProvider>

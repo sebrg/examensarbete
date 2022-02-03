@@ -1,12 +1,12 @@
-import { DocumentData, documentId, limit } from 'firebase/firestore';
+import { limit } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Link, Navigate, useMatch, useNavigate } from 'react-router-dom';
-import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import ImageSlider from '../UI/sliderCarousel';
 import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import AddToCartBtn from '../cart/addToCartBtn';
 import SpinnerModal from '../functions/spinnerModal';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -19,6 +19,7 @@ export default function SingleProduct() {
     const [productsInReel, setProductsInReel] = useState<Product[]>()
     const [url, setUrl] = useState<string | undefined>(undefined)
     const [shouldRedirect, setShouldRedirect] = useState<boolean>(false)
+    
 
     //const fbFuncs: FirebaseOptions = useContext(FirebaseContext)
     const productContext: ProductOptions = useContext(ProductContext)
@@ -69,7 +70,8 @@ export default function SingleProduct() {
     }, [products])
     
     useEffect(() => {
-    }, [product])
+        setShouldRedirect(true)
+    }, [params])
 
 
 
@@ -99,7 +101,7 @@ export default function SingleProduct() {
                         return (     
                             <div id='reel-div' key={i} style={{width: '100%', height: '25%', display: 'flex', justifyContent: 'center', marginBottom: '1.5em', flexDirection: 'column', padding: '0.5em'}}>
                                 <Link key={product.id} to={`/company/${companyName as string}/${companyId as string}/product/${product.name}/${product.id}`} style={{height: '100%', width: '100%', borderRadius: '15px', border: '1px solid #E0B589', backgroundColor: '#EFE1CE'}}>
-                                <img  onClick={() => setShouldRedirect(true)} style={{objectFit: 'contain', height: '100%', width: '100%', borderRadius: '15px'}} src={product.images[0]} alt='Bilden hittades inte' />
+                                <img  /* onClick={() => setShouldRedirect(true)} */ style={{objectFit: 'contain', height: '100%', width: '100%', borderRadius: '15px'}} src={product.images[0]} alt='Bilden hittades inte' />
                                 </Link>
                                 <p style={{textAlign: 'center'}}>  {product.name}  </p>
                             </div>
@@ -114,7 +116,11 @@ export default function SingleProduct() {
     return (
 
         <div className='singleProductWrapper noScrollBar' style={singlePage}>
-     
+           
+            <Helmet>
+                <title>{`Marung - ${product?.name as string}`}</title>
+            </Helmet>
+
             <div id='singleProductDiv' style={singleProductDiv}>
                 {renderProduct()}
                 <div id='slider-holder' className='sliderForSingleProduct' style={{width: '50%', height: '50%'}}>
