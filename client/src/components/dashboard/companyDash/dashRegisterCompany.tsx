@@ -73,7 +73,6 @@ export default function DashRegisterCompany() {
         }, [userInfo])
 
         useEffect(() => {
-            console.log(redirect)
             setLoading(false)
         }, [redirect])
 

@@ -105,7 +105,6 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
             // ...
         })
         .catch((error) => {
@@ -119,7 +118,6 @@ export default class FirebaseProvider extends Component<Props, FirebaseOptions> 
     logOut() {
         const auth = getAuth();
         
-        console.log(auth.currentUser)
 
         signOut(auth).then(() => {
             console.log("signed out")

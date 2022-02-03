@@ -55,7 +55,6 @@ export default function ActivatePayments(props: Props) {
                 })
                 
                 const status = await response.json()
-                console.log("status:", status)
                 setStripeAccountStatus(status)
                 if(status) {
                     setLoading(false)

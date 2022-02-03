@@ -61,7 +61,6 @@ export default function CheckoutStripe(props: Props) {
 
 			const data = await response.json()
 
-            console.log(data.pendingOrder)
             const setPendingOrder = productContext.functions.addPendingOrder(data.id, data.pendingOrder)
             const productIds: any[] = data.cartItemIds
             let localst = localStorage.getItem('cart')

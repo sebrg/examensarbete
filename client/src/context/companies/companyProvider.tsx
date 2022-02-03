@@ -89,8 +89,6 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
                 clonedUserInfo.pendingCompany = false
                 clonedUserInfo.company = company.id
 
-                console.log("in to = companies: ", clonedUserInfo)
-
 
                 await this.context.addOrUpdateUserInfo(clonedUserInfo, company.creator)
     
@@ -164,7 +162,6 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
        
         await this.addCompany({name: currentPendingCompany[0].name, /* category: currentPendingCompany[0].category, */ region: currentPendingCompany[0].region, school: currentPendingCompany[0].school, email: currentPendingCompany[0].email, creator: currentPendingCompany[0].creator, id: id, payments: {enabled: false}, shipping: {shippingPrice: 0, freeShippingOver: 0}}, "companies")
         await this.removeCompany(id)
-        console.log("company aproved")
     }
 
     async denyCompany(companyId: string) {
@@ -180,7 +177,6 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
     
     async removeCompany(id: string) { //NOTE: add param "from: 'pendingComapnies' | 'companies'"
         await deleteDoc(doc(firebaseCollection.db, "pendingCompanies", id));
-        console.log("company deleted")
     }
 
     async updateCompany(stripeId: string) { // NOTE: Kanske göra mer flexibel funktion?
@@ -191,20 +187,17 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         currentCompanyClone.payments.stripe_acc_id = stripeId
         await updateDoc(companyRef, {
         ...currentCompanyClone as Company
-        });     
-        console.log("Added stripe id:", stripeId, "to current company")   
+        });        
     }
 
     async setPaymentEnabled(enabled: boolean) {
         let getCompany = await this.getCurrentUserCompany()
         let currentCompanyClone = getCompany[0] as Company
         currentCompanyClone.payments.enabled = enabled
-        console.log(currentCompanyClone)
         const companyRef = doc(firebaseCollection.db, "companies", getCompany[0].id as string);
         await updateDoc(companyRef, {
         ...currentCompanyClone as Company
-        });     
-        console.log("Enabled is set to:", enabled)   
+        });       
     }
 
     async updateShipping(shippingPrice: string, freeShippingOver: string) { 
@@ -259,7 +252,6 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         await updateDoc(orderRef, {
         ...clonedOrder as Order
         });     
-        console.log("Order is set as:", shipped) 
         return {status: 200, message: `Ordern är markerad som skickad` } as StatusObject   
     }
 

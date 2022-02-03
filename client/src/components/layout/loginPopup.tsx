@@ -31,7 +31,6 @@ export default function LoginPopup(props: Props) {
     }
 
     const closePopupOnSuccess = () => {
-        console.log("running test b4 closing")
         if(auth.currentUser) {
             props.setLoginToggle(false)
         }

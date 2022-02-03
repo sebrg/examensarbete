@@ -27,13 +27,7 @@ export default function DashOldOrders() {
     useEffect(() => {
         getOrderByUser()
     }, []) 
-
-    useEffect(() => {
-        console.log(oldOrders)
-    }, [oldOrders]) 
-
-
-
+ 
 
     return (      
         oldOrders === undefined? 

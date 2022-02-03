@@ -46,7 +46,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         try {
             let currentCompany = await this.context.getCurrentUserCompany()
             //const imgTest = await this.upLoadImg(product.img)
-            console.log(product.category, "in provider")
             let productData = {
                 name: product.name as string,
                 price: product.price as number,
@@ -169,7 +168,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     async addOrder(sessionId: string, stripeCustomer: string) {
         const getAllPendingOrders = await this.getAllOrders("pendingOrders")
         const foundOrder = getAllPendingOrders.find(order => order.id === sessionId) //NOTE: Sätter ett extra id som är samma som doc id.. ?
-        console.log(foundOrder," den hittade ")
         if(foundOrder) {
             const pendingOrderRef = doc(firebaseCollection.db, "pendingOrders", sessionId as string);
             foundOrder.payment_status = "paid"
@@ -186,7 +184,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
 
     async addPendingOrder(sessionId: string, data: any) {
         await setDoc(doc(firebaseCollection.db, "pendingOrders", sessionId), data);
-        console.log('order added')
     }
 
 
@@ -200,9 +197,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             productClone.quantity = quantity
             await updateDoc(productRef, {
             ...productClone as Product
-            });     
-            console.log("Added", QuantityToAdd, "on product:", productId)   
-
+            });        
             await deleteDoc(doc(firebaseCollection.db, "pendingOrders", sessionId));
         }
     }
@@ -210,7 +205,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     async verifyCheckoutSession(param: string) {
         //Failsafe, verifierar session status
         //Tar bort utgångna checkout sessions och skickar tillbaka produkt quantity
-        //console.log(param)
         try {
             const pendingOrders = await this.getAllOrders("pendingOrders")
             const response = await fetch(`${param}/checkSession`, {
@@ -226,12 +220,10 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             if(data.status === 200) { 
                 //Failsafe om en order ej har blivit flyttad från pending till orders..
                 this.addOrder(data.sessionId, data.stripeCustomer)
-                console.log(data, "denna order är betalad och klar.")
                 return {status: 200} as StatusObject 
             }
     
             else if(data.status === 410) {
-                console.log(data)
                     sessionItems.forEach(items => {                     
                         this.addQuantityOnExpiredOrder(data.sessionId , items.productId, items.quantity)
                     })
@@ -256,7 +248,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             //console.log({id: doc.id, data: doc.data()});
             result.push({id: doc.id, ...doc.data()})
        });
-       //console.log("test: ", result)
        return result
     }
 
@@ -296,7 +287,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             }
     
             await deleteDoc(doc(firebaseCollection.db, "products", product.id as string));
-            console.log("Product deleted")
             return {status: 200, message: `${product.name} has been deleted` } as StatusObject    
             
         } catch(err) {
@@ -320,7 +310,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     
             //Failsafe, require atleast one image
             if(!newProduct.images) {
-                console.log("Your product requires atleast one image")
                 return {status: 400, message: "Your product requires atleast one image" } as StatusObject
 
             }
@@ -372,8 +361,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
             productClone.quantity = quantity
             await updateDoc(productRef, {
             ...productClone as Product
-            });     
-            console.log("Removed", QuantityToRemove, "on product:", productId)   
+            });      
         }
     }
 
@@ -398,7 +386,6 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
                 if(checkingBooleans.includes(false)) {
                     return {status: 410, message: `Det finns bara  kvar i lager..` } as StatusObject
                 } else {
-                    console.log("status 200")
                     return {status: 200, message: `Det finns bara kvar i lager..` } as StatusObject
                 }
 

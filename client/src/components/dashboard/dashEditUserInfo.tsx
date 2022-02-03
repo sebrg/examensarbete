@@ -54,7 +54,6 @@ export default function DashEditUserInfo(props: Props) {
     }
 
     const checkAddOrEdit = () => {
-        console.log(props.userInfo)
         if(props.userInfo) {
             setAddOrEdit('edit')
         } else {
@@ -68,12 +67,7 @@ export default function DashEditUserInfo(props: Props) {
         checkAddOrEdit()
     }, [])
 
-    useEffect(() => {
-        console.log(addOrEdit)
-    }, [addOrEdit])
-
-    
-
+  
     const inputsArray = [
         {   
             inputName: "firstNameInput",
@@ -194,7 +188,6 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
                     const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), props.idFromUrl as string)
-                        console.log("dashEditUserInfo: ", phoneNr)
                         if(result.status === 200) {
                             setStatusMsg(result.message)
                             setTimeout(() => {

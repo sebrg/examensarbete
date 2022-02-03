@@ -38,7 +38,6 @@ export default function PaymentCancel() {
       		})
 
 			const data = await response.json()
-            console.log(data)
             const result = await productContext.functions.verifyCheckoutSession(general.path as string) 
             return result
     }
