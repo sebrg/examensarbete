@@ -155,6 +155,9 @@ export default function ToCheckout(props: Props) {
                                 <p>{userInfo.municipality}</p>
                                 <p>{userInfo.zipCode}</p>
                                 <p>{userInfo.adress}</p>
+                                <p> {userInfo.phoneNr? userInfo.phoneNr: null} </p>
+                                <p> {userInfo.co? userInfo.co : null} </p>
+
                                 <div className='btnWrapp' style={{display: "flex", justifyContent: "flex-end"}}>
                                     <Button onClick={() => setShowOrEdit("edit")} icon={<BiEdit size="2.5em"/>}/>
                                 </div>
