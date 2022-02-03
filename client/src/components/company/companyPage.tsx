@@ -1,11 +1,11 @@
-import { DocumentData, limit } from 'firebase/firestore';
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import { limit } from 'firebase/firestore';
+import { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { ProductContext, ProductOptions } from "../../context/products/productContext";
-
 import ProductCard from '../UI/productCard';
 import { Product } from '../../models'
 import AddToCartBtn from '../cart/addToCartBtn';
+import { Helmet } from 'react-helmet-async';
 
 
 export default function CompanyPage() {
@@ -67,6 +67,9 @@ export default function CompanyPage() {
     return (
         <div id="companyPageWrapper" className='noScrollBar' style={companyPageWrapper}>
 
+            <Helmet>
+                <title>{`Marung - ${companyName}`}</title>
+            </Helmet>
 
             <div id="companyPageHeader" style={companyPageHeader}> 
                 <h3>

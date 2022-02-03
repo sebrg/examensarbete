@@ -5,6 +5,7 @@ import { CompanyContext, CompanyOptions } from '../../context/companies/companyC
 import { Company } from '../../models';
 import DashContent from '../dashboard/dashContent';
 import DashNav from '../dashboard/dashNav';
+import { Helmet } from 'react-helmet-async';
 
 
 export default function MyPages() {
@@ -28,6 +29,9 @@ export default function MyPages() {
 
     return (
         <div id="myPagesWrapper" style={myPagesWrapperStyle}>
+            <Helmet>
+                <title>Marung - Mina sidor</title>
+            </Helmet>
             
             <DashContent currentCompany={currentCompany} companyLoaded={companyLoaded} /> {/* FIXME: turn props into object */}
             <DashNav currentCompany={currentCompany}/>

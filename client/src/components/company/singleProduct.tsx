@@ -1,12 +1,12 @@
-import { DocumentData, documentId, limit } from 'firebase/firestore';
+import { limit } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Link, Navigate, useMatch, useNavigate } from 'react-router-dom';
-import { FirebaseOptions, FirebaseContext } from '../../context/firebaseContext';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import ImageSlider from '../UI/sliderCarousel';
 import { Product } from '../../models';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import AddToCartBtn from '../cart/addToCartBtn';
 import SpinnerModal from '../functions/spinnerModal';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -68,8 +68,8 @@ export default function SingleProduct() {
         filterAllProducts()
     }, [products])
     
-    useEffect(() => {
-    }, [product])
+ /*    useEffect(() => {
+    }, [product]) */
 
 
 
@@ -114,7 +114,11 @@ export default function SingleProduct() {
     return (
 
         <div className='singleProductWrapper noScrollBar' style={singlePage}>
-     
+           
+            <Helmet>
+                <title>{`Marung - ${product?.name as string}`}</title>
+            </Helmet>
+
             <div id='singleProductDiv' style={singleProductDiv}>
                 {renderProduct()}
                 <div id='slider-holder' className='sliderForSingleProduct' style={{width: '50%', height: '50%'}}>
