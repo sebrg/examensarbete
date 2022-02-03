@@ -4,8 +4,8 @@ import React, { Component } from "react"
 import firebaseCollection from "../firebase";
 import { FirebaseContext, FirebaseOptions, } from "./firebaseContext"
 import { Company, Product } from "../models"
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable, uploadString } from "firebase/storage";
-import { promises } from "stream";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+
 interface Props{}
 export default class FirebaseProvider extends Component<Props, FirebaseOptions>   {
 

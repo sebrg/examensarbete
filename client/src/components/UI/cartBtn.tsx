@@ -1,4 +1,3 @@
-import Button from "./button";
 import { AiOutlineShopping } from 'react-icons/ai';
 import { CSSProperties, useContext, useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";

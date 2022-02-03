@@ -1,4 +1,4 @@
-import { DocumentData, documentId, limit } from 'firebase/firestore';
+import { documentId, limit } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';

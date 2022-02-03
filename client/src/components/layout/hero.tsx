@@ -1,5 +1,4 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
+import React, { CSSProperties } from 'react';
 import Button from '../UI/button';
 import marungTestBackground from "./../../assets/cartLogoDarker.png"
 

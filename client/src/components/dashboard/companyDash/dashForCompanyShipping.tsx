@@ -1,6 +1,5 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { BiEdit } from 'react-icons/bi';
-import { useMatch } from 'react-router-dom';
 import { CompanyContext, CompanyOptions } from '../../../context/companies/companyContext';
 import { Company } from '../../../models';
 import Button from '../../UI/button';

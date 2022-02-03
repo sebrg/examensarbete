@@ -1,5 +1,5 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Route, Routes, useMatch } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 import { Company } from '../../models';
 import Button from '../UI/button';
 import { BiEdit } from 'react-icons/bi';

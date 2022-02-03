@@ -6,7 +6,6 @@ import Button from '../UI/button';
 import ResumeStripe from './resumeStripe';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import SpinnerModal from '../functions/spinnerModal';
-import GeneralProvider from '../../context/general/generalProvider';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 
 

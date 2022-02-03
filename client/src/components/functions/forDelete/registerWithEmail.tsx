@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, updatePassword } from "firebase/auth";
 
 

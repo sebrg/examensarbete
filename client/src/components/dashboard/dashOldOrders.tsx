@@ -1,6 +1,6 @@
-import { DocumentData } from 'firebase/firestore';
+
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { Route, Routes, useMatch } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import { Order } from '../../types';
 import SpinnerModal from '../functions/spinnerModal';

@@ -1,8 +1,8 @@
-import React, { CSSProperties, SetStateAction, useContext } from 'react';
-import MainNav from './mainNav';
+import React, { CSSProperties } from 'react';
 import marungoFatGreen from "./../../assets/baraMlogo.png"
 import DropDownBtn from '../functions/dropDown';
 import CartBtn from '../UI/cartBtn';
+
 type Props = { //FIXME: Fix "any" types
 	setLoginToggle: any
 	isLoggedIn: boolean | undefined
