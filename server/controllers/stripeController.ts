@@ -256,6 +256,12 @@ export const checkSession = async (req: any, res: any, next: any) => {
                 message: "Session is complete, should move to orders."
             })
         }
+        else {
+            res.status(204).json({
+                status: 204, 
+                message: "No content"
+            }) 
+        }
     });
 
     return sessionObj
