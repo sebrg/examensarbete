@@ -35,7 +35,7 @@ app.use('/', routes, function(req, res, next) { //Kollar om origin är tillåten
     if(allowedOrigins.includes(req.headers.origin)) {
         res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization, application/json');
     } 
     next();
 });
