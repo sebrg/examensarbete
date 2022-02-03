@@ -60,7 +60,7 @@ export default function DashNav(props: Props) {
             <div id="logoutAndCompanyBtnWrap" style={{height: "100%", flexDirection: "column", display: "flex", justifyContent: "flex-end"}}>
                 {props.currentCompany !== undefined?
                     currentDashPage == props.currentCompany.id?
-                        <Link to={`/${props.currentCompany.id}`} className='dashLink' style={{...dashLinkStyle, background: fullBg}}>
+                        <Link to={`${props.currentCompany.id}`} className='dashLink' style={{...dashLinkStyle, background: fullBg}}>
                             {props.currentCompany.name}
                         </Link>
                         : //Not sure row beneth works

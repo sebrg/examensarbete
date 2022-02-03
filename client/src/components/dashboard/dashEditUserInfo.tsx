@@ -175,9 +175,9 @@ export default function DashEditUserInfo(props: Props) {
 
     return(
         loading?
-        <SpinnerModal />
+        <SpinnerModal fullScreen={true}/>
         :
-        <div id="editInfo" className='noScrollBar' style={showInfoStyle}>
+        <div id="editInfo" className='noScrollBar' style={editInfoStyle}>
             <h1 style={{width: "100%", margin: "0 0 1em 0"}}>(Edit)</h1>
             {renderInputArray()}
 
@@ -193,7 +193,6 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText='Tillbaka' onClick={() => props.setShowOrEdit("show")}/>
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
-                    console.log("userinfo", props.userInfo) 
                     const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), props.idFromUrl as string)
                         console.log("dashEditUserInfo: ", phoneNr)
                         if(result.status === 200) {
@@ -205,7 +204,6 @@ export default function DashEditUserInfo(props: Props) {
                             }, 1500);
                         } 
                         else {
-                            console.log(result.status, result.message)
                             setStatusMsg(result.message)
                             setTimeout(() => {
                                 setLoading(false) 
@@ -239,7 +237,7 @@ const textInInputWrap: CSSProperties = {
     padding: "0.5em",
 }
 
-const showInfoStyle: CSSProperties = {
+const editInfoStyle: CSSProperties = {
     display: "flex",
     width: "100%",
     height: "100%",

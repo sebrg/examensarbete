@@ -33,8 +33,9 @@ export default function DashForCompanyOrders() {
         getNonShippedOrders()
     }, []) 
 
-    useEffect(() => {
-    }, [oldOrders]) 
+    /* useEffect(() => {
+        console.log(oldOrders)
+    }, [oldOrders])  */
 
 
 
@@ -74,7 +75,7 @@ export default function DashForCompanyOrders() {
                             <div id="dashShowOrders" className='noScrollBar' style={dashShowOrdersStyle}>
                                 {oldOrders?.map((order, key) => {
                                     return (
-                                            <CompanyCard key={key} order={order}/>
+                                            <CompanyCard key={key} order={order} getNonShippedOrders={getNonShippedOrders}/>
                                     )
                                 })}
 

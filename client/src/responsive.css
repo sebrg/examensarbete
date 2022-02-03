@@ -105,7 +105,7 @@
         height: 10% !important;
         position: sticky !important;
         top: 0 !important;
-        background-color: rgb(184 196 188) !important;
+        background-color: rgb(184 196 188 / 50%) !important;
         border-bottom-left-radius: 10px !important;
         border-bottom-right-radius: 10px !important;
         box-shadow: black 0px 5px 5px -2px !important;

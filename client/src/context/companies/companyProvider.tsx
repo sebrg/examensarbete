@@ -30,17 +30,16 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
 
     }
 
-    async addCompany(company: Company, to: "companies" | "pendingCompanies") {
+    async addCompany(company: Omit<Company, "category">, to: "companies" | "pendingCompanies") {
         try{
             const auth = getAuth();
-            console.log(auth.currentUser?.uid)
-            console.log("creator: ", company.creator)
-            console.log("id: ", company.id)
-            let companyData: Omit<Company, "id"> = {
+ 
+            let companyData: Omit<Company, "id" | "category"> = {
                 name: company.name,
                 school: company.school,
                 region: company.region, 
-                category: company.category,
+                // category: company.category, 
+                email: company.email, 
                 payments: {
                     enabled: company.payments.enabled,
                 },
@@ -53,6 +52,15 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
     
             if(!auth.currentUser) {
                 return {status: 400, message: `Behörighet saknas` } as StatusObject
+            }
+
+            if(companyData.name.length < 2 || /* companyData.category.length < 2 || */ companyData.region.length < 2 || companyData.school.length < 2) {
+                return {status: 400, message: `Alla uppgifter behöver fyllas i` } as StatusObject
+
+            }
+
+            if(companyData.email.length < 4) {
+                return {status: 400, message: `Någonting var fel med mail adressen` } as StatusObject
             }
 
             
@@ -71,7 +79,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
                 
                 return {status: 200, message: `Din ansökan har lagts till och väntar på att godkännas` } as StatusObject
             }
-            else { //(to === "companies")
+            else { //to === "companies"
                 await setDoc(doc(firebaseCollection.db, "companies", company.id as string), {
                     ...companyData
                 })
@@ -154,7 +162,7 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         //FIXME: make to object as company as param instead
         //await this.addCompany(new Company(currentPendingCompany[0].name, currentPendingCompany[0].school, currentPendingCompany[0].region, currentPendingCompany[0].category, {enabled: false}, undefined, currentPendingCompany[0].creator), "companies")
        
-        await this.addCompany({name: currentPendingCompany[0].name, category: currentPendingCompany[0].category, region: currentPendingCompany[0].region, school: currentPendingCompany[0].school, creator: currentPendingCompany[0].creator, id: id, payments: {enabled: false}, shipping: {shippingPrice: 0, freeShippingOver: 0}}, "companies")
+        await this.addCompany({name: currentPendingCompany[0].name, /* category: currentPendingCompany[0].category, */ region: currentPendingCompany[0].region, school: currentPendingCompany[0].school, email: currentPendingCompany[0].email, creator: currentPendingCompany[0].creator, id: id, payments: {enabled: false}, shipping: {shippingPrice: 0, freeShippingOver: 0}}, "companies")
         await this.removeCompany(id)
         console.log("company aproved")
     }
@@ -251,7 +259,8 @@ export default class CompanyProvider extends Component<Props, CompanyOptions>   
         await updateDoc(orderRef, {
         ...clonedOrder as Order
         });     
-        console.log("Order is set as:", shipped)   
+        console.log("Order is set as:", shipped) 
+        return {status: 200, message: `Ordern är markerad som skickad` } as StatusObject   
     }
 
     

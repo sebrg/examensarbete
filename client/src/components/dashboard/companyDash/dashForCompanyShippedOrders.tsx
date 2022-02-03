@@ -43,7 +43,7 @@ export default function DashForCompanyShippedOrders() {
             <div id="dashShowShipped" className='noScrollBar' style={dashShowShipped}>
                 {oldOrders?.map((order, key) => {
                     return (
-                            <CompanyCard key={key} order={order}/>
+                            <CompanyCard key={key} order={order} getNonShippedOrders={getShippedOrders}/> 
                     )
                 })}
 

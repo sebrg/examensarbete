@@ -58,7 +58,7 @@ export default function DashCompanyNav() {
                                 key={key}
                                 buttonText={link.text}
                                 linkTo={" "}
-                                border='2.5px solid white'
+                                border='2px solid white'
                                 margin='0 0.5em 0 0'
                                 color={"black"}
                                 bgColor={"white"} 
@@ -70,7 +70,7 @@ export default function DashCompanyNav() {
                                 key={key}
                                 buttonText={link.text}
                                 linkTo={link.linkTo}
-                                border='2.5px solid white'
+                                border='2px solid white'
                                 margin='0 0.5em 0 0'
                                 color={"black"}
                                 bgColor={"white"} 
@@ -85,7 +85,7 @@ export default function DashCompanyNav() {
                                 key={key}
                                 buttonText={link.text}
                                 linkTo={" "}
-                                border='2.5px solid white'
+                                border='2px solid white'
                                 margin='0 0.5em 0 0'
                             />
                         )
@@ -95,7 +95,7 @@ export default function DashCompanyNav() {
                                 key={key}
                                 buttonText={link.text}
                                 linkTo={link.linkTo}
-                                border='2.5px solid white'
+                                border='2px solid white'
                                 margin='0 0.5em 0 0'
                             />
                         )
