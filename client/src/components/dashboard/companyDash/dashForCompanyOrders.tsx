@@ -33,11 +33,7 @@ export default function DashForCompanyOrders() {
         getNonShippedOrders()
     }, []) 
 
-    /* useEffect(() => {
-        console.log(oldOrders)
-    }, [oldOrders])  */
-
-
+    
 
 
     return (

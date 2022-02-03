@@ -58,14 +58,6 @@ export default function ActivateStripe(props: Props) {
 		}  
 	}
 
-    useEffect(() => {
-        console.log(props.stripeAccountStatus)
-    }, [props.stripeAccountStatus])
-
-    useEffect(() => {
-        console.log(props.stripeId)
-     }, [props.stripeId])
-
 
     return (
         <div id="stripeActivationWrapp" style={StripeActivation}> 

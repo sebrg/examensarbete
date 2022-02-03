@@ -31,7 +31,6 @@ export default function PendingCompanies() {
     }, [pendingCompanies])
 
 
-
     return (
         <div id="pendingCompanies" style={pendingCompaniesStyle}>
             {pendingCompanies?.length?

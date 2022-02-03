@@ -60,9 +60,9 @@ export default function CompanyPage() {
         getProducts()
     }, [])
 
-    useEffect(() => {
-        console.log(products)
-    }, [products])
+    /* useEffect(() => {
+    
+    }, [products]) */
 
     return (
         <div id="companyPageWrapper" className='noScrollBar' style={companyPageWrapper}>

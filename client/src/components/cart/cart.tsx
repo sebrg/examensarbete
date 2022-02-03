@@ -84,7 +84,6 @@ export default function Cart(props: Props) {
                 setProductsInCart(arrayWithCompanyNames)
             } 
             else {
-                console.log("elseee")
                 setProductsInCart([])
             }
         }
@@ -129,7 +128,6 @@ export default function Cart(props: Props) {
 
 
     useEffect(() => {
-        //console.log("productsInCart: ", productsInCart)
         if(productsInCart !== undefined || localst === null) {
             setLoading(false)
         }
@@ -197,10 +195,8 @@ export default function Cart(props: Props) {
                                             <Button border='1px solid black' width="25vw" minWidth='50%' height='5vh' buttonText='Slutför köp' margin="0.5em 0 0 0" onClick= { async () => {
                                                 setLoading(true); 
                                                 const result = await productContext.functions.checkQuantityBeforePurchase(cartItem.products)
-                                                if(result?.status === 410) {  
-                                                    console.log("in 400 if")                          
-                                                    setStatusMsg('Opps, det fanns inte tillräckligt med produkter')
-                                                    console.log(result.status , result.message)
+                                                if(result?.status === 410) {                           
+                                                    setStatusMsg('Opps, det fanns inte tillräckligt med produkter')        
                                                 }
                                                 setTimeout(() => {
                                                     setStatusMsg(undefined)
