@@ -245,16 +245,25 @@
 
     /* Cart */ 
     #cartWrapper {
-        padding: 1em 0.5em !important;
-        margin: 0 0 1em 0;
+/*         padding: 1em 0.5em !important;
+        margin: 0 0 1em 0; */
+    }
+    #cartContentWrapper {
+        padding: 0 0.5em !important;
     }
     .cartSection {
         padding: 0 !important;
     }
 
-    .paymentSection p {
+    #paymentSectionInfo {
+        display: flex !important;
+        flex-direction: column;
         min-width: 100% !important;
+        align-items: center !important;
     }
+ /*    .paymentSection p {
+        min-width: 100% !important;
+    } */
 
     .paymentSection div {
         margin: 0 0 1em 0 !important;
@@ -264,11 +273,12 @@
     .productCardWrapper {
         flex-grow: 1 !important;
         min-width: 350px !important;
+        padding: 0 !important;
     }
 
-
-
-
+    #cartProductController {
+        padding: 0.5em 0.5em 0.5em 0 !important;
+    }
       
     #product-reel {
         display: none !important;

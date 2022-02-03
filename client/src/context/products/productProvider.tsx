@@ -210,7 +210,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
     async verifyCheckoutSession(param: string) {
         //Failsafe, verifierar session status
         //Tar bort utgångna checkout sessions och skickar tillbaka produkt quantity
-        console.log(param)
+        //console.log(param)
         const pendingOrders = await this.getAllOrders("pendingOrders")
 		const response = await fetch(`${param}/checkSession`, {
 			method: "POST",
