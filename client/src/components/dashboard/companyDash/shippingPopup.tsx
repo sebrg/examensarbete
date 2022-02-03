@@ -35,6 +35,7 @@ export default function ShippingPopup(props: Props) {
 		<div onClick={() => props.setShippingOpen(false)} id='shippingPopup-wrap' style={checkoutWrapper}>
             <div onClick={(event) => event.stopPropagation()} id='shipping-popup' style={checkoutContent}>
                 <AiOutlineClose style={{color: "white", cursor: "pointer", position: "absolute", top: "5px", right: "5px"}} fontSize={"1.5em "} onClick={() => props.setShippingOpen(false)}/>
+                <p style={{color: 'black', marginTop: '2em'}}>Exkludera 'Gratis frakt om över' genom att sätta till 0</p>
                 <div className='inputWrapp' style={{...inputWrapStyle, margin: "2em 0 0 0"}}>
                     <p> Fraktpris: </p>
                     <input className='removeInputOutline' onChange={(event) => updateShippingPrice(event)} type='number' placeholder={props.company.shipping.shippingPrice.toString()}  style={{...inputStyle}} />
