@@ -113,7 +113,6 @@ export default class UserProvider extends Component<Props, UserOptions>   {
     logOut() {
         const auth = getAuth();
         
-        console.log(auth.currentUser)
 
         signOut(auth).then(() => {
             console.log("signed out")
@@ -172,7 +171,6 @@ export default class UserProvider extends Component<Props, UserOptions>   {
             } */
 
             const userInfo = await this.getUserInfo(id)
-            console.log("length userInfo: ", userInfo.length)
             const checkString = (str: string) => {
                 return str === null || str === undefined || str.match(/^ *$/) !== null;
             }
@@ -185,7 +183,6 @@ export default class UserProvider extends Component<Props, UserOptions>   {
 
                 const clonedUserInfo = {...userInfo[0]}
 
-                console.log("clonedUser b4", clonedUserInfo)
                 if(newUserInfo.firstName !== undefined) {
                     clonedUserInfo.firstName = newUserInfo.firstName
                 }
@@ -219,7 +216,6 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 }
 
                 if(newUserInfo.pendingCompany !== null && newUserInfo.pendingCompany !== undefined) {
-                    console.log("in if: ", newUserInfo.pendingCompany)
                     clonedUserInfo.pendingCompany = newUserInfo.pendingCompany
                 } 
                 else {
@@ -234,7 +230,6 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                     clonedUserInfo.company = null
                 }
 
-                console.log(clonedUserInfo)
                 //Update userInfo
                 /* 
                     const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)

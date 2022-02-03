@@ -46,19 +46,19 @@ export default function ActivatePayments(props: Props) {
 
     async function getAccount() {
         try {
-            
-            const response = await fetch(`${general.path}/getStripeAcc` , {
-                method: "POST",
-                headers: {"content-type": "application/json"},
-                credentials: 'include',
-                body: JSON.stringify({stripeId: stripeId})
-            })
-            
-            const status = await response.json()
-            console.log("status:", status)
-            setStripeAccountStatus(status)
-            if(status) {
-                setLoading(false)
+            if(stripeId) {
+                const response = await fetch(`${general.path}/getStripeAcc` , {
+                    method: "POST",
+                    headers: {"content-type": "application/json"},
+                    credentials: 'include',
+                    body: JSON.stringify({stripeId: stripeId})
+                })
+                
+                const status = await response.json()
+                setStripeAccountStatus(status)
+                if(status) {
+                    setLoading(false)
+                }
             }
         } catch(err) {
             setLoading(false)
@@ -73,9 +73,13 @@ export default function ActivatePayments(props: Props) {
         
     }, [stripeId]) 
     
-    useEffect(() => {
+ /*    useEffect(() => {
         syncIdAndStatus()
     }, []) 
+ */
+    useEffect(() => {
+        syncIdAndStatus()
+    }, [stripeAccountStatus])
 
 
     return (

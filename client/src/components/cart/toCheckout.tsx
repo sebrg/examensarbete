@@ -78,10 +78,6 @@ export default function ToCheckout(props: Props) {
         }
     }, [showOrEdit])
 
-    useEffect(() => {
-        
-    },[userInfo])
-
     const auth = () => {
         const auth = getAuth()
         setIsLogged(auth.currentUser?.uid)
@@ -95,10 +91,6 @@ export default function ToCheckout(props: Props) {
         getCurrentUserInfo(isLogged as string)
    },[isLogged])
 
-    useEffect(() => {
-        
-    },[purchaseTerms])
-
     useEffect(() => { 
         if(props.isLoggedIn) {
             setShouldRedirect(true)
@@ -106,14 +98,10 @@ export default function ToCheckout(props: Props) {
     },[props.isLoggedIn])
     
     useEffect(() => {
-        console.log(shouldRedirect)
         if(shouldRedirect === true) {
             setShouldRedirect(false)
         }
     },[shouldRedirect])
-
-    useEffect(() => {
-    }, [userInfo])
 	
     return (
 
@@ -155,6 +143,9 @@ export default function ToCheckout(props: Props) {
                                 <p>{userInfo.municipality}</p>
                                 <p>{userInfo.zipCode}</p>
                                 <p>{userInfo.adress}</p>
+                                <p> {userInfo.phoneNr? userInfo.phoneNr: null} </p>
+                                <p> {userInfo.co? userInfo.co : null} </p>
+
                                 <div className='btnWrapp' style={{display: "flex", justifyContent: "flex-end"}}>
                                     <Button onClick={() => setShowOrEdit("edit")} icon={<BiEdit size="2.5em"/>}/>
                                 </div>

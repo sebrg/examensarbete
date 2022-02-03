@@ -25,7 +25,6 @@ export default function DashForCompanyShipping() {
     }, [])
 
     useEffect(() => {
-        console.log(currentCompany)
     }, [currentCompany])
 
     return (

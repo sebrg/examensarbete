@@ -54,7 +54,6 @@ export default function DashEditUserInfo(props: Props) {
     }
 
     const checkAddOrEdit = () => {
-        console.log(props.userInfo)
         if(props.userInfo) {
             setAddOrEdit('edit')
         } else {
@@ -68,12 +67,7 @@ export default function DashEditUserInfo(props: Props) {
         checkAddOrEdit()
     }, [])
 
-    useEffect(() => {
-        console.log(addOrEdit)
-    }, [addOrEdit])
-
-    
-
+  
     const inputsArray = [
         {   
             inputName: "firstNameInput",
@@ -128,7 +122,7 @@ export default function DashEditUserInfo(props: Props) {
             inputName: "co",
             inputText: "C/o",
             value: props.userInfo?.co? props.userInfo.co : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.co? props.userInfo.co : "", setFirstName)},
+            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.co? props.userInfo.co : "", setCo)},
             required: false
         }
     ] 
@@ -138,7 +132,7 @@ export default function DashEditUserInfo(props: Props) {
         return inputsArray.map((item, key) => {
             if(item.inputName === "phoneNr" || item.inputName === "zipCode") {
                 return (
-                    <div key={key} style={editInputWrapperStyle}>
+                    <div className='editInputWrap' key={key} style={editInputWrapperStyle}>
                     
                         <p style={textInInputWrap}> {item.inputText} </p>
                        
@@ -154,7 +148,7 @@ export default function DashEditUserInfo(props: Props) {
     
             } else {
                 return (
-                    <div key={key} style={editInputWrapperStyle}>
+                    <div className='editInputWrap' key={key} style={editInputWrapperStyle}>
                     
                         <p style={textInInputWrap}> {item.inputText} </p>
                        
@@ -194,7 +188,6 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
                     const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), props.idFromUrl as string)
-                        console.log("dashEditUserInfo: ", phoneNr)
                         if(result.status === 200) {
                             setStatusMsg(result.message)
                             setTimeout(() => {

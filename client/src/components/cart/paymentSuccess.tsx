@@ -1,30 +1,11 @@
 
-import { wrap } from 'node:module';
-import { parse } from 'node:path/win32';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 import { ProductContext, ProductOptions } from '../../context/products/productContext';
 import { Order } from '../../types';
-import FoldableOrderCard from '../dashboard/foldableOrderCard';
 import SpinnerModal from '../functions/spinnerModal';
 
-/* interface orderInterface {
-    totalPrice: number
-    customerId: string,
-    stripeCustomerId: string, 
-    products: productInterface[]
-    orderDate: string,
-    currency: string,
-    companyId: string
-} */
-
-/* interface productInterface {
-    description: string
-    name: string
-    quantity: number
-    unitPrice: number
-} */
 
 
 export default function PaymentSuccess() { //NOTE: Customers may not always reach the success_url after a successful payment. It is possible they close their browser tab before the redirect occurs.
@@ -53,16 +34,13 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
             body: JSON.stringify({sessionId, stripeId, getOrders})
         })
         const data = await response.json()
-        console.log(data)
         if(response.status === 404) {
             setIsLoading(true)
             setIfOrderExist(false)
-            console.log(response)
            
         } else if(response.status === 200 && sessionId){
             // flyttar order från pending till orders i db & rensar cart   
             setIfOrderExist(true)
-            console.log(response)
             
             productContext.functions.addOrder(sessionId, data.customer) //NOTE: Hämta sessionId från pendingOrders och uppdatera
             
@@ -71,10 +49,8 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
             let localst = localStorage.getItem('cart')
             if(localst) {
                 let parsedLocal: any[] = JSON.parse(localst)
-                console.log("cart:", parsedLocal)
 
                 const productIds: any[] = data.cartItemIds
-                console.log(productIds, "ghererere")
 
                 const idArr = productIds.map(data => {
                     return data.productId
@@ -82,7 +58,6 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
                  
                 const newCart = parsedLocal.filter((item: any) => idArr.indexOf(item.id) === -1);
                        
-                console.log("newCart:", newCart);
                 localStorage.setItem('cart', JSON.stringify(newCart))
                 
             }
@@ -98,7 +73,7 @@ export default function PaymentSuccess() { //NOTE: Customers may not always reac
     }, [])
 
     useEffect(() => {
-        console.log(order)
+        
     }, [order])
 
     useEffect(() => {
