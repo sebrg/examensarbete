@@ -261,9 +261,6 @@
         min-width: 100% !important;
         align-items: center !important;
     }
- /*    .paymentSection p {
-        min-width: 100% !important;
-    } */
 
     .paymentSection div {
         margin: 0 0 1em 0 !important;
@@ -273,7 +270,7 @@
     .productCardWrapper {
         flex-grow: 1 !important;
         min-width: 350px !important;
-        padding: 0 !important;
+        /* padding: 0 !important; */
     }
 
     #cartProductController {
