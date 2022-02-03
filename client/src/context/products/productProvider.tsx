@@ -214,6 +214,7 @@ export default class ProductProvider extends Component<Props, ProductOptions>   
         const pendingOrders = await this.getAllOrders("pendingOrders")
 		const response = await fetch(`${param}/checkSession`, {
 			method: "POST",
+            mode: 'cors',
 			headers: {"content-type": "application/json"},
 			credentials: 'include',
 			body: JSON.stringify({pendingOrders})
