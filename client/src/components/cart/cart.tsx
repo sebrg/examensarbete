@@ -9,6 +9,7 @@ import ToCheckout from './toCheckout';
 import SpinnerModal from '../functions/spinnerModal';
 import { GeneralContext, GeneralOptions } from '../../context/general/generalContext';
 import CartProductCard from '../UI/cartProductCard';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -135,6 +136,9 @@ export default function Cart(props: Props) {
         
             
             <div id="cartWrapper" style={cartWrapperStyle}>
+                <Helmet>
+                    <title>{`Marung - Kundvagn`}</title>
+                </Helmet>
 
                 {loading? //FIXME: Spinner
                     <SpinnerModal fullScreen={true} message={statusMsg as string} />
