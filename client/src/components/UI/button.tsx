@@ -41,7 +41,7 @@ export default function Button(props: Props) {
                         margin: props.margin,
                         backgroundPosition: props.backgroundPosition,
                         justifyContent: "center",
-                        border: props.border
+                        border: props.border,
                     }}
                 >
 

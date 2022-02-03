@@ -1,6 +1,7 @@
 
 import { CollectionReference } from 'firebase/firestore';
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 export default function Policy() {
 
@@ -8,6 +9,9 @@ export default function Policy() {
     return (
 
         <div id="policyWrapper" className='noScrollBar' style={policyDiv}>
+            <Helmet>
+                <title>{`Marung - Policy`}</title>
+            </Helmet>
             <h1 style={{textAlign: 'center'}}>Köpvillkor</h1>
 
             <h2>Ångerrätt</h2>

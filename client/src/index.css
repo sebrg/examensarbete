@@ -46,6 +46,9 @@ a, a:visited {
   border: none !important;
 }
 
+#stripeBtn {
+  padding: 0 !important
+}
 
 /*NOTE: Maybe put this in own css file? */
 /* React slick slider  */
