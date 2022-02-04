@@ -185,29 +185,46 @@ export default class UserProvider extends Component<Props, UserOptions>   {
 
                 const clonedUserInfo = {...userInfo[0]}
 
-                console.log("clonedUser b4", clonedUserInfo)
                 if(newUserInfo.firstName !== undefined && newUserInfo.firstName !== "") {
                     clonedUserInfo.firstName = newUserInfo.firstName
+                } else if(newUserInfo.firstName == "") {
+                    return {status: 400, message: `Du får inte lämna "Förnamn" tomt` } as StatusObject    
+
                 }
 
                 if(newUserInfo.surName !== undefined && newUserInfo.surName !== "") {
                     clonedUserInfo.surName = newUserInfo.surName
+                } else if(newUserInfo.surName == "") {
+                    return {status: 400, message: `Du får inte lämna "Efternamn" tomt` } as StatusObject    
+
                 }
 
                 if(newUserInfo.city !== undefined && newUserInfo.city !== "") {
                     clonedUserInfo.city = newUserInfo.city
+                } else if(newUserInfo.city == "") {
+                    return {status: 400, message: `Du får inte lämna "Stad" tom` } as StatusObject    
+
                 }
 
                 if(newUserInfo.municipality !== undefined && newUserInfo.municipality !== "") {
                     clonedUserInfo.municipality = newUserInfo.municipality
+                } else if(newUserInfo.municipality == "") {
+                    return {status: 400, message: `Du får inte lämna "Ort" tom` } as StatusObject    
+
                 }
 
                 if(newUserInfo.zipCode && newUserInfo.zipCode !== 0) {
                     clonedUserInfo.zipCode = newUserInfo.zipCode
+                } else if(newUserInfo.zipCode == 0) {
+                    return {status: 400, message: `Du får inte lämna "Postkod" tom` } as StatusObject    
+
                 }
 
                 if(newUserInfo.adress !== undefined && newUserInfo.adress !== "") {
                     clonedUserInfo.adress = newUserInfo.adress
+                } else if(newUserInfo.adress == "") {
+                    return {status: 400, message: `Du får inte lämna "Adress" tom` } as StatusObject    
+
                 }
 
                 if(newUserInfo.phoneNr && newUserInfo.phoneNr !== 0) {
@@ -237,8 +254,8 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 } else if (clonedUserInfo.company === undefined/* newUserInfo.company === undefined */) {
                     clonedUserInfo.company = null
                 }
-
-                console.log(clonedUserInfo)
+            
+                
                 //Update userInfo
                 /* 
                     const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)
