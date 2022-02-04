@@ -5,7 +5,7 @@ https://examensprojekt-market.web.app/
 
 Projektets byggstenar;
 React,
-TypeScript
+TypeScript,
 Node Js, express,
-Firebase
+Firebase,
 Stripe
