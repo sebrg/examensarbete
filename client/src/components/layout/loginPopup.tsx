@@ -1,11 +1,11 @@
 import { getAuth } from 'firebase/auth';
-import React, { CSSProperties, useContext, useState } from 'react';
-//import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
+import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import Button from '../UI/button';
 import { FcGoogle } from 'react-icons/fc';
 import { HiOutlineMail } from 'react-icons/hi';
 import { IoMdRemoveCircleOutline } from 'react-icons/io';
 import { UserContext, UserOptions } from '../../context/users/userContext';
+import SpinnerModal from '../functions/spinnerModal';
 
 
 type Props = {
@@ -31,16 +31,23 @@ export default function LoginPopup(props: Props) {
     }
 
     const closePopupOnSuccess = () => {
-        console.log("running test b4 closing")
         if(auth.currentUser) {
             props.setLoginToggle(false)
         }
     }
+
+    useEffect(() => {
+        setLoading(false)
+    }, [auth])
     
     
     return (
             <div id="loginPopupBackGround" style={loginPopupBackGround} onClick={() => props.setLoginToggle(false)}>
                 <div id="loginPopup" style={loginPopup} onClick={(event) => event.stopPropagation()}>
+                    {loading?
+                        <SpinnerModal fullScreen={true}/>
+                        : null
+                    }
                     {
                         toggleInputs?
                             
@@ -59,17 +66,25 @@ export default function LoginPopup(props: Props) {
                                 <div id="loginWithCredBtnWrap" style={loginWithCredBtnWrapStyle}>
                                    
                                     <Button 
-                                        onClick={() => userContext.signInWithEmail(email, password, closePopupOnSuccess)} 
                                         buttonText='Logga in' 
                                         bgColor='white' 
                                         border='1px solid black'
+                                        onClick={ () => {
+                                            setLoading(true)
+                                            userContext.signInWithEmail(email, password, closePopupOnSuccess)
+                                            
+                                        }} 
                                     />
                                         
                                     <Button 
-                                        onClick={() => userContext.createUserWithEmail(email, password)} 
                                         buttonText='Registrera' 
                                         bgColor='white' 
                                         border='1px solid black'
+                                        onClick={ () => {
+                                            setLoading(true)
+                                            userContext.createUserWithEmail(email, password, closePopupOnSuccess)
+                                            
+                                        }} 
                                     />
                                 
                                 </div>
@@ -90,7 +105,10 @@ export default function LoginPopup(props: Props) {
                                     <p>Logga in eller registrera dig</p>
                                 </div>
 
-                                <div id="googleLoginBtn" className='loginAlternativeBtn' style={{fontSize: "4em", display: "flex", alignItems: "center", cursor: "pointer", borderRadius: "10px", padding: "0.2em", border: "2px solid black"}} onClick={async () => userContext.signInWithGooglePopup(closePopupOnSuccess)}>
+                                <div id="googleLoginBtn" className='loginAlternativeBtn' style={{fontSize: "4em", display: "flex", alignItems: "center", cursor: "pointer", borderRadius: "10px", padding: "0.2em", border: "2px solid black"}} onClick={async () => {
+                                    setLoading(true)
+                                    userContext.signInWithGooglePopup(closePopupOnSuccess)
+                                    }}>
                                     <FcGoogle />
                                 </div>  
 

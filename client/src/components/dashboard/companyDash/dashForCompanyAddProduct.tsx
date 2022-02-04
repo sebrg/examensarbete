@@ -1,12 +1,8 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
-import ImgPreview from "../../functions/imgPreview";
 import Button from "../../UI/button";
-import { AiOutlineConsoleSql, AiOutlineFileAdd } from 'react-icons/ai';
 import { ProductContext, ProductOptions } from '../../../context/products/productContext';
 import ImgUpload from "../../functions/imgUpload";
 import SpinnerModal from "../../functions/spinnerModal";
-import { DocumentData } from "firebase/firestore";
-import { forEachChild } from "typescript";
 import { Product } from "../../../types";
 
 /* type Props = {

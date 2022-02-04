@@ -1,6 +1,5 @@
-import { userInfo } from 'os';
+
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
-import { useMatch } from 'react-router-dom';
 import { Company } from '../../models';
 import { UserInfo } from '../../types';
 import Button from '../UI/button';
@@ -40,7 +39,6 @@ export default function DashEditUserInfo(props: Props) {
 
 
     const checkAddOrEdit = () => {
-        console.log(props.userInfo)
         if(props.userInfo) {
             setAddOrEdit('edit')
         } else {
@@ -54,11 +52,6 @@ export default function DashEditUserInfo(props: Props) {
         checkAddOrEdit()
     }, [])
 
-    useEffect(() => {
-        console.log(addOrEdit)
-    }, [addOrEdit])
-
-    
 
     return(
         loading?
@@ -159,6 +152,7 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
 
+
                     const updatedUserInfo: UserInfo = {
                         firstName: firstName as string,
                         surName: surName as string,
@@ -172,6 +166,7 @@ export default function DashEditUserInfo(props: Props) {
                     }    
                    
                     const result = await userContext.addOrUpdateUserInfo(updatedUserInfo, props.idFromUrl as string)
+
                         if(result.status === 200) {
                             setStatusMsg(result.message)
                             setTimeout(() => {
@@ -237,18 +232,5 @@ const inputStyle: CSSProperties = {
 
 
 
-
-
-/*   } else { */
-    /*              return (
-                     <div key={key} style={editInputWrapperStyle}>   
-                         <p style={textInInputWrap}> {item.inputText} </p>
-                         <input type={"string"} onChange={(event) => item.setStateFromInput(event)} style={inputStyle}/>     
-                         {addOrEdit === "add" && item.required?
-                             <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
-                              : null}  
-                     </div>
-                 ) */
-          /*    } */
                
           

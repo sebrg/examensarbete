@@ -1,8 +1,6 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { CompanyContext, CompanyOptions } from '../../context/companies/companyContext';
-import { FirebaseContext, FirebaseOptions } from '../../context/firebaseContext';
 import { Company } from '../../models';
-import marungTestBackground from "./../../assets/cartLogoDarker.png"
 import FoldableCompanyCard from './foldableCompanyCard';
 
 
@@ -29,7 +27,6 @@ export default function PendingCompanies() {
     useEffect(() => {
         console.log(pendingCompanies)
     }, [pendingCompanies])
-
 
 
     return (

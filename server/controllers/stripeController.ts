@@ -3,7 +3,6 @@ import { stripe } from "../index.js"
 
 export const getAccount = async (req: any, res: any, next: any) => { 
     const stripeId = await req.body.stripeId
-    console.log(stripeId)
   /*   if(stripeId === undefined) {
         res.status(400).send({status: 400, message: "Finns inget konto att hämta" })
         return
@@ -14,7 +13,6 @@ export const getAccount = async (req: any, res: any, next: any) => {
       );
       //Kollar status på stripe konto  
       if(account.details_submitted == false) {
-            console.log(account.details_submitted)
             res.status(201).send({status: 201, message: "Stripe saknar information, färdigställ länkningen" })
             return
       } else if(!account.charges_enabled && !account.payouts_enabled) {
@@ -23,7 +21,6 @@ export const getAccount = async (req: any, res: any, next: any) => {
       } else {
             res.status(200).send({status: 200, message: "Ditt konto har verifierats, nu kan du ta betalt med stripe" })
       }
-      console.log(account)
       return account
 }
 

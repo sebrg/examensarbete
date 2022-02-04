@@ -1,5 +1,5 @@
 
-import { Elements, useStripe } from '@stripe/react-stripe-js'
+import { useStripe } from '@stripe/react-stripe-js'
 import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import { useMatch } from 'react-router-dom';
 import { Product } from '../../models';
@@ -61,7 +61,6 @@ export default function CheckoutStripe(props: Props) {
 
 			const data = await response.json()
 
-            console.log(data.pendingOrder)
             const setPendingOrder = productContext.functions.addPendingOrder(data.id, data.pendingOrder)
             const productIds: any[] = data.cartItemIds
             let localst = localStorage.getItem('cart')

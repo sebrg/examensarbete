@@ -1,10 +1,8 @@
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection, doc, DocumentData, documentId, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, documentId, getDocs, query, setDoc, where } from "firebase/firestore";
 import React, { Component } from "react"
 import firebaseCollection from "../../firebase";
 import { UserContext, UserOptions, } from "./userContext"
-import { Company, Product } from "../../models"
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable, uploadString } from "firebase/storage";
 import { StatusObject, UserInfo } from "../../types";
 interface Props{}
 export default class UserProvider extends Component<Props, UserOptions>   {
@@ -88,7 +86,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         });
     }
 
-    createUserWithEmail(email: string | undefined, password: string | undefined) {
+    createUserWithEmail(email: string | undefined, password: string | undefined, callBack?: () => void) {
         if(password == undefined || email == undefined) {
             return
         }
@@ -99,21 +97,20 @@ export default class UserProvider extends Component<Props, UserOptions>   {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
-            // ...
+            if(callBack) {
+                callBack()
+            }
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage)
-            // ..
         });
 
     }
     logOut() {
         const auth = getAuth();
         
-        console.log(auth.currentUser)
 
         signOut(auth).then(() => {
             console.log("signed out")
@@ -172,7 +169,6 @@ export default class UserProvider extends Component<Props, UserOptions>   {
             } */
 
             const userInfo = await this.getUserInfo(id)
-            console.log("length userInfo: ", userInfo.length)
             const checkString = (str: string) => {
                 return str === null || str === undefined || str.match(/^ *$/) !== null;
             }
@@ -186,6 +182,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 const clonedUserInfo = {...userInfo[0]}
 
                 if(newUserInfo.firstName !== undefined && newUserInfo.firstName !== "") {
+
                     clonedUserInfo.firstName = newUserInfo.firstName
                 } else if(newUserInfo.firstName == "") {
                     return {status: 400, message: `Du får inte lämna "Förnamn" tomt` } as StatusObject    
@@ -240,7 +237,6 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 }
 
                 if(newUserInfo.pendingCompany !== null && newUserInfo.pendingCompany !== undefined) {
-                    console.log("in if: ", newUserInfo.pendingCompany)
                     clonedUserInfo.pendingCompany = newUserInfo.pendingCompany
                 } 
                 else {
@@ -254,8 +250,7 @@ export default class UserProvider extends Component<Props, UserOptions>   {
                 } else if (clonedUserInfo.company === undefined/* newUserInfo.company === undefined */) {
                     clonedUserInfo.company = null
                 }
-            
-                
+
                 //Update userInfo
                 /* 
                     const productRef = doc(firebaseCollection.db, "products", oldProduct.id as string)

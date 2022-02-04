@@ -1,4 +1,4 @@
-import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties } from 'react';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import ImgPreview from './imgPreview';
 
@@ -11,7 +11,6 @@ type Props = {
 export default function ImgUpload(props: Props) {
  
     const updateProductImg = (event: any) => {
-        console.log("running updateProductImg function")
         let arr: any[] = []
         if(props.imgArr) {
             arr = [...props.imgArr]

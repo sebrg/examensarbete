@@ -25,7 +25,7 @@ export default function CompanyList() {
     }, [])
     
     useEffect(() => {
-        console.log(companies)
+        
     }, [companies])
     
     //<Button  border='1px solid black' key={i} linkTo={`/company/${company.data.name.replace(" ", '').replace("-", "").replace("_", "")}/${company.id}`} buttonText={`${company.data.name}`}></Button>

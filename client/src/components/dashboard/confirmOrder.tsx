@@ -16,7 +16,6 @@ export default function ConfirmOrder(props: Props) {
 
     const companyContext: CompanyOptions = useContext(CompanyContext)
     const [cbValue, setCbValue] = useState(false)
-    const [isShipped, setIsShipped] = useState<string>()
     const [isLoading, setIsLoading] = useState<boolean>()
     const [statusMsg, setStatusMsg] =useState<string | undefined>(undefined)
 
@@ -33,9 +32,7 @@ export default function ConfirmOrder(props: Props) {
     const markOrder = async () => {
         if(props.order && cbValue === true) {
             const result = await companyContext.orderIsShipped(props.order?.id, "Yes")
-            setIsShipped("Yes")
             
-            console.log(result.message)
             setStatusMsg(result.message)
             return result.status
         }
@@ -45,24 +42,6 @@ export default function ConfirmOrder(props: Props) {
         }
 
     }
-
-    useEffect(() => {
-        console.log(cbValue)
-    },[cbValue])
-
-   /*  useEffect(() => {
-        setIsShipped(props.order?.shipped)
-    },[props.order]) */
-
-    useEffect(() => {
-        console.log(isShipped)
-    },[isShipped])
-
-  /*   useEffect(() => {
-        console.log(props.order)
-    },[props.order]) */
-
-
 
 	
     return (
