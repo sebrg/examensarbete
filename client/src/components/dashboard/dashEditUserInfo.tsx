@@ -23,34 +23,20 @@ export default function DashEditUserInfo(props: Props) {
     const [loading, setLoading] = useState<boolean>(false)
     const [statusMsg, setStatusMsg] =useState<string | undefined>(undefined)
 
-    const [firstName, setFirstName] = useState<string>()
-    const [surName, setSurname] = useState<string>()
-    const [city, setCity] = useState<string>()
-    const [municipality, setMunicipality] = useState<string>()
-    const [zipCode, setZipCode] = useState<number>()
-    const [adress, setAdress] = useState<string>()
-    const [phoneNr, setPhoneNr] = useState<number | null>(props.userInfo?.phoneNr? props.userInfo.phoneNr : null)
-    const [co, setCo] = useState<string | null>(null)
+    const [firstName, setFirstName] = useState<string>(props.userInfo?.firstName? props.userInfo?.firstName : "")
+    const [surName, setSurname] = useState<string>(props.userInfo?.surName? props.userInfo.surName : "")
+    const [city, setCity] = useState<string>(props.userInfo?.city? props.userInfo.city : "")
+    const [municipality, setMunicipality] = useState<string>(props.userInfo?.municipality? props.userInfo?.municipality : "")
+    const [zipCode, setZipCode] = useState<number>(props.userInfo?.zipCode? props.userInfo.zipCode : 0)
+    const [adress, setAdress] = useState<string>(props.userInfo?.adress? props.userInfo.adress : "")
+    const [phoneNr, setPhoneNr] = useState<number>(props.userInfo?.phoneNr? props.userInfo.phoneNr : 0)
+    const [co, setCo] = useState<string>(props.userInfo?.co? props.userInfo.co : "")
 
 
     const updateStateFromInputValue = (event: any, failSafe: string | number | null, setState: (param: any ) => void) => { //FIXME: param: any??
         event? setState(event.target.value) : setState(failSafe)
     }
 
-    const updatedUserInfo = () => {
-        const updatedUserInfo: UserInfo = {
-            firstName: firstName as string,
-            surName: surName as string,
-            city: city as string,   
-            municipality: municipality as string,
-            zipCode: zipCode as number,
-            adress: adress as string,
-            phoneNr: phoneNr as number,    
-            co,
-            id: props.idFromUrl as string
-        }    
-        return updatedUserInfo
-    }
 
     const checkAddOrEdit = () => {
         if(props.userInfo) {
@@ -66,113 +52,92 @@ export default function DashEditUserInfo(props: Props) {
         checkAddOrEdit()
     }, [])
 
-  
-    const inputsArray = [
-        {   
-            inputName: "firstNameInput",
-            inputText: "Förnamn",
-            value: props.userInfo?.firstName? props.userInfo.firstName : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.firstName? props.userInfo.firstName : "", setFirstName)},
-            required: true
-        },
-        {
-            inputName: "surNameInput",
-            inputText: "Efternamn",
-            value: props.userInfo?.surName? props.userInfo?.surName : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.surName? props.userInfo.surName : "", setSurname)},
-            required: true
-        },
-        {
-            inputName: "city",
-            inputText: "Stad",
-            value: props.userInfo?.city? props.userInfo.city : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.city? props.userInfo.city : "", setCity)},
-            required: true
-        },
-        {
-            inputName: "municipality",
-            inputText: "Ort",
-            value: props.userInfo?.municipality? props.userInfo.municipality : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.municipality? props.userInfo.municipality : "", setMunicipality)},
-            required: true
-        },
-        {
-            inputName: "zipCode",
-            inputText: "postkod",
-            value: props.userInfo?.zipCode? props.userInfo.zipCode : null,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.zipCode? props.userInfo.zipCode : "", setZipCode)},
-            required: true
-        },
-        {
-            inputName: "adress",
-            inputText: "Adress",
-            value: props.userInfo?.adress? props.userInfo.adress : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.adress? props.userInfo.adress : "", setAdress)},
-            required: true
-        },
-        {
-            inputName: "phoneNr",
-            inputText: "Telefon nr",
-            value: props.userInfo?.phoneNr? props.userInfo.phoneNr : null,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.phoneNr? props.userInfo.phoneNr : null, setPhoneNr)},
-            required: false
-        },
-        {
-            inputName: "co",
-            inputText: "C/o",
-            value: props.userInfo?.co? props.userInfo.co : undefined,
-            setStateFromInput: (event: any) => {updateStateFromInputValue(event, props.userInfo?.co? props.userInfo.co : "", setCo)},
-            required: false
-        }
-    ] 
-
-    const renderInputArray = () => {
-  
-        return inputsArray.map((item, key) => {
-            if(item.inputName === "phoneNr" || item.inputName === "zipCode") {
-                return (
-                    <div className='editInputWrap' key={key} style={editInputWrapperStyle}>
-                    
-                        <p style={textInInputWrap}> {item.inputText} </p>
-                       
-                        <input type={"number"} onChange={(event) => item.setStateFromInput(event)} style={inputStyle}/> 
-                        
-                        
-                        { addOrEdit === "add" && item.required?
-                        <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
-                        : null} 
-    
-                    </div>
-                )
-    
-            } else {
-                return (
-                    <div className='editInputWrap' key={key} style={editInputWrapperStyle}>
-                    
-                        <p style={textInInputWrap}> {item.inputText} </p>
-                       
-                        <input type={"string"} onChange={(event) => item.setStateFromInput(event)} style={inputStyle}/> 
-                        
-                        
-                        { addOrEdit === "add" && item.required?
-                        <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
-                        : null} 
-    
-                    </div>
-                ) 
-            }
-                         
-
-        })
-    }
 
     return(
         loading?
-        <SpinnerModal fullScreen={true}/>
+        <SpinnerModal message={statusMsg} fullScreen={true}/>
         :
         <div id="editInfo" className='noScrollBar' style={editInfoStyle}>
             <h1 style={{width: "100%", margin: "0 0 1em 0"}}>(Edit)</h1>
-            {renderInputArray()}
+            {/* renderInputArray() */}
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                    
+                <p style={textInInputWrap}> {"Förnamn"} </p>
+                <input value={firstName} type={"string"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.firstName? props.userInfo.firstName : "", setFirstName)} style={inputStyle}/> 
+                { addOrEdit === "add"?
+                <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
+                : null} 
+
+            </div>
+
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                    
+                <p style={textInInputWrap}> {"Efternamn"} </p>
+                <input value={surName} type={"string"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.surName? props.userInfo.surName : "", setSurname)} style={inputStyle}/> 
+                { addOrEdit === "add"?
+                    <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
+                    : null} 
+
+            </div>
+
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                    
+                <p style={textInInputWrap}> {"Stad"} </p>
+                <input value={city} type={"string"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.city? props.userInfo.city : "", setCity)} style={inputStyle}/> 
+                { addOrEdit === "add"?
+                    <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
+                    : null} 
+
+            </div>
+
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                                
+                <p style={textInInputWrap}> {"Ort"} </p>
+                <input value={municipality} type={"string"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.municipality? props.userInfo.municipality : "", setMunicipality)} style={inputStyle}/> 
+                { addOrEdit === "add"?
+                    <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
+                    : null} 
+
+            </div>
+
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                                
+                <p style={textInInputWrap}> {"Postkod"} </p>
+                <input value={zipCode} type={"number"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.zipCode? props.userInfo.zipCode : 0, setZipCode)} style={inputStyle}/> 
+                { addOrEdit === "add"?
+                    <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
+                    : null} 
+
+            </div>
+
+            
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                                                
+                <p style={textInInputWrap}> {"Adress"} </p>
+                <input value={adress} type={"string"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.adress? props.userInfo.adress : "", setAdress)} style={inputStyle}/> 
+                { addOrEdit === "add"?
+                    <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
+                    : null} 
+
+            </div>
+
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                                                            
+                <p style={textInInputWrap}> {"Telefon nr"} </p>
+                <input value={phoneNr} type={"number"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.phoneNr? props.userInfo.phoneNr : 0, setPhoneNr)} style={inputStyle}/> 
+          
+            </div>
+
+            <div className='editInputWrap'  style={editInputWrapperStyle}>
+                                                                        
+                <p style={textInInputWrap}> {"C/o"} </p>
+                <input value={co} type={"string"} onChange={(event) => updateStateFromInputValue(event, props.userInfo?.co? props.userInfo.co : "", setCo)} style={inputStyle}/> 
+
+            </div>
+
+
+
+
 
             {addOrEdit === "add"?
                 <div id="reqMsgWrap" style={{width: "100%", justifyContent: "flex-start", margin: "1em 0 0 0"}}>
@@ -186,7 +151,22 @@ export default function DashEditUserInfo(props: Props) {
                 <Button  border='1px solid black' buttonText='Tillbaka' onClick={() => props.setShowOrEdit("show")}/>
                 <Button  border='1px solid black' buttonText={"Uppdatera"} onClick={ async () => {
                     setLoading(true)
-                    const result = await userContext.addOrUpdateUserInfo(updatedUserInfo(), props.idFromUrl as string)
+
+
+                    const updatedUserInfo: UserInfo = {
+                        firstName: firstName as string,
+                        surName: surName as string,
+                        city: city as string,   
+                        municipality: municipality as string,
+                        zipCode: zipCode as number,
+                        adress: adress as string,
+                        phoneNr: phoneNr as number,    
+                        co: co,
+                        id: props.idFromUrl as string
+                    }    
+                   
+                    const result = await userContext.addOrUpdateUserInfo(updatedUserInfo, props.idFromUrl as string)
+
                         if(result.status === 200) {
                             setStatusMsg(result.message)
                             setTimeout(() => {
@@ -252,18 +232,5 @@ const inputStyle: CSSProperties = {
 
 
 
-
-
-/*   } else { */
-    /*              return (
-                     <div key={key} style={editInputWrapperStyle}>   
-                         <p style={textInInputWrap}> {item.inputText} </p>
-                         <input type={"string"} onChange={(event) => item.setStateFromInput(event)} style={inputStyle}/>     
-                         {addOrEdit === "add" && item.required?
-                             <p style={{color: "red", padding: "0 0.5em 0 0"}}>*</p>
-                              : null}  
-                     </div>
-                 ) */
-          /*    } */
                
           
