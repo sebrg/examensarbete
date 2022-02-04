@@ -83,7 +83,7 @@ export default function SingleProduct() {
                         <div className='singleProductInfoWrapper' style={productDetails}>
                             <h1> {product.name} </h1>
                             <h3> {product.price + " " + 'kr'} </h3>
-                            <p style={marginBottom}> Product info goes here </p>
+                          {/*   <p style={marginBottom}> Product info goes here </p> */}
                             <AddToCartBtn product={product}/>  
                         </div>
                     </React.Fragment>          
